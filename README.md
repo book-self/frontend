@@ -1,4 +1,4 @@
-#   fronntend
+#   frontend
 
 #### Node Modules
 
