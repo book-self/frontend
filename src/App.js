@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import { Counter } from './components/counter/Counter';
 
 function App() {
   return (
@@ -18,18 +17,6 @@ function App() {
         >
           Learn React
         </a>
-        
-        <Counter />
-        <p>
-          <a
-          className="App-link"
-          href="https://redux.js.org/introduction/getting-started"
-          target="_blank"
-          rel="noopener noreferrer"
-          >
-            Learn Redux
-          </a>
-        </p>
       </header>
     </div>
   );
