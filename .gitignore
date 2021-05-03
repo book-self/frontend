@@ -1,5 +1,8 @@
 ##Folders
 node_modules/
 build/
+coverage/
 
+# Mac
+.DS_Store
 
