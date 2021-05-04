@@ -1,0 +1,24 @@
+name: Continuous Integration
+
+# Run CI whenever a PR is created against main
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  buildAndTest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    
+    - name: Download dependencies
+      run: npm install
+
+    - name: Build and verify coverage
+      run: CI=true npm test
