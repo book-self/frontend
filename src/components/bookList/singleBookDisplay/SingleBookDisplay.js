@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import{
-    selectSingleBookStatus,
     changeBookStatus,
-} from './singleBookDisplaySlice';
+} from '../bookListDisplay/bookListSlice';
 
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -14,46 +13,53 @@ import { render } from '@testing-library/react';
 
 
 
-export function SingleBookDisplay(){
+
+        const selectBookById = (state, bookId) => {
+        return state.booklistdisplay.find((book) => book.bookID=== bookId);
+        };
     
+
+export function SingleBookDisplay({id}){
+
+    const book = useSelector((state) => selectBookById(state, id));
+
+    const { bookID, bookName, bookAuthor, booksPages, userBookStatus } = book;
+    console.log("Book status:");
+    console.log(userBookStatus);
+        
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const dispatch = useDispatch();
+
+
+
+    const handleClick = (event) => {
+        console.log(event);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (chosenStatus, bookIdAffected) => {
+        setAnchorEl(null);
+        dispatch(changeBookStatus([bookIdAffected, chosenStatus]));
+    };
     
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const bookStatus = useSelector(selectSingleBookStatus);
-
-  const dispatch = useDispatch();
-
-
-  const handleClick = (event) => {
-      console.log(event);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (chosenStatus) => {
-    setAnchorEl(null);
-    dispatch(changeBookStatus(chosenStatus));
-  };
-  
-  //          onClick={() => dispatch(changeBookStatus(incrementValue))}
-
     return (
         <div id = "singleBookDisplay">
-            <div id = "bookImagen"></div>
+            <div id = "bookImage"></div>
             <div id = "bookDataDisplay">
                 <div id = "bookTitleDisplay">
-                    Book Title
+                    {bookName}
                 </div>
                 <div id = "authorDisplay">
-                    Author
+                    {bookAuthor}
                 </div>
                 <div id = "bookGenreDisplay">Fiction Fantasy Dark</div>
                 <div id = "bookDetailDisplay">
-                    Book Details: Number of Pages
+                    Number of Pages : {booksPages}
 
                 </div>
                 <div id = "bookStatusDisplay">
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                        <span>{bookStatus}</span>
+                        <span>{userBookStatus}</span>
                       
                     </Button>
                     <Menu
@@ -63,10 +69,10 @@ export function SingleBookDisplay(){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={() => handleClose("Read")}>Read</MenuItem>
-                        <MenuItem onClick={() => handleClose("Currently Reading")} >Currently Reading</MenuItem>
-                        <MenuItem onClick={() => handleClose("Did Not Finish")}>Did Not Finish</MenuItem>
-                        <MenuItem onClick={() => handleClose("To Be Read")}>To Be Read</MenuItem>
+                        <MenuItem onClick={() => handleClose("Read", {bookID})}>Read</MenuItem>
+                        <MenuItem onClick={() => handleClose("Currently Reading", {bookID})} >Currently Reading</MenuItem>
+                        <MenuItem onClick={() => handleClose("Did Not Finish", {bookID})}>Did Not Finish</MenuItem>
+                        <MenuItem onClick={() => handleClose("To Be Read", {bookID})}>To Be Read</MenuItem>
                     </Menu>
                     
                 </div>
