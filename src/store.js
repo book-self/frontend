@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './components/counter/counterSlice';
-import singelbookdisplayReducer from './components/bookList/singleBookDisplay/singleBookDisplaySlice'
-
+import booklistReducer from './components/bookList/bookListDisplay/bookListSlice'
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    singlebookdisplay: singelbookdisplayReducer,
+    booklistdisplay: booklistReducer
 
   },
 });
