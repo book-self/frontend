@@ -11,12 +11,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import styles from './singleBookDisplay.css';
 import { render } from '@testing-library/react';
 
-
-
-
-        const selectBookById = (state, bookId) => {
-        return state.booklistdisplay.find((book) => book.bookID=== bookId);
-        };
+const selectBookById = (state, bookId) => {
+return state.booklistdisplay.find((book) => book.bookID=== bookId);
+};
     
 
 export function SingleBookDisplay({id}){
