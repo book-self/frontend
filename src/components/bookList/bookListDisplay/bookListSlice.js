@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+
   const bookStatus = {
     READ: "Read",
     READING: "Currently Reading",
@@ -23,6 +24,8 @@ export const bookListSlice = createSlice({
 
 
     reducers:{
+
+
         bookListTest:(state = initialState, action) =>{
             return state;
         },
@@ -51,9 +54,8 @@ export const bookListSlice = createSlice({
     },
 })
 
-
-
 export const {changeBookStatus} = bookListSlice.actions;
+
 
 export const selectSingleBookStatus = (state) => state.booklistdisplay.userBookStatus;
 export const bookStatusOptions = (state) => state.booklistdisplay.bookStatus;
