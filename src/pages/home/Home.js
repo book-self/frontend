@@ -1,7 +1,7 @@
 import styles from './Home.module.css';
 import logo from './logo.svg';
 
-export default function Home() {
+export const Home = () => {
   return (
     <div>
       <img src={logo} className={styles['App-logo']} alt="logo" />

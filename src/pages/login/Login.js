@@ -1,4 +1,4 @@
-export default function Login() {
+export const Login = () => {
   return (
     <div>
       Login

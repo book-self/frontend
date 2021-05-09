@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import styles from './Navbar.module.css';
 
-export function Navbar() {
+export const Navbar = () => {
   const menu = [
     {
       name: 'Home',
