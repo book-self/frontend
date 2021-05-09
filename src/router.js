@@ -1,8 +1,8 @@
 import { Switch, Route } from "react-router-dom";
-import { Home } from './pages/home/Home'
-import { Login } from './pages/login/Login'
-import { Profile } from './pages/profile/Profile'
-import { NotFound } from './pages/notFound/NotFound'
+import { Home } from './pages/Home/Home'
+import { Login } from './pages/Login/Login'
+import { Profile } from './pages/Profile/Profile'
+import { NotFound } from './pages/NotFound/NotFound'
 
 export const Router = () => {
   const routes = [
@@ -23,7 +23,7 @@ export const Router = () => {
       component: NotFound
     }
   ];
-  
+
   return (
     <Switch>
       {routes.map((route, index) => (
