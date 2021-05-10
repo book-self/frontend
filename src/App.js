@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import { Navbar } from './components/Navbar/Navbar';
 import { Router } from './router';
 import './App.css';
+import {BookList} from "./components/bookList/bookListDisplay/BookList"
 
 function App() {
   return (
