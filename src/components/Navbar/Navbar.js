@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -25,19 +26,25 @@ export const Navbar = () => {
   ];
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="relative">
       <Toolbar>
-        <Typography variant="h6" m="3" className={styles.title}>
-          BookSelf
-        </Typography>
+        <Box mr={2}>
+          <Typography variant="h6">
+            BookSelf
+          </Typography>
+        </Box>
 
-        {menu.map((item, index) => (
-          <Button component={Link} key={index} to={item.path} p={2} color="inherit">{item.name}</Button>
-        ))}
+        <Box className={styles.left}>
+          {menu.map((item, index) => (
+            <Button component={Link} key={index} to={item.path} color="inherit">{item.name}</Button>
+          ))}
+        </Box>
 
-        <IconButton color="inherit" aria-label="account">
-          <AccountCircle />
-        </IconButton>
+        <Box>
+          <IconButton color="inherit" aria-label="account">
+            <AccountCircle />
+          </IconButton>
+        </Box>
       </Toolbar>
     </AppBar>
   );

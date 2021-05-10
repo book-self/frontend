@@ -3,7 +3,7 @@ import logo from './logo.svg';
 
 export const Home = () => {
   return (
-    <div>
+    <div className={styles['App-header']}>
       <img src={logo} className={styles['App-logo']} alt="logo" />
       <p>
         Edit <code>src/App.js</code> and save to reload...
