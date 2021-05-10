@@ -1,14 +1,13 @@
-import { applyMiddleware, combineReducers, configureStore, createStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers'
+import { configureStore } from '@reduxjs/toolkit';
 
 import counterReducer from './components/counter/counterSlice';
 import booklistReducer from './components/bookList/bookListDisplay/bookListSlice'
 
-export const store = combineReducers({
+export const store = configureStore({
   
-    counter: counterReducer,
-    booklistdisplay: booklistReducer
-
-
+    reducer:{
+        counter: counterReducer,
+        booklistdisplay: booklistReducer
+    }
 });
 
