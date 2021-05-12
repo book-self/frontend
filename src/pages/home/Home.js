@@ -52,7 +52,7 @@ export const Home = () => {
   }, []);
 
 
-  return (<>
+  return <>
     <header className={classes.headerContainer}>
       <div className={clsx(classes.leftContainer, classes.contentContainer)}>
         <Card className={clsx(classes.headerCard, classes.leftCard)}>
@@ -115,7 +115,7 @@ export const Home = () => {
             <BookCarousel
               key={i}
               title={category}
-              books={books[category]?.map((book, j) => <Book key={j} info={book} />)}
+              books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
               perRow={3}
             />
           </div>
@@ -131,5 +131,5 @@ export const Home = () => {
         <ArrowUpward />
       </IconButton>
     </Slide> 
-  </>);
+  </>;
 }

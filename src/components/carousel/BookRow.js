@@ -17,7 +17,7 @@ export default function BookRow(props) {
 
     return (
         <div className={classes.rowContainer}>
-            { props.books.map(book => book) }
+            { props.books }
         </div>
     )
 }

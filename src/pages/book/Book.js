@@ -107,7 +107,7 @@ export const Book = () => {
       {
         book?.authors.map((author, i) =>
           <div style={{textAlign: 'center'}} >
-            <BookCarousel key={i} title={`Other books from ${author.name}`} books={relatedBooks[author.name]?.map((book, j) => <CarouselBook key={j} info={book} />)} perRow={3} />
+            <BookCarousel key={i} title={`Other books from ${author.name}`} books={relatedBooks[author.name]?.map((book, j) => <CarouselBook key={j} {...book} />)} perRow={3} />
           </div>
         )
       }
