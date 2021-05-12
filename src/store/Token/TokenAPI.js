@@ -9,8 +9,7 @@ export function createUser(payload) {
       'Accept': 'application/json'
     }
   }).then(response => {
-      console.log(response)
-      return response.token
+      return response
   })
 }
 
@@ -23,7 +22,6 @@ export function fetchUser(payload) {
       'Accept': 'application/json'
     }
   }).then(response => {
-      console.log(response)
-      return response.token
+      return response
   })
 }
