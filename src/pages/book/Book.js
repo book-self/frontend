@@ -94,7 +94,7 @@ export const Book = () => {
               <BookCarousel
                 key={i}
                 title={`Other books from ${author.name}`}
-                books={relatedBooks[author.name]?.map((book, j) => <BookInCarousel key={j} {...book} />)}
+                books={relatedBooks[author.name]?.map((relatedBook, j) => <BookInCarousel key={j} {...relatedBook} />)}
                 perRow={3}
               />
             </div>
