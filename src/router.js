@@ -1,6 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import { Home } from './pages/Home/Home'
-import { Login } from './pages/Login/Login'
+import { SignIn } from './pages/SignIn/SignIn'
+import { SignUp } from './pages/SignUp/SignUp'
 import { Profile } from './pages/Profile/Profile'
 import { NotFound } from './pages/NotFound/NotFound'
 
@@ -11,8 +12,12 @@ export const Router = () => {
       component: Home
     },
     {
-      path: "/login",
-      component: Login
+      path: "/signin",
+      component: SignIn
+    },
+    {
+      path: "/signup",
+      component: SignUp
     },
     {
       path: "/profile",
