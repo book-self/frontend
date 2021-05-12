@@ -62,7 +62,7 @@ export default function Book(props) {
             <Card className={classes.bookCard}>
                 <Link to={`/book/${props.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
                     <CardActionArea style={{paddingTop: "25px"}}>
-                        <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${props.id}.jpg`} alt={props.title} />
+                        <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${props.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={props.title} />
                         <CardContent>
                             <Typography gutterBottom variant="h6" component="h2">
                                 {props.title}

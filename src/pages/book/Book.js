@@ -57,7 +57,7 @@ export const Book = () => {
         <>
           <div className={classes.bookContainerLeft}>
             <div className={classes.bookImageAndRating}>
-              <img width={300} height={450} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} alt={book.title} />
+              <img width={300} height={450} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.title} />
               <Rating style={{marginTop: "3vh"}} value={Math.random() * 5} precision={0.1} readOnly />
             </div>
           </div>

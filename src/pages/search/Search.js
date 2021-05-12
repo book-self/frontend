@@ -64,7 +64,7 @@ export const Search = () => {
                       onClick={() => history.push(`/book/${book.book.id}`)}
                     >
                       <TableCell className={classes.bookImageCell}>
-                        <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.book.id}.jpg`} alt={book.book.title} />
+                        <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.book.title} />
                       </TableCell>
 
                       <TableCell component="th" className={classes.bookDataCell}>

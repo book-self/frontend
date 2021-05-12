@@ -94,7 +94,8 @@ export const Home = () => {
       <Typography variant="h4">Categories you might be interested in</Typography>
       <ul className={classes.categoriesList}>
         { 
-          categories?.map((category, i) =>
+          !categories ? null :
+          categories.map((category, i) =>
             <li key={i} className={classes.categoriesListItem}>
               <Chip
                 label={category}
