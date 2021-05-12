@@ -20,7 +20,7 @@ export const SignUpForm = () => {
       .min(6, 'Usernames must be at least 6 characters in length')
       .matches(/^[a-z0-9]*$/, 'Usernames must only contain lowercase characters and numbers.')
       .required('Username is required'),
-    password_hash: yup
+    password: yup
       .string('Enter your password')
       .min(8, 'Password must be at least 8 characters in length')
       .matches(/^(?=.*[A-Z])/, 'Password must contain at least one uppercase character')
@@ -28,7 +28,7 @@ export const SignUpForm = () => {
       .matches(/^(?=.*[0-9])/, 'Password must contain at least one number')
       .matches(/^.*[!@#$%^&*()_+\-=[\]{};':'\\|,.<>\\/?].*$/, 'Password must contain at least one special character')
       .required('Password is required'),
-    password_confirm: yup
+    passwordConfirm: yup
       .string('Re-enter your password')
       .when("password", {
         is: val => (val && val.length > 0 ? true : false),
@@ -44,8 +44,8 @@ export const SignUpForm = () => {
     initialValues: {
       email: '',
       username: '',
-      password_hash: '',
-      password_confirm: ''
+      password: '',
+      passwordConfirm: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
@@ -93,15 +93,15 @@ export const SignUpForm = () => {
         margin="normal"
         required
         fullWidth
-        name="password_hash"
+        name="password"
         label="Password"
         type="password"
-        id="password_hash"
+        id="password"
         autoComplete="new-password"
         onChange={formik.handleChange}
-        value={formik.values.password_hash}
-        error={formik.touched.password_hash && Boolean(formik.errors.password_hash)}
-        helperText={formik.touched.password_hash && formik.errors.password_hash}
+        value={formik.values.password}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.password && formik.errors.password}
       />
 
       <TextField
@@ -109,15 +109,15 @@ export const SignUpForm = () => {
         margin="normal"
         required
         fullWidth
-        name="password_confirm"
+        name="passwordConfirm"
         label="Confirm Password"
         type="password"
-        id="password_confirm"
+        id="passwordConfirm"
         autoComplete="new-password"
         onChange={formik.handleChange}
-        value={formik.values.password_confirm}
-        error={formik.touched.password_confirm && Boolean(formik.errors.password_confirm)}
-        helperText={formik.touched.password_confirm && formik.errors.password_confirm}
+        value={formik.values.passwordConfirm}
+        error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
+        helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
       />
 
       <Box mt={2} mb={2}>
