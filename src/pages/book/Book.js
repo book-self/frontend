@@ -3,8 +3,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { Chip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 
-import BookCarousel from '../../components/carousel/BookCarousel';
-import BookInCarousel from '../../components/carousel/Book';
+import BookCarousel from '../../components/Carousel/BookCarousel';
+import BookInCarousel from '../../components/Carousel/Book';
 
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';

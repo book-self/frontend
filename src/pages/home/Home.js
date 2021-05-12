@@ -5,8 +5,8 @@ import { ArrowUpward, Search } from '@material-ui/icons';
 import clsx from  'clsx';
 import TextLoop from 'react-text-loop';
 
-import BookCarousel from '../../components/carousel/BookCarousel';
-import Book from '../../components/carousel/Book';
+import BookCarousel from '../../components/Carousel/BookCarousel';
+import Book from '../../components/Carousel/Book';
 
 import { useStyles } from './HomeStyles';
 import { fetchBooks, fetchCategories } from './HomeFetch';

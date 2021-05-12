@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { CircularProgress, Typography } from '@material-ui/core';
 
-import { SearchTable } from '../../components/searchTable/SearchTable';
+import { SearchTable } from '../../components/SearchTable/SearchTable';
 
 
 function fetchGenreResults(genre) {
@@ -34,7 +34,7 @@ export const GenreSearch = () => {
           books={books}
           heading={
             <Typography variant="h4" style={{marginBottom: "5rem"}}>
-              Displaying {books.length} result{books.length !== 1 ? 's' : ''} related to <span style={{textTransform: 'lowercase', fontVariant: 'small-caps', fontWeight: 'bold'}}>{genre}</span>.
+              Displaying {books.length} book{books.length !== 1 ? 's' : ''} tagged <span style={{textTransform: 'lowercase', fontVariant: 'small-caps', fontWeight: 'bold'}}>{genre}</span>.
             </Typography>
           }
         />

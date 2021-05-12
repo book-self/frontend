@@ -25,9 +25,6 @@ export const SearchTable = (props) => {
   const history = useHistory();
   const classes = useStyles();
 
-  console.log(props.books);
-  console.log(props.heading);
-
   return (
     <main className={classes.mainContainer}>
         <div>

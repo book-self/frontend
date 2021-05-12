@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { CircularProgress, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
-import { SearchTable } from '../../components/searchTable/SearchTable';
+import { SearchTable } from '../../components/SearchTable/SearchTable';
 
 
 function useQuery() { return new URLSearchParams(useLocation().search); }

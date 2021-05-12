@@ -1,11 +1,12 @@
 import { Switch, Route } from "react-router-dom";
-import { Home } from './pages/home/Home';
-import { Login } from './pages/login/Login';
-import { Profile } from './pages/profile/Profile';
-import { QuerySearch } from './pages/search/QuerySearch';
-import { GenreSearch } from './pages/search/GenreSearch'
-import { Book } from './pages/book/Book';
-import { NotFound } from './pages/notFound/NotFound';
+import { Home } from './pages/Home/Home';
+import { Login } from './pages/Login/Login';
+import { Profile } from './pages/Profile/Profile';
+import { QuerySearch } from './pages/Search/QuerySearch';
+import { GenreSearch } from './pages/Search/GenreSearch'
+import { Book } from './pages/Book/Book';
+import { NotFound } from './pages/NotFound/NotFound';
+
 
 export const Router = () => {
   const routes = [
