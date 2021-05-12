@@ -8,7 +8,7 @@ import { SignInForm } from '../../components/SignInForm/SignInForm'
 
 export const SignIn = () => {
   return (
-    <Grid container direction="column" justify="center" alignItems="center">
+    <Grid container direction="column" justify="center" alignItems="center" style={{height: "80vh"}}>
       <Grid item>
         <Container maxWidth="xs">
           <Typography component="h5" variant="h5" align="center">

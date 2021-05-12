@@ -1,79 +1,66 @@
-import { useState } from 'react';
 import { Link } from "react-router-dom";
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import styles from './Navbar.module.css';
+import { AppBar, ButtonBase, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
+
+import { useStyles } from './NavbarStyles';
+
+/* TODO re-implement this once we have login/logout functionality implemented
+const [menuStatus, setMenuStatus] = useState(null);
+
+const openMenu = (event) => {
+  setMenuStatus(event.currentTarget);
+};
+
+const closeMenu = (event) => {
+  setMenuStatus(null);
+};
+
+<Box>
+<IconButton color="inherit" aria-label="account" aria-haspopup="true" onClick={openMenu}>
+  <AccountCircle />
+</IconButton>
+
+<Menu
+  id="simple-menu"
+  anchorEl={menuStatus}
+  keepMounted
+  open={Boolean(menuStatus)}
+  onClose={closeMenu}
+>
+  <MenuItem component={Link} to="/" onClick={closeMenu}>Sign Out</MenuItem>
+</Menu>
+</Box>
+*/
 
 export const Navbar = () => {
-  const [menuStatus, setMenuStatus] = useState(null);
-
-  const openMenu = (event) => {
-    setMenuStatus(event.currentTarget);
-  };
-
-  const closeMenu = (event) => {
-    setMenuStatus(null);
-  };
-
-  const menu = [
-    {
-      name: 'Home',
-      path: '/',
-    },
-    {
-      name: 'Profile',
-      path: '/profile'
-    },
-    {
-      name: 'Sign In',
-      path: '/signin'
-    },
-    {
-      name: 'Sign Up',
-      path: '/signup'
-    }
-  ];
+  const classes = useStyles();
+  const loggedIn = false;
 
   return (
-    <div>
-      <AppBar position="relative">
-        <Toolbar>
-          <Box mr={2}>
-            <Typography variant="h6">
-              BookSelf
-            </Typography>
-          </Box>
+    <div className={classes.appBarContainer}>
+      <AppBar position="fixed">
+        <Toolbar className={classes.toolBar}>
 
-          <Box className={styles.left}>
-            {menu.map((item, index) => (
-              <Button component={Link} key={index} to={item.path} color="inherit">{item.name}</Button>
-            ))}
-          </Box>
+            <Link to={'/'} style={{textDecoration: 'none'}}>
+              <ButtonBase>
+                <div className={classes.toolBarLeftContainer}>
+                    <Typography className={classes.title}>Book</Typography>
+                    <img src={process.env.PUBLIC_URL + '/open-book.png'} alt={"Book Self Logo"} className={classes.image} />
+                    <Typography className={classes.title}><b>Self</b></Typography>
+                </div>
+              </ButtonBase>
+            </Link>
 
-          <Box>
-            <IconButton color="inherit" aria-label="account" aria-haspopup="true" onClick={openMenu}>
-              <AccountCircle />
+          <div>
+            <IconButton aria-label="account">
+              <Link to={loggedIn ? '/profile' : '/signup'} >
+                <AccountCircle className={classes.accountIcon} />
+              </Link>
             </IconButton>
-
-            <Menu
-              id="simple-menu"
-              anchorEl={menuStatus}
-              keepMounted
-              open={Boolean(menuStatus)}
-              onClose={closeMenu}
-            >
-              <MenuItem component={Link} to="/" onClick={closeMenu}>Sign Out</MenuItem>
-            </Menu>
-          </Box>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
