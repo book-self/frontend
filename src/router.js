@@ -2,6 +2,8 @@ import { Switch, Route } from "react-router-dom";
 import { Home } from './pages/home/Home'
 import { Login } from './pages/login/Login'
 import { Profile } from './pages/profile/Profile'
+import { Search } from './pages/search/Search'
+import { Book } from './pages/book/Book'
 import { NotFound } from './pages/notFound/NotFound'
 
 export const Router = () => {
@@ -17,6 +19,14 @@ export const Router = () => {
     {
       path: "/profile",
       component: Profile
+    },
+    {
+      path: "/search",
+      component: Search
+    },
+    {
+      path: "/book/:id",
+      component: Book
     },
     {
       path: "*",
