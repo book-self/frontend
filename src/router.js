@@ -39,7 +39,7 @@ export const Router = () => {
       component: NotFound
     }
   ];
-  
+
   return (
     <Switch>
       {routes.map((route, index) => (
