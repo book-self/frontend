@@ -1,9 +1,13 @@
 import { Switch, Route } from "react-router-dom";
-import { Home } from './pages/Home/Home'
+import { Home } from './pages/Home/Home';
+import { Profile } from './pages/Profile/Profile';
+import { QuerySearch } from './pages/Search/QuerySearch';
+import { GenreSearch } from './pages/Search/GenreSearch'
+import { Book } from './pages/Book/Book';
 import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
-import { Profile } from './pages/Profile/Profile'
 import { NotFound } from './pages/NotFound/NotFound'
+
 
 export const Router = () => {
   const routes = [
@@ -22,6 +26,18 @@ export const Router = () => {
     {
       path: "/profile",
       component: Profile
+    },
+    {
+      path: "/search",
+      component: QuerySearch
+    },
+    {
+      path: "/search/:genre",
+      component: GenreSearch
+    },
+    {
+      path: "/book/:id",
+      component: Book
     },
     {
       path: "*",
