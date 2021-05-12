@@ -8,7 +8,7 @@ import { SearchTable } from '../../components/SearchTable/SearchTable';
 
 function useQuery() { return new URLSearchParams(useLocation().search); }
 function fetchQueryResults(query) {
-  return fetch(`http://localhost:8080/v1/books/search?q=${encodeURI(query)}`)
+  return fetch(`${process.env.REACT_APP_API_URL}/v1/books/search?q=${encodeURI(query)}`)
     .then(response => response.json())
     .then(json => json);
 }
