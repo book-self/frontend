@@ -1,10 +1,11 @@
 import { Switch, Route } from "react-router-dom";
-import { Home } from './pages/home/Home'
-import { Login } from './pages/login/Login'
-import { Profile } from './pages/profile/Profile'
-import { Search } from './pages/search/Search'
-import { Book } from './pages/book/Book'
-import { NotFound } from './pages/notFound/NotFound'
+import { Home } from './pages/home/Home';
+import { Login } from './pages/login/Login';
+import { Profile } from './pages/profile/Profile';
+import { QuerySearch } from './pages/search/QuerySearch';
+import { GenreSearch } from './pages/search/GenreSearch'
+import { Book } from './pages/book/Book';
+import { NotFound } from './pages/notFound/NotFound';
 
 export const Router = () => {
   const routes = [
@@ -22,7 +23,11 @@ export const Router = () => {
     },
     {
       path: "/search",
-      component: Search
+      component: QuerySearch
+    },
+    {
+      path: "/search/:genre",
+      component: GenreSearch
     },
     {
       path: "/book/:id",

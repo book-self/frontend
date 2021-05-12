@@ -10,17 +10,6 @@ export const useStyles = makeStyles({
       textAlign: 'center'
     },
   
-    searchHeading: {
-      marginBottom: "5rem"
-    },
-  
-    searchQuery: {
-      fontSize: '2.75rem',
-      textTransform: 'lowercase',
-      fontVariant: 'small-caps',
-      fontWeight: 'bold'
-    },
-  
     tableRow: {
       width: '100%',
       '&:hover': {

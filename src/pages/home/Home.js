@@ -84,7 +84,7 @@ export const Home = () => {
             className={classes.searchBar}
             InputProps={{endAdornment: <Search />}}
             variant="outlined"
-            onKeyUp={event => { if (event.key === 'Enter') history.push(`/search?q=${event.target.value}`); }}
+            onKeyUp={event => { if (event.key === 'Enter' && event.target.value.trim()) history.push(`/search?q=${event.target.value}`); }}
           />
         </Card>
       </div>

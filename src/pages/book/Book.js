@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Chip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 
@@ -13,6 +13,7 @@ import { useStyles } from './BookStyles';
 export const Book = () => {
   const classes = useStyles();
   let { id } = useParams();
+  const history = useHistory();
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
 
@@ -67,7 +68,7 @@ export const Book = () => {
             <Typography variant="h5" className={classes.bookAuthors}>{authors}</Typography>
             <Typography className={classes.bookBlurb}>{book.blurb}</Typography>
             <div className={classes.bookDataContainer}>
-              { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} />) }
+              { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
               <div className={classes.bookDataTable}>
                 <table>
                   <tr>
