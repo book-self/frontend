@@ -37,4 +37,4 @@ Environment File | Description
 
 Environment Variable | Default | Description
 -------------------- | ------- | -----------
-`REACT_APP_API_URL` | `https://api.bookself.xyz` | API URL
+`REACT_APP_API_URL` | https://api.bookself.xyz | API URL
