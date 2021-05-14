@@ -1,22 +1,56 @@
-import React, { useState } from 'react';
-import {shallowEqual } from 'react-redux'
-import { useSelector, useDispatch } from 'react-redux';
-import {SingleBookDisplay} from "../singleBookDisplay/SingleBookDisplay"
+import { useState , useEffect} from 'react';
+import { useHistory, useParams } from "react-router-dom";
+import { fetchBookListDetails } from './BookListFetch';
+import {fetchBook} from '../../../pages/Book/BookFetch'
 
 
-
-const selectBookList = (state) =>  state.booklistdisplay.map((book) => book.bookID);
-
-export function BookList(){
+export const BookList = () =>{
     
-    const booksTempList = useSelector(selectBookList, shallowEqual)
-    console.log(booksTempList);
-    const renderedListItems = booksTempList.map((book) => {
-        return <SingleBookDisplay key={book} id={book} />})
+    const [bookDetails, setBookDetails] = useState(null);
+    const [booksInList, setBooksInList] = useState(null);
+    let { id } = useParams();
+    
 
-    return(
-        <div><ul className="book-list">{renderedListItems}</ul></div>
-    )
+  useEffect(() => {
+    async function getBookDetails() {
+      setBookDetails(await fetchBookListDetails(id));
+    }
+
+    getBookDetails();
+  }, [id]);
+
+  const bookIds = bookDetails?.books;
+
+  useEffect(() =>
+  {
+    if (bookIds == null) return;
+
+    let getBooksInList = async() =>{
+      for(const bookId of bookIds){
+        console.log(bookId);
+        const bookInList = await fetchBook(bookId);
+        
+      }
+    }
+
+    getBooksInList();
+  },[bookIds]
+)
+    return<>
+        <div>
+            {
+                !bookDetails ? null:
+                <div>
+                    Welcome to booklist: {bookDetails.id}
+                  <div>The ids of books in your {bookDetails.listType} are:</div>
+                </div>
+            }
+            {
+
+            }
+        </div>
+        </>
+    
     
 }
 
