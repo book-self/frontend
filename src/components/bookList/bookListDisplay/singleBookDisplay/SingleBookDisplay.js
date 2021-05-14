@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import{
     changeBookStatus,
-} from '../bookListDisplay/bookListSlice';
+} from '../bookListSlice';
 
+import {addBookToList} from '../BookListFetch';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import styles from './singleBookDisplay.css';
-import { render } from '@testing-library/react';
 
 const selectBookById = (state, bookId) => {
 return state.booklistdisplay.find((book) => book.bookID=== bookId);
 };
     
+// useEffect(() => {
+//     async function addBookToList() {
+//       setBook(await addBookToList(bookId, listId));
+//     }
+
+//     addBookToList();
+//   }, [bookId, listId]);
 
 export function SingleBookDisplay({id}){
 
