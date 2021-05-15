@@ -1,6 +1,6 @@
 import { useState , useEffect} from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { fetchBookListDetails } from './BookListFetch';
+import { fetchBookListDetails,fetchBooksInList } from './BookListFetch';
 import {fetchBook} from '../../../pages/Book/BookFetch'
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
 
@@ -19,37 +19,31 @@ export const BookList = () =>{
     getBookDetails();
   }, [id]);
 
-  const bookIds = bookDetails?.books;
-
   useEffect(() =>
   {
-    if (bookIds == null) return;
-
-    let getBooksInList = async() =>{
-      for(const bookId of bookIds){
-        
-        const bookInList = await fetchBook(bookId);
-        console.log(bookInList);
-    
-      }
+    async function getBooksInList() {
+      setBooksInList(await fetchBooksInList(id));
     }
     getBooksInList();
-  },[bookIds]
+  },[id]
 )
+
+
     return<>
         <div>
             {
-                !bookDetails ? null:
-                <div>
-                    Welcome to booklist: {bookDetails.id}
-                  <div>The ids of books in your {bookDetails.listType} are:</div>
-                  <div>Even more book details </div>
-                </div>
+              !bookDetails ? null:
+              <div>
+                  Welcome to booklist: {bookDetails.id}
+                <div>The ids of books in your {bookDetails.listType} are:</div>
+                <div>Even more book details </div>
+              </div>
             }
             {
-              !booksInList ? null:
+              !booksInList?null:
               <div>
-                  {booksInList}
+                {booksInList.map((book, j) =><div><SingleBookDisplay key = {j} userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></div>)}
+            
               </div>
             }
            

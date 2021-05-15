@@ -5,7 +5,7 @@ export function fetchBookListDetails(byId) {
 
 
 export function fetchBooksInList(byBookListId) {
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/get-user-book-lists\?userId=${byBookListId}`)
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/get-books-in-list\?bookListId=${byBookListId}`)
         .then(response => response.json());
 }
 
