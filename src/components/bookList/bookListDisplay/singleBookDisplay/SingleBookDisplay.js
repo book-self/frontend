@@ -53,8 +53,7 @@ export function SingleBookDisplay(props){
     };
 
     const handleClose = (chosenStatus) => {
-        setAnchorEl(null);
-        this.setBoo
+        setAnchorEl(null);    
     };
     
     return (
