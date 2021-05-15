@@ -14,21 +14,8 @@ const selectBookById = (state, bookId) => {
 return state.booklistdisplay.find((book) => book.bookID=== bookId);
 };
     
-// useEffect(() => {
-//     async function addBookToList() {
-//       setBook(await addBookToList(bookId, listId));
-//     }
+export function SingleBookDisplay(props){
 
-//     addBookToList();
-//   }, [bookId, listId]);
-
-export function SingleBookDisplay({id}){
-
-    const book = useSelector((state) => selectBookById(state, id));
-
-    const { bookID, bookName, bookAuthor, booksPages, userBookStatus } = book;
-    console.log("Book status:");
-    console.log(userBookStatus);
         
     const [anchorEl, setAnchorEl] = React.useState(null);
     const dispatch = useDispatch();
@@ -50,19 +37,19 @@ export function SingleBookDisplay({id}){
             <div id = "bookImage"></div>
             <div id = "bookDataDisplay">
                 <div id = "bookTitleDisplay">
-                    {bookName}
+                    bookName
                 </div>
                 <div id = "authorDisplay">
-                    {bookAuthor}
+                    bookAuthor
                 </div>
                 <div id = "bookGenreDisplay">Fiction Fantasy Dark</div>
                 <div id = "bookDetailDisplay">
-                    Number of Pages : {booksPages}
+                    Number of Pages : 123
 
                 </div>
                 <div id = "bookStatusDisplay">
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                        <span>{userBookStatus}</span>
+                        <span>something</span>
                       
                     </Button>
                     <Menu
@@ -72,10 +59,10 @@ export function SingleBookDisplay({id}){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={() => handleClose("Read", {bookID})}>Read</MenuItem>
-                        <MenuItem onClick={() => handleClose("Currently Reading", {bookID})} >Currently Reading</MenuItem>
-                        <MenuItem onClick={() => handleClose("Did Not Finish", {bookID})}>Did Not Finish</MenuItem>
-                        <MenuItem onClick={() => handleClose("To Be Read", {bookID})}>To Be Read</MenuItem>
+                        <MenuItem onClick={() => handleClose("Read")}>Read</MenuItem>
+                        <MenuItem onClick={() => handleClose("Currently Reading")} >Currently Reading</MenuItem>
+                        <MenuItem onClick={() => handleClose("Did Not Finish")}>Did Not Finish</MenuItem>
+                        <MenuItem onClick={() => handleClose("To Be Read")}>To Be Read</MenuItem>
                     </Menu>
                     
                 </div>
