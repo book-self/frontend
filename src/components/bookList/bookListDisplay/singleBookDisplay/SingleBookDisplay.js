@@ -37,25 +37,28 @@ const useStyles = makeStyles({
     }
 });
 
+
 export function SingleBookDisplay(props){
     const classes = useStyles(); 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const dispatch = useDispatch();
     const authors = props.authors.map(author => author.name);
+    //const bookListIds = props.userBookLists.map(userBookList =>userBookList.id);
+    //const bookListTypes = props.userBookLists.mpa(userBookList =>userBookList.listType)
     const tooltipTitle = `${props.title} ${publishYear(props.published)}`
     const tooltipAuthorsAbbreviated = `by ${abbreviateAuthors(authors)}`
     let bookListType = `${props.inList}`;
 
-
+    
     const handleClick = (event) => {
         console.log(event);
         setAnchorEl(event.currentTarget);
     };
 
     const handleClose = (chosenStatus) => {
-        setAnchorEl(null);    
+        setAnchorEl(null); 
+        addBookToList(props.id, chosenStatus, props.userId);   
     };
-    
     return (
         <div id = "singleBookDisplay">
             <div id = "bookImage"></div>
@@ -94,10 +97,10 @@ export function SingleBookDisplay(props){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={() => handleClose("Read")}>Read</MenuItem>
-                        <MenuItem onClick={() => handleClose("Currently Reading")} >Currently Reading</MenuItem>
-                        <MenuItem onClick={() => handleClose("Did Not Finish")}>Did Not Finish</MenuItem>
-                        <MenuItem onClick={() => handleClose("To Be Read")}>To Be Read</MenuItem>
+                        <MenuItem onClick={() => handleClose("READ")}>Hello</MenuItem>
+                        <MenuItem onClick={() => handleClose("READING")} >Currently Reading</MenuItem>
+                        <MenuItem onClick={() => handleClose("DNF")}>Did Not Finish</MenuItem>
+                        <MenuItem onClick={() => handleClose("TO_REaD")}>To Be Read</MenuItem>
                     </Menu>
                     
                 </div>

@@ -9,12 +9,16 @@ export function fetchBooksInList(byBookListId) {
         .then(response => response.json());
 }
 
+export function fetchAllUserBookLists(userId){
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/get-user-book-lists?userId=${userId}`)
+    .then(response =>response.json());
+}
 
-export function addBookToList(idOfBook, idOfList) {
+export function addBookToList(idOfBook, chosenListType, userId) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookId: idOfBook, listId: idOfList })
+        body: JSON.stringify({ bookId: idOfBook, listType: chosenListType, userId: userId })
     }
     return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/add-book-to-list}`, requestOptions)
         .then(response => response.json())
