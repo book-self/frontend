@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Shelf = ({ lists }) => {
   const classes = useStyles();
-  console.log(lists)
   return (
     <List className={classes.root}>
       {lists.map((list) => (
