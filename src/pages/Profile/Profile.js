@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Container } from '@material-ui/core';
 import Shelf from '../../components/Shelf/Shelf';
 import { fetchBookLists } from '../../components/Shelf/ShelfFetch';
 
@@ -18,8 +19,8 @@ export const Profile = () => {
   }, [])
 
   return (
-    <div>
+    <Container maxWidth="sm">
       <Shelf lists={ bookLists } />
-    </div>
+    </Container>
   );
 }
