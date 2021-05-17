@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -16,11 +17,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Shelf = ({ lists }) => {
+
+  let history = useHistory();
+  const redirect = (listId) => {
+      history.push(`/profile/book-list?id=${listId}`)
+  }
   const classes = useStyles();
   return (
     <List className={classes.root}>
       {lists.map((list) => (
-        <ListItem button key={list.id} id={list.id}>
+        <ListItem button key={list.id} id={list.id} onClick={() => redirect(list.id)}>
           <ListItemAvatar>
             <Avatar>
               <LocalLibraryTwoToneIcon />
