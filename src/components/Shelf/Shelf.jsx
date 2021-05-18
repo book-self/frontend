@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory, Link } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import deepOrange from "@material-ui/core/colors/deepOrange";
-import amber from "@material-ui/core/colors/amber";
 import indigo from "@material-ui/core/colors/indigo";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";

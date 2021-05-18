@@ -9,6 +9,11 @@ import Avatar from "@material-ui/core/Avatar";
 import deepOrange from "@material-ui/core/colors/deepOrange";
 import { fetchBookById } from './BookListFetch';
 
+// Customize look of grid here
+const thumbnailWidth = 100;
+const gridListWidth = 200;
+const gridListHeight = 300;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -18,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 200,
-    height: 300,
+    width: gridListWidth,
+    height: gridListHeight,
   },
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
@@ -47,7 +52,7 @@ const BookInList = ({ id }) => {
     
     return (
         <GridListTile key={tile.img} style={{margin: 3}}>
-            <Link to={tile.url}><img src={tile.img} alt={tile.title} style={{ width: 200 }} /></Link>
+            <Link to={tile.url}><img src={tile.img} alt={tile.title} style={{ width: thumbnailWidth }} /></Link>
             <GridListTileBar
               title={""}
               subtitle={<span></span>}

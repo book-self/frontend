@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
-import indigo from "@material-ui/core/colors/indigo";
-import Fab from "@material-ui/core/Fab";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
-import EditIcon from "@material-ui/icons/Edit";
+
+import {
+  indigo
+} from "@material-ui/core/colors";
+
+import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 import SaveIcon from "@material-ui/icons/Save";
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+
+import {
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  IconButton,
+  Fab,
+  GridList,
+  GridListTile,
+  Input,
+  Container,
+  InputAdornment,
+  FormControl,
+} from "@material-ui/core";
+
+import queryString from "query-string";
 import { fetchBookList } from "./BookListFetch";
 import BookInList from './BookInList';
-import _ from "lodash";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,27 +46,58 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
   },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(3, 2),
+  },
+  indigo: {
+    color: theme.palette.getContrastText(indigo[500]),
+    backgroundColor: indigo[500],
+  },
 }));
 
-export const BookList = () => {
+export const BookList = (props) => {
   const [bookList, setBookList] = useState({});
   const classes = useStyles();
 
-  // Get bookListId from path or query params
-  const bookListId = "0b776d2a84d84da09fee7e09";
+  const {id: bookListId} = queryString.parse(props.location.search);
+
+  console.log("Props Dump", bookListId);
 
   useEffect(() => {
     (async () => {
       const { data } = await fetchBookList(bookListId);
       setBookList(data);
     })();
-  }, []);
+  }, [bookListId]);
 
   let { books } = bookList;
   books = books ? books : [];
 
+  const [editedName, setEditedName] = useState("");
+
+  const handleEditListName = (event) => {
+    setEditedName(event.target.value);
+  }
+
+  const handleEditListKeyDown = (event) => {
+    if(event.key === 'Enter') {
+      handleNameChange(event);
+    }
+  }
+
   const handleNameChange = (event) => {
-    setBookList({...bookList, bookListName: event.target.value})
+    setBookList({...bookList, bookListName: editedName})
   }
 
   const handleSaveBookList = (event) => {
@@ -70,23 +114,79 @@ export const BookList = () => {
               className={classes.margin}
               variant="filled"
             >
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                value={bookList.bookListName}
-                onChange={handleNameChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <EditIcon style={{ color: indigo[500] }} />
-                  </InputAdornment>
-                }
-                labelWidth={0}
-              />
+              <Paper className={classes.paper} elevation={0}>
+                <Grid container wrap="nowrap" spacing={2}>
+                  <Grid item>
+                    <Avatar className={classes.indigo}>
+                      <LibraryBooksTwoToneIcon
+                        style={{
+                          backgroundColor: indigo[500],
+                          color: indigo[50],
+                        }}
+                      />
+                    </Avatar>
+                  </Grid>
+                  <Grid item xs zeroMinWidth>
+                    <Typography variant="h4" component="h4" noWrap>
+                      {bookList.bookListName}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
             </FormControl>
           </GridListTile>
           {books.map((id) => (
-            <BookInList id={"17841"} />
+            <BookInList id={id} />
           ))}
         </GridList>
+        <Container className={classes.root} border={1}>
+          <Paper className={classes.root} elevation={0}>
+            <Input
+              id="standard-basic"
+              placeholder="edit list name"
+              value={editedName}
+              onChange={handleEditListName}
+              onKeyDown={handleEditListKeyDown}
+              endAdornment={
+                <InputAdornment position="end">
+                  <EditIcon style={{ color: indigo[500] }} />
+                </InputAdornment>
+              }
+              labelWidth={0}
+            />
+
+            <IconButton className={classes.iconButton} aria-label="menu">
+              <Fab
+                variant="extended"
+                style={{ backgroundColor: indigo[500], color: "white" }}
+              >
+                <AddIcon
+                  className={classes.extendedIcon}
+                  style={{ color: "white" }}
+                />
+                Add Books To List
+              </Fab>
+            </IconButton>
+
+            <IconButton
+              color="primary"
+              className={classes.iconButton}
+              aria-label="directions"
+              onClick={handleSaveBookList}
+            >
+              <Fab
+                variant="extended"
+                style={{ backgroundColor: indigo[500], color: "white" }}
+              >
+                <SaveIcon
+                  className={classes.extendedIcon}
+                  style={{ color: "white" }}
+                />
+                Save Changes
+              </Fab>
+            </IconButton>
+          </Paper>
+        </Container>
       </Container>
     </React.Fragment>
   );
