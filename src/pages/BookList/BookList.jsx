@@ -16,7 +16,6 @@ import {
   Avatar,
   Grid,
   Typography,
-  IconButton,
   Fab,
   GridList,
   GridListTile,
@@ -26,8 +25,9 @@ import {
   FormControl,
 } from "@material-ui/core";
 
+import _ from "lodash";
 import queryString from "query-string";
-import { fetchBookList } from "./BookListFetch";
+import { fetchBookList, updateBookList } from "./BookListHttpRequests";
 import BookInList from './BookInList';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +75,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const BookList = ({ location }) => {
+  
   const [bookList, setBookList] = useState({});
+  const [books, setBooks] = useState([]);
+  const [editedName, setEditedName] = useState("");
+
   const classes = useStyles();
 
   const {id: bookListId} = queryString.parse(location.search);
@@ -83,14 +87,10 @@ export const BookList = ({ location }) => {
   useEffect(() => {
     (async () => {
       const { data } = await fetchBookList(bookListId);
-      setBookList(data);
+      setBookList({ ...data, add: [], remove: [] });
+      setBooks(data.books || [])
     })();
   }, [bookListId]);
-
-  let { books } = bookList;
-  books = books ? books : [];
-
-  const [editedName, setEditedName] = useState("");
 
   const handleEditListName = (event) => {
     setEditedName(event.target.value);
@@ -103,11 +103,15 @@ export const BookList = ({ location }) => {
   }
 
   const handleNameChange = (event) => {
-    setBookList({...bookList, bookListName: editedName})
+    setBookList({...bookList, editedName})
+  }
+
+  const handleRemoveBook = (id) => {
+    setBooks(_.without(books, id))
   }
 
   const handleSaveBookList = (event) => {
-    console.log(bookList);
+    updateBookList(bookList);
   }
 
   return (
@@ -134,7 +138,7 @@ export const BookList = ({ location }) => {
                   </Grid>
                   <Grid item xs zeroMinWidth>
                     <Typography variant="h4" component="h4" noWrap>
-                      {bookList.bookListName}
+                      {bookList.editedName || bookList.bookListName}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -142,7 +146,7 @@ export const BookList = ({ location }) => {
             </FormControl>
           </GridListTile>
           {books.map((id) => (
-            <BookInList key={id} id={id} />
+            <BookInList key={id} id={id} handleRemove={handleRemoveBook} />
           ))}
         </GridList>
 
@@ -174,6 +178,7 @@ export const BookList = ({ location }) => {
           <Fab
             variant="extended"
             style={{ backgroundColor: indigo[500], color: "white" }}
+            onClick={handleSaveBookList}
           >
             <SaveIcon
               className={classes.extendedIcon}

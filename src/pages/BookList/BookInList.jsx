@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Avatar from "@material-ui/core/Avatar";
 import deepOrange from "@material-ui/core/colors/deepOrange";
-import { fetchBookById } from './BookListFetch';
+import { fetchBookById } from './BookListHttpRequests';
 
 // Customize look of grid here
 const thumbnailWidth = 100;
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BookInList = ({ id }) => {
+const BookInList = ({ id, handleRemove }) => {
 
     const classes = useStyles();
     const [book, setBook] = useState({});
@@ -60,6 +60,7 @@ const BookInList = ({ id }) => {
                 <IconButton
                   aria-label={`info about ${tile.title}`}
                   className={classes.icon}
+                  onClick={() => handleRemove(id)}
                 >
                 <Avatar style={{backgroundColor: deepOrange[500]}}>
                     <DeleteForeverIcon style={{ color: 'white' }} />
