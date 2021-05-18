@@ -64,15 +64,21 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText(indigo[500]),
     backgroundColor: indigo[500],
   },
+  fabRoot: {
+    "& > *": {
+      margin: theme.spacing(3),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
-export const BookList = (props) => {
+export const BookList = ({ location }) => {
   const [bookList, setBookList] = useState({});
   const classes = useStyles();
 
-  const {id: bookListId} = queryString.parse(props.location.search);
-
-  console.log("Props Dump", bookListId);
+  const {id: bookListId} = queryString.parse(location.search);
 
   useEffect(() => {
     (async () => {
@@ -136,57 +142,47 @@ export const BookList = (props) => {
             </FormControl>
           </GridListTile>
           {books.map((id) => (
-            <BookInList id={id} />
+            <BookInList key={id} id={id} />
           ))}
         </GridList>
-        <Container className={classes.root} border={1}>
-          <Paper className={classes.root} elevation={0}>
-            <Input
-              id="standard-basic"
-              placeholder="edit list name"
-              value={editedName}
-              onChange={handleEditListName}
-              onKeyDown={handleEditListKeyDown}
-              endAdornment={
-                <InputAdornment position="end">
-                  <EditIcon style={{ color: indigo[500] }} />
-                </InputAdornment>
-              }
-              labelWidth={0}
+
+        <Paper className={classes.fabRoot} elevation={0}>
+          <Input
+            id="standard-basic"
+            placeholder="edit list name"
+            value={editedName}
+            onChange={handleEditListName}
+            onKeyDown={handleEditListKeyDown}
+            endAdornment={
+              <InputAdornment position="end">
+                <EditIcon style={{ color: indigo[500] }} />
+              </InputAdornment>
+            }
+          />
+
+          <Fab
+            variant="extended"
+            style={{ backgroundColor: indigo[500], color: "white" }}
+          >
+            <AddIcon
+              className={classes.extendedIcon}
+              style={{ color: "white" }}
             />
+            Add Books To List
+          </Fab>
+          
+          <Fab
+            variant="extended"
+            style={{ backgroundColor: indigo[500], color: "white" }}
+          >
+            <SaveIcon
+              className={classes.extendedIcon}
+              style={{ color: "white" }}
+            />
+            Save Changes
+          </Fab>
+        </Paper>
 
-            <IconButton className={classes.iconButton} aria-label="menu">
-              <Fab
-                variant="extended"
-                style={{ backgroundColor: indigo[500], color: "white" }}
-              >
-                <AddIcon
-                  className={classes.extendedIcon}
-                  style={{ color: "white" }}
-                />
-                Add Books To List
-              </Fab>
-            </IconButton>
-
-            <IconButton
-              color="primary"
-              className={classes.iconButton}
-              aria-label="directions"
-              onClick={handleSaveBookList}
-            >
-              <Fab
-                variant="extended"
-                style={{ backgroundColor: indigo[500], color: "white" }}
-              >
-                <SaveIcon
-                  className={classes.extendedIcon}
-                  style={{ color: "white" }}
-                />
-                Save Changes
-              </Fab>
-            </IconButton>
-          </Paper>
-        </Container>
       </Container>
     </React.Fragment>
   );
