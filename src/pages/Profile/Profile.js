@@ -18,6 +18,8 @@ export const Profile = () => {
     )()
   }, [])
 
+  console.log(bookLists)
+
   return (
     <Container maxWidth="sm">
       <Shelf lists={ bookLists } />
