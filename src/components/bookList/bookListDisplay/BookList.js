@@ -1,12 +1,8 @@
 import { useState , useEffect} from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists } from './BookListFetch';
+import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
 import {fetchBook} from '../../../pages/Book/BookFetch'
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import { $CombinedState } from 'redux';
 
 
 
@@ -32,30 +28,25 @@ const userId = bookDetails?.userId;
   {
     async function getBooksInList() {
       setBooksInList(await fetchBooksInList(id));
-      console.log("TESTING: " + await fetchBooksInList(id));
     }
     getBooksInList();
   },[id]
 )
-
 useEffect(() =>
   {
     if(userId === null) return;
-    console.log(userId);
     async function getUserBookLists() {
-      const temp = await fetchAllUserBookLists(8);
-      console.log(temp);
+      setAllUserBookLists(await fetchAllUserBookLists(8));
+      
     }
     getUserBookLists();
   },[userId]
     )
-
   let bookIds = [];
+  let addToBookListId;
+
   const handleValueChange = function(event) {
 
-        
-        console.log("Testing");
-        console.log(event.target.checked);
         if(event.target.checked)
         {
           bookIds.push(event.target.value);
@@ -68,10 +59,24 @@ useEffect(() =>
           })
           bookIds = newBookIds;
         }
-        console.log(event.target);
-        console.log(event.target.value)
-        console.log(bookIds);
         
+    }
+
+    const handleBookListChange = function(event){
+      
+      addToBookListId = event.target.value;
+    }
+
+    const handleSubmit = function(event){
+      event.preventDefault();
+      console.log("BookIDS:" + bookIds);
+      if(addToBookListId != null)
+      {
+        console.log("Add to" + addToBookListId);
+      }
+
+      console.log("Remove from" + id);
+      postBooksToList("", bookIds,addToBookListId, id);
     }
 
  
@@ -87,14 +92,45 @@ useEffect(() =>
               </div>
             }
             {
+             !allUserBookLists ? null:
               
+             <div> {allUserBookLists.map((userListDetails, j) => {
+               if(userListDetails.id !== id){
+                 return (
+                    <div> 
+                    
+                    <input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
+                    Add to {userListDetails.listType}              
+                    </div>)
+                  }
+                  else{
+                    return(<div> 
+                    
+                    <input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
+                    Just remove from {userListDetails.listType}              
+                    </div>)
+
+                  } 
+                }
+             )
+            }
+            </div>
+             
             }
             {
               !booksInList?null:
               <div>
                 <form>
-                  
-                    <button>Submit Edits</button>
+                  {booksInList.map((book, j) =><div>
+                    <label>
+                    
+                    <input type="checkbox" defaultChecked = {false} value = {book.id}  data-item = {j} onChange={handleValueChange}/>
+
+
+                    <SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/>
+                    </label>
+                    </div>)}
+                    <button onClick = {handleSubmit}>Submit Edits</button>
                   </form>
                   
                 
@@ -106,4 +142,3 @@ useEffect(() =>
     
     
 }
-

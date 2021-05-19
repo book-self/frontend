@@ -14,13 +14,17 @@ export function fetchAllUserBookLists(userId){
     .then(response =>response.json());
 }
 
-export function addBookToList(updatedListName, addedBookLists, idOfList) {
+export function postBooksToList(updatedListName, booksToChangeList, idOfNewList, idOfOldList) {
+    
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ newListName: updatedListName, booksToBeAdded: addedBookLists, booksToBeRemoved: addedBookLists })
+        method: 'PUT',
+        crossDomain:true,
+        mode: 'cors',
+        headers: {
+        'Content-Type':'application/json'},
+        body: JSON.stringify({ newListName: updatedListName, newBookListId: idOfNewList, booksToBeAdded: booksToChangeList, booksToBeRemoved: booksToChangeList})
     }
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfList}/update}`, requestOptions)
-        .then(response => response.json())
-        .then(json => json);
+    console.log(requestOptions);
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/update`, requestOptions)
+    .then(response =>response.json());
 }

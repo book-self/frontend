@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { makeStyles, withStyles, Card, CardActionArea, CardContent,
     Chip, Tooltip, Typography } from '@material-ui/core';
 
-import {addBookToList} from '../BookListFetch';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -55,7 +54,6 @@ export function SingleBookDisplay(props){
 
     const handleClose = (tempVar) => {
         setAnchorEl(null); 
-        addBookToList(props.id, props.userId);   
     };
     return (
         <div id = "singleBookDisplay">
@@ -83,25 +81,7 @@ export function SingleBookDisplay(props){
                     Number of Pages : {props.pages}
 
                 </div>
-                <div id = "bookStatusDisplay">
-                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                        <span>{bookListType}</span>
-                      
-                    </Button>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={() => handleClose("READ")}>Hello</MenuItem>
-                        <MenuItem onClick={() => handleClose("READING")} >Currently Reading</MenuItem>
-                        <MenuItem onClick={() => handleClose("DNF")}>Did Not Finish</MenuItem>
-                        <MenuItem onClick={() => handleClose("TO_REaD")}>To Be Read</MenuItem>
-                    </Menu>
-                    
-                </div>
+               
             </div>
         </div>
     )
