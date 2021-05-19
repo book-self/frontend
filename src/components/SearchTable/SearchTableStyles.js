@@ -33,6 +33,7 @@ export const useStyles = makeStyles({
     bookBlurb: {
       height: "125px",
       overflow: "hidden",
-      padding: "10px 10px 10px 10px"
+      padding: "10px 10px 10px 10px",
+      lineHeight: '1.5rem'
     }
 });
