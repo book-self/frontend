@@ -1,20 +1,50 @@
 import { useState , useEffect} from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
-import {fetchBook} from '../../../pages/Book/BookFetch'
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
 
+import { useStyles } from './BookListStyles';
+
+import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
+import SaveIcon from "@material-ui/icons/Save";
+import AddIcon from "@material-ui/icons/Add";
+
+import EditIcon from "@material-ui/icons/Edit";
+
+import {
+  Paper,
+  Avatar,
+  Grid,
+  Typography,
+  Fab,
+  GridList,
+  GridListTile,
+  Input,
+  Container,
+  InputAdornment,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup
+} from "@material-ui/core";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+import {
+  indigo
+} from "@material-ui/core/colors";
 
 
 export const BookList = () =>{
-    
+    const classes = useStyles();
+
     const [bookDetails, setBookDetails] = useState(null);
     const [booksInList, setBooksInList] = useState(null);
     const [allUserBookLists, setAllUserBookLists] = useState(null);
     const [selecteBooks, setSelectedBooks] = useState([]);
     let { id } = useParams();
     
-
+//<input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
   useEffect(() => {
     async function getBookDetails() {
       setBookDetails(await fetchBookListDetails(id));
@@ -63,7 +93,7 @@ useEffect(() =>
     }
 
     const handleBookListChange = function(event){
-      
+      console.log(event.target.value)
       addToBookListId = event.target.value;
     }
 
@@ -94,26 +124,29 @@ useEffect(() =>
             {
              !allUserBookLists ? null:
               
-             <div> {allUserBookLists.map((userListDetails, j) => {
-               if(userListDetails.id !== id){
-                 return (
-                    <div> 
-                    
-                    <input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
-                    Add to {userListDetails.listType}              
-                    </div>)
-                  }
-                  else{
-                    return(<div> 
-                    
-                    <input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
-                    Just remove from {userListDetails.listType}              
-                    </div>)
+             <div>
+               <FormControl> 
+                 <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="end">
+                  {allUserBookLists.map((userListDetails, j) => {
+                    if(userListDetails.id !== id){
+                      return (
+                          <div> 
+                          <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Add to " + `${userListDetails.listType}`}/>  
+                          </div>
+                          )
+                        }
+                        else{
+                          return(<div> 
+                          <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Remove from " + `${userListDetails.listType}`}/>  
+                                     
+                          </div>)
 
-                  } 
+                        } 
+                      }
+                  )
                 }
-             )
-            }
+                </RadioGroup>
+              </FormControl>
             </div>
              
             }
@@ -136,7 +169,16 @@ useEffect(() =>
                 
               </div>
             }
-           
+          <Fab
+            variant="extended"
+            style={{ backgroundColor: indigo[500], color: "white" }}
+          >
+            <AddIcon
+              className={classes.extendedIcon}
+              style={{ color: "white" }}
+            />
+            Add Books To List
+          </Fab>
         </div>
         </>
     
