@@ -3,12 +3,19 @@ import { useHistory, useParams } from "react-router-dom";
 import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists } from './BookListFetch';
 import {fetchBook} from '../../../pages/Book/BookFetch'
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { $CombinedState } from 'redux';
+
+
 
 export const BookList = () =>{
     
     const [bookDetails, setBookDetails] = useState(null);
     const [booksInList, setBooksInList] = useState(null);
     const [allUserBookLists, setAllUserBookLists] = useState(null);
+    const [selecteBooks, setSelectedBooks] = useState([]);
     let { id } = useParams();
     
 
@@ -25,6 +32,7 @@ const userId = bookDetails?.userId;
   {
     async function getBooksInList() {
       setBooksInList(await fetchBooksInList(id));
+      console.log("TESTING: " + await fetchBooksInList(id));
     }
     getBooksInList();
   },[id]
@@ -35,14 +43,38 @@ useEffect(() =>
     if(userId === null) return;
     console.log(userId);
     async function getUserBookLists() {
-      const temp = await fetchAllUserBookLists(userId);
+      const temp = await fetchAllUserBookLists(8);
       console.log(temp);
     }
     getUserBookLists();
   },[userId]
     )
 
+  let bookIds = [];
+  const handleValueChange = function(event) {
 
+        
+        console.log("Testing");
+        console.log(event.target.checked);
+        if(event.target.checked)
+        {
+          bookIds.push(event.target.value);
+        }
+        else
+        {
+          let newBookIds = bookIds.filter(function(element){
+            return element != (event.target.value);
+
+          })
+          bookIds = newBookIds;
+        }
+        console.log(event.target);
+        console.log(event.target.value)
+        console.log(bookIds);
+        
+    }
+
+ 
     return<>
         <div>
             {
@@ -55,14 +87,17 @@ useEffect(() =>
               </div>
             }
             {
-              !allUserBookLists?null:
-              <div>{allUserBookLists}</div>
+              
             }
             {
               !booksInList?null:
               <div>
-                {booksInList.map((book, j) =><div><SingleBookDisplay key = {j} allUserBookLists = {allUserBookLists} userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb} userBookLists = {allUserBookLists}/></div>)}
-            
+                <form>
+                  
+                    <button>Submit Edits</button>
+                  </form>
+                  
+                
               </div>
             }
            

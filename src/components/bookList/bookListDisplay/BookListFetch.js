@@ -5,22 +5,22 @@ export function fetchBookListDetails(byId) {
 
 
 export function fetchBooksInList(byBookListId) {
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/get-books-in-list\?bookListId=${byBookListId}`)
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${byBookListId}/books`)
         .then(response => response.json());
 }
 
 export function fetchAllUserBookLists(userId){
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/get-user-book-lists?userId=${userId}`)
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/users/${userId}/book-lists`)
     .then(response =>response.json());
 }
 
-export function addBookToList(idOfBook, chosenListType, userId) {
+export function addBookToList(updatedListName, addedBookLists, idOfList) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookId: idOfBook, listType: chosenListType, userId: userId })
+        body: JSON.stringify({ newListName: updatedListName, booksToBeAdded: addedBookLists, booksToBeRemoved: addedBookLists })
     }
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/add-book-to-list}`, requestOptions)
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfList}/update}`, requestOptions)
         .then(response => response.json())
         .then(json => json);
 }

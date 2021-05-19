@@ -43,8 +43,6 @@ export function SingleBookDisplay(props){
     const [anchorEl, setAnchorEl] = React.useState(null);
     const dispatch = useDispatch();
     const authors = props.authors.map(author => author.name);
-    //const bookListIds = props.userBookLists.map(userBookList =>userBookList.id);
-    //const bookListTypes = props.userBookLists.mpa(userBookList =>userBookList.listType)
     const tooltipTitle = `${props.title} ${publishYear(props.published)}`
     const tooltipAuthorsAbbreviated = `by ${abbreviateAuthors(authors)}`
     let bookListType = `${props.inList}`;
@@ -55,9 +53,9 @@ export function SingleBookDisplay(props){
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (chosenStatus) => {
+    const handleClose = (tempVar) => {
         setAnchorEl(null); 
-        addBookToList(props.id, chosenStatus, props.userId);   
+        addBookToList(props.id, props.userId);   
     };
     return (
         <div id = "singleBookDisplay">
