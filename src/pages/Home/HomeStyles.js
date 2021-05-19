@@ -7,14 +7,13 @@ export const useStyles = makeStyles({
   headerContainer: {
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'stretch',
       width: '100%',
-      height: '62.5vh'
+      paddingTop: '50px'
   },
 
   contentContainer: {
     width: '50%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
@@ -31,7 +30,6 @@ export const useStyles = makeStyles({
   },
 
   headerCard: {
-    height: '57.5vh',
     width: '500px'
   },
 
@@ -77,7 +75,8 @@ export const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '100%',
   },
 
   searchBarText: {
