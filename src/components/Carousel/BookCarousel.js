@@ -8,7 +8,7 @@ import BookRow from './BookRow';
 const useStyles = makeStyles({
     urlFragmentTarget: {
         position: 'relative',
-        top: '-15px'
+        top: '27.5px'
     },
 
     carouselWrapper: {
