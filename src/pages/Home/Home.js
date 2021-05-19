@@ -14,6 +14,7 @@ import { fetchBooks, fetchCategories } from './HomeFetch';
 
 export const Home = () => {
   const classes = useStyles();
+  const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState({});
   const [displayScrollBtn, setDisplayScrollBtn] = useState(false);
@@ -52,6 +53,10 @@ export const Home = () => {
   }, []);
 
 
+  const processSearchQuery = (text) => { setSearchQuery(text.trim()) }
+  const executeSearchQuery = () => { if (searchQuery.trim()) history.push(`/search?q=${searchQuery}`) }
+
+
   return <>
     <header className={classes.headerContainer}>
       <div className={clsx(classes.leftContainer, classes.contentContainer)}>
@@ -82,9 +87,10 @@ export const Home = () => {
           </Typography>
           <TextField 
             className={classes.searchBar}
-            InputProps={{endAdornment: <Search />}}
+            InputProps={{endAdornment: <IconButton style={{padding: '3.5px'}}><Search onClick={executeSearchQuery} /></IconButton>}}
             variant="outlined"
-            onKeyUp={event => { if (event.key === 'Enter' && event.target.value.trim()) history.push(`/search?q=${event.target.value}`); }}
+            onInput={event => { if (event.target.value.trim()) processSearchQuery(event.target.value) }}
+            onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
           />
         </Card>
       </div>
