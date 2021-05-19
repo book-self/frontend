@@ -12,7 +12,7 @@ const HtmlTooltip = withStyles(theme => ({
       color: 'rgba(0, 0, 0, 0.87)',
       fontSize: theme.typography.pxToRem(12),
       border: '1px solid #dadde9',
-      maxWidth: '500px'
+      maxWidth: '550px'
     },
 }))(Tooltip);
 

@@ -10,7 +10,7 @@ import { useStyles } from './SearchTableStyles';
 // this is disgusting, but not sure how else you can do this
 // *if* the paragraph wants to overflow, add a 'See more' button which allows it to overflow and enlargen its container
 function determineOverflow(element) {
-  if (element?.offsetHeight < element?.scrollHeight) {
+  if ((element?.offsetHeight + 20) < element?.scrollHeight) {
     let style = "position: absolute; right: 10px; bottom: 10px; color: darkblue; font-variant: small-caps; font-size: 18px";
     let script = "this.previousSibling.style.height = 'initial'; this.style.display = 'none'; event.stopPropagation();";
 
