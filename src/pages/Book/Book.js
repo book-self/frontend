@@ -59,7 +59,9 @@ export const Book = () => {
           <div className={classes.bookContainerLeft}>
             <div className={classes.bookImageAndRating}>
               <img width={300} height={450} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.title} />
-              <Rating style={{marginTop: "3vh"}} value={Math.random() * 5} precision={0.1} readOnly />
+              <div className={classes.rating} onClick={() => window.location = '#ratings' }>
+                <Rating value={Math.random() * 5} precision={0.1} readOnly />
+              </div>
             </div>
           </div>
 
@@ -105,5 +107,26 @@ export const Book = () => {
         }
       </div>
     }
+    <div id="ratings" style={{display: 'flex', width: '85vw', margin: '60px auto'}}>
+      <div style={{width: '25%'}}>
+        <div style={{width: '80%', borderRight: '3px solid grey', padding: '35px'}}>
+          <div style={{backgroundColor: '#EAEAEA', padding: '1.25rem'}}>
+            <Rating value={4.5} precision={0.1} size="large" readOnly /><span style={{position: 'relative', fontSize: '1.25rem', top: '-.45rem', left: '.5rem', fontWeight: 'bold'}}>(4.5)</span>
+            <Typography style={{marginTop: '.5rem', fontSize: '1.15rem', textAlign: 'center'}}>133 ratings</Typography>
+          </div>
+
+          <div style={{marginLeft: '2rem'}}>
+            <Rating value={5} readOnly style={{marginTop: '2.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(25%)</span>
+            <Rating value={4} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(10%)</span>
+            <Rating value={3} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(15%)</span>
+            <Rating value={2} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(20%)</span>
+            <Rating value={1} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(30%)</span>
+          </div>
+        </div>
+      </div>
+      <div style={{width: '75%'}}>
+        World
+      </div>
+    </div>
   </>
-}
+} 
