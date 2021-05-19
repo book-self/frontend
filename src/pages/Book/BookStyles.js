@@ -56,13 +56,13 @@ export const useStyles = makeStyles({
     bookBlurb: {
       padding: '2rem',
       paddingLeft: '4rem',
-      width: '40vw',
+      width: '37.5vw',
       textAlign: 'justify',
       lineHeight: '1.5rem'
     },
   
     bookDataContainer: {
-      margin: "15px 5px 10px 10px",
+      margin: "2rem 5px 10px 10px",
       width: '90%',
       position: 'relative',
       display: 'flex',
@@ -71,7 +71,8 @@ export const useStyles = makeStyles({
     },
   
     bookGenreList: {
-      width: '350px'
+      width: '350px',
+      marginBottom: '1rem'
     },
 
     bookDataTable: {
