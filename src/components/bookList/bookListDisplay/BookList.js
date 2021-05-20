@@ -182,13 +182,14 @@ useEffect(() =>
               !booksInList?null:
               <div className={classes.rootBookList}>
                 
-                <Grid container wrap="nowrap" spacing={24} alignItems="center" justify="center" >
-                <FormControl> 
-                  <form>
+                <Grid container spacing={2} justify="flex-start" alignItems="flex-start" direction = "row">
+                
+                  
                     {booksInList.map((book, j) =>
                       
-                        <Grid item sm={6} lg = {6}>
-                        <Card variant="outlined">                          <FormControlLabel value="end" control={
+                        <Grid item sm={6}>
+                        <Card variant="outlined">                          
+                        <FormControlLabel value="end" control={
                               <Checkbox onChange={handleValueChange} color="primary" value = {book.id}  data-item = {j} 
                               inputProps={{ 'aria-label': 'secondary checkbox' }} />}/>  
                           <span><SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
@@ -197,9 +198,7 @@ useEffect(() =>
 
                       )}
                       <button onClick = {handleSubmit}>Submit Edits</button>
-                  </form>
                   
-                </FormControl>
                 </Grid>
               
                 

@@ -42,10 +42,6 @@ export function SingleBookDisplay(props){
     return (
          
         <div id = "singleBookDisplay">
-            <div id = "bookImage">
-                
-                    
-                
                 <Link to={`/book/${props.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
                     <CardActionArea style={{paddingTop: "25px"}}>
                         <Grid container justify = "center">
@@ -61,9 +57,7 @@ export function SingleBookDisplay(props){
                     </Typography>
                     <Typography variant="h7" className={classes.bookAuthors}>{authors}</Typography>
                 </CardContent>
-        
-            </div>
-           
+            
         </div>
     
     )
