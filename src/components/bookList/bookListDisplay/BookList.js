@@ -82,7 +82,7 @@ useEffect(() =>
   let addToBookListId;
 
   const handleValueChange = function(event) {
-
+        
         if(event.target.checked)
         {
           bookIds.push(event.target.value);
@@ -104,7 +104,7 @@ useEffect(() =>
     }
 
     const handleSubmit = function(event){
-       
+      
       console.log("BookIDS:" + bookIds);
       if(addToBookListId != null)
       {
@@ -114,10 +114,16 @@ useEffect(() =>
       {
         addToBookListId = id;
       }
-      console.log(addToBookListId);
-      console.log("Remove from" + id);
-      console.log(editedName);
-      postBooksToList(editedName, bookIds,addToBookListId, id);
+      if(editedName == null || editedName === "")
+      {
+        
+        postBooksToList(bookDetails.bookListName, bookIds,addToBookListId, id);
+      }
+      else
+      {
+        postBooksToList(editedName, bookIds,addToBookListId, id);
+      }
+      
     }
 
  
