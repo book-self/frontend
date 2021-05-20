@@ -1,4 +1,4 @@
-import { useState , useEffect} from 'react';
+import { React, useState , useEffect} from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
@@ -14,7 +14,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import {
   Paper,
   Avatar,
+  Checkbox,
   Grid,
+  Card,
   Typography,
   Fab,
   GridList,
@@ -28,7 +30,6 @@ import {
   RadioGroup
 } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
 
 import {
   indigo
@@ -36,15 +37,20 @@ import {
 
 
 export const BookList = () =>{
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [bookDetails, setBookDetails] = useState(null);
-    const [booksInList, setBooksInList] = useState(null);
-    const [allUserBookLists, setAllUserBookLists] = useState(null);
-    const [selecteBooks, setSelectedBooks] = useState([]);
-    let { id } = useParams();
+  const [bookDetails, setBookDetails] = useState(null);
+  const [booksInList, setBooksInList] = useState(null);
+  const [allUserBookLists, setAllUserBookLists] = useState(null);
+  const [selecteBooks, setSelectedBooks] = useState([]);
+  const [editedName, setEditedName] = useState("");
+
+  let { id } = useParams();
+  
+  const handleEditListName = (event) => {
+    setEditedName(event.target.value);
+  }
     
-//<input type="radio" name = "listChangeRadio" defaultChecked = {false} value = {userListDetails.id}  data-item = {j} onChange={handleBookListChange}/> 
   useEffect(() => {
     async function getBookDetails() {
       setBookDetails(await fetchBookListDetails(id));
@@ -93,12 +99,11 @@ useEffect(() =>
     }
 
     const handleBookListChange = function(event){
-      console.log(event.target.value)
+      
       addToBookListId = event.target.value;
     }
 
     const handleSubmit = function(event){
-      event.preventDefault();
       console.log("BookIDS:" + bookIds);
       if(addToBookListId != null)
       {
@@ -106,79 +111,132 @@ useEffect(() =>
       }
 
       console.log("Remove from" + id);
-      postBooksToList("", bookIds,addToBookListId, id);
+      postBooksToList(editedName, bookIds,addToBookListId, id);
     }
 
  
     return<>
         <div>
+          <div>
+        
             {
               !bookDetails ? null:
               <div>
-                  Welcome to booklist: {bookDetails.id} 
-                  
-                <div>The ids of books in your {bookDetails.listType} are:</div>
-                <div>Even more book details {bookDetails.userId}</div>
+            
+                <Paper className={classes.paper} elevation={0}>
+                <Grid container wrap="nowrap" spacing={2}>
+                  <Grid item>
+                    <Avatar className={classes.indigo}>
+                      <LibraryBooksTwoToneIcon
+                        style={{
+                          backgroundColor: indigo[500],
+                          color: indigo[50],
+                        }}
+                      />
+                    </Avatar>
+                  </Grid>
+                  <Grid item xs zeroMinWidth>
+                    <Typography variant="h4" component="h4" noWrap>
+                      {bookDetails.editedName || bookDetails.bookListName}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
               </div>
             }
             {
              !allUserBookLists ? null:
               
              <div>
-               <FormControl> 
-                 <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="end">
-                  {allUserBookLists.map((userListDetails, j) => {
-                    if(userListDetails.id !== id){
-                      return (
-                          <div> 
-                          <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Add to " + `${userListDetails.listType}`}/>  
-                          </div>
-                          )
-                        }
-                        else{
-                          return(<div> 
-                          <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Remove from " + `${userListDetails.listType}`}/>  
-                                     
-                          </div>)
+               <Paper className={classes.paperListOptions} elevation = {0}>
+                 <Grid container wrap="nowrap" spacing={2} alignItems="center" justify="center">
+                  <FormControl> 
+                    <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="end">
+                      {allUserBookLists.map((userListDetails, j) => {
+                        if(userListDetails.id !== id){
+                          return (
+                              <div> 
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Add to " + `${userListDetails.listType}`}/>  
+                              </div>
+                              )
+                            }
+                            else{
+                              return(<div> 
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Remove from " + `${userListDetails.listType}`}/>  
+                                        
+                              </div>)
 
-                        } 
-                      }
-                  )
-                }
-                </RadioGroup>
-              </FormControl>
+                            } 
+                          }
+                      )
+                    }
+                    </RadioGroup>
+
+                  </FormControl>
+              </Grid>
+              </Paper>
             </div>
              
             }
             {
               !booksInList?null:
-              <div>
-                <form>
-                  {booksInList.map((book, j) =><div>
-                    <label>
-                    
-                    <input type="checkbox" defaultChecked = {false} value = {book.id}  data-item = {j} onChange={handleValueChange}/>
+              <div className={classes.rootBookList}>
+                
+                <Grid container wrap="nowrap" spacing={24} alignItems="center" justify="center" >
+                <FormControl> 
+                  <form>
+                    {booksInList.map((book, j) =>
+                      
+                        <Grid item sm={6} lg = {6}>
+                        <Card variant="outlined">                          <FormControlLabel value="end" control={
+                              <Checkbox onChange={handleValueChange} color="primary" value = {book.id}  data-item = {j} 
+                              inputProps={{ 'aria-label': 'secondary checkbox' }} />}/>  
+                          <span><SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
+                        </Card>
+                        </Grid>
 
-
-                    <SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/>
-                    </label>
-                    </div>)}
-                    <button onClick = {handleSubmit}>Submit Edits</button>
+                      )}
+                      <button onClick = {handleSubmit}>Submit Edits</button>
                   </form>
                   
+                </FormControl>
+                </Grid>
+              
+                
                 
               </div>
             }
+            
+            </div>
+
+          <Paper>
+          <Input
+            id="standard-basic"
+            placeholder="edit list name"
+            value={editedName}
+            onChange={handleEditListName}
+            
+            endAdornment={
+              <InputAdornment position="end">
+                <EditIcon style={{ color: indigo[500] }} />
+              </InputAdornment>
+            }
+          />
+          
           <Fab
             variant="extended"
             style={{ backgroundColor: indigo[500], color: "white" }}
+            onClick = {handleSubmit}
           >
-            <AddIcon
+            <SaveIcon
               className={classes.extendedIcon}
               style={{ color: "white" }}
             />
-            Add Books To List
+            Save Changes
           </Fab>
+        </Paper>
+
+          
         </div>
         </>
     

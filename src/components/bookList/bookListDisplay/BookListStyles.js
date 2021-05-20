@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) =>({
     bookContainer: {
       display: "flex",
       alignItems: "flex-start",
@@ -9,79 +9,24 @@ export const useStyles = makeStyles({
       minHeight: '75vh'
     },
   
-    bookContainerLeft: {
-      width: '40%',
-      textAlign: 'center',
-      height: '75vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
+    rootBookList:{
+        flexGrow: 1,
+
     },
-  
-    bookImageAndRating: {
-      width: '75%',
-      height: '100%',
-      paddingRight: '2rem',
-      borderRight: '5px solid grey',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
+    gridList: {
+    width: 800,
+    height: 400,
     },
-  
-    bookContainerRight: {
-      width: '60%',
-      height: '100%',
-      display: 'flex',
-      alignItems: "flex-start",
-      justifyContent: "flex-start",
-      flexDirection: 'column',
-      padding: '25px'
+    
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 500,
     },
-  
-    bookTitle: {
-      fontVariant: 'small-caps',
-      textTransform: 'lowercase',
-      fontWeight: 'bold',
-      width: '35vw',
-      lineHeight: '.9'
-    },
-  
-    bookAuthors: {
-      margin: "1rem 0"
-    },
-  
-    bookBlurb: {
-      padding: '2rem',
-      width: '35vw',
-      textAlign: 'justify'
-    },
-  
-    bookDataContainer: {
-      margin: "15px 5px 10px 10px",
-      width: '20vw',
-      position: 'relative'
-    },
-  
-    bookDataTable: {
-      position: 'absolute',
-      left: '25vw',
-      bottom: '15px',
-      width: "100%",
-      textAlign: 'right'
-    },
-  
-    bookDataLabel: {
-      textAlign: 'left',
-      fontWeight: 'bold', 
-    },
-  
-    carouselContainer: {
-      display: "flex",
-      flexDirection: 'column',
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: "100px"
+    paperListOptions:{
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 800,
+
     }
-});
+}));
