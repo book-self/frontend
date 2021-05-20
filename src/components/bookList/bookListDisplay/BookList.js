@@ -104,13 +104,19 @@ useEffect(() =>
     }
 
     const handleSubmit = function(event){
+       event.preventDefault()
       console.log("BookIDS:" + bookIds);
       if(addToBookListId != null)
       {
         console.log("Add to" + addToBookListId);
       }
-
+      else
+      {
+        addToBookListId = id;
+      }
+      console.log(addToBookListId);
       console.log("Remove from" + id);
+      console.log(editedName);
       postBooksToList(editedName, bookIds,addToBookListId, id);
     }
 
