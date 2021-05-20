@@ -104,7 +104,7 @@ useEffect(() =>
     }
 
     const handleSubmit = function(event){
-       event.preventDefault()
+       
       console.log("BookIDS:" + bookIds);
       if(addToBookListId != null)
       {
@@ -187,7 +187,7 @@ useEffect(() =>
             {
               !booksInList?null:
               <div className={classes.rootBookList}>
-                
+                <form>
                 <Grid container spacing={2} justify="flex-start" alignItems="flex-start" direction = "row">
                 
                   
@@ -203,11 +203,12 @@ useEffect(() =>
                         </Grid>
 
                       )}
-                      <button onClick = {handleSubmit}>Submit Edits</button>
+                      
                   
                 </Grid>
+                <button onClick = {handleSubmit}>Submit Edits</button>
               
-                
+              </form>
                 
               </div>
             }
