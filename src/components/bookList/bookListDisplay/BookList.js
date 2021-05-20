@@ -43,9 +43,14 @@ export const BookList = () =>{
   const [booksInList, setBooksInList] = useState(null);
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [selecteBooks, setSelectedBooks] = useState([]);
+  const [editedName, setEditedName] = useState("");
 
   let { id } = useParams();
   
+  const handleEditListName = (event) => {
+    setEditedName(event.target.value);
+  }
+    
   useEffect(() => {
     async function getBookDetails() {
       setBookDetails(await fetchBookListDetails(id));
@@ -106,7 +111,7 @@ useEffect(() =>
       }
 
       console.log("Remove from" + id);
-      postBooksToList("", bookIds,addToBookListId, id);
+      postBooksToList(editedName, bookIds,addToBookListId, id);
     }
 
  
@@ -203,6 +208,33 @@ useEffect(() =>
             }
             
             </div>
+
+          <Paper>
+          <Input
+            id="standard-basic"
+            placeholder="edit list name"
+            value={editedName}
+            onChange={handleEditListName}
+            
+            endAdornment={
+              <InputAdornment position="end">
+                <EditIcon style={{ color: indigo[500] }} />
+              </InputAdornment>
+            }
+          />
+          
+          <Fab
+            variant="extended"
+            style={{ backgroundColor: indigo[500], color: "white" }}
+            onClick = {handleSubmit}
+          >
+            <SaveIcon
+              className={classes.extendedIcon}
+              style={{ color: "white" }}
+            />
+            Save Changes
+          </Fab>
+        </Paper>
 
           
         </div>
