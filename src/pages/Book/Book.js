@@ -104,9 +104,7 @@ export const Book = () => {
             <Typography variant="h5" className={classes.bookAuthors}>{authors}</Typography>
             <Typography className={classes.bookBlurb}>{book.blurb}</Typography>
             <div className={classes.bookDataContainer}>
-              <div className={classes.bookGenreList}>
-                { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
-              </div>
+              { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
               <div className={classes.bookDataTable}>
                 <table>
                   <tr>
