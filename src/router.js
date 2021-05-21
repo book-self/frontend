@@ -3,7 +3,8 @@ import { Home } from './pages/Home/Home';
 import { Profile } from './pages/Profile/Profile';
 import { QuerySearch } from './pages/Search/QuerySearch';
 import { GenreSearch } from './pages/Search/GenreSearch'
-import { Book } from './pages/Book/Book';
+import { Book } from './pages/Book/Book'
+import { BookList } from './pages/BookList/BookList'
 import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
@@ -26,6 +27,10 @@ export const Router = () => {
     {
       path: "/profile",
       component: Profile
+    },
+    {
+      path: "/profile/book-list",
+      component: BookList
     },
     {
       path: "/search",
