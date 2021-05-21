@@ -19,8 +19,6 @@ import {
   Card,
   Typography,
   Fab,
-  GridList,
-  GridListTile,
   Input,
   Container,
   InputAdornment,
