@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
     bookContainer: {
       display: "flex",
       alignItems: "flex-start",
-      width: '80vw',
+      width: '90vw',
       margin: '6vh auto 7.5vh auto',
       minHeight: '75vh'
     },
@@ -22,8 +22,6 @@ export const useStyles = makeStyles({
     bookImageAndRating: {
       width: '75%',
       height: '100%',
-      paddingRight: '2rem',
-      borderRight: '5px solid grey',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -31,13 +29,16 @@ export const useStyles = makeStyles({
     },
   
     bookContainerRight: {
+      boxSizing: 'border-box',
       width: '60%',
       height: '100%',
       display: 'flex',
       alignItems: "flex-start",
       justifyContent: "flex-start",
       flexDirection: 'column',
-      padding: '25px'
+      padding: '25px',
+      paddingLeft: '100px',
+      borderLeft: '3px solid grey',
     },
   
     bookTitle: {
@@ -54,22 +55,30 @@ export const useStyles = makeStyles({
   
     bookBlurb: {
       padding: '2rem',
-      width: '35vw',
-      textAlign: 'justify'
+      paddingLeft: '4rem',
+      width: '37.5vw',
+      textAlign: 'justify',
+      lineHeight: '1.5rem'
     },
   
     bookDataContainer: {
-      margin: "15px 5px 10px 10px",
-      width: '20vw',
-      position: 'relative'
+      margin: "2rem 5px 10px 10px",
+      width: '90%',
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexFlow: 'wrap'
     },
   
+    bookGenreList: {
+      width: '350px',
+      marginBottom: '1rem'
+    },
+
     bookDataTable: {
-      position: 'absolute',
-      left: '25vw',
-      bottom: '15px',
-      width: "100%",
-      textAlign: 'right'
+      marginTop: '2rem',
+      textAlign: 'right',
+      width: "350px"
     },
   
     bookDataLabel: {
