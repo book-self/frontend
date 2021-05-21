@@ -10,9 +10,8 @@ import Menu from '@material-ui/core/Menu';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import AddBookToList from '../../components/bookList/AddBookToList/AddBookToList'
 
-  import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch'
+import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch'
 
 import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
 import { useStyles } from './BookStyles';
