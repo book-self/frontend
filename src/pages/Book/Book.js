@@ -60,6 +60,7 @@ export const Book = () => {
     getRelatedBooks();
   }, [id, book]);
 
+  //USER ID WAS HARD CODED INT: MINE WAS 8
   useEffect(() =>
   {
     if(8 === null) return;
