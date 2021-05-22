@@ -34,7 +34,7 @@ import {
 } from "@material-ui/core/colors";
 
 
-export const BookList = () =>{
+export const BookLists = () =>{
   const classes = useStyles();
 
   const [bookDetails, setBookDetails] = useState(null);
