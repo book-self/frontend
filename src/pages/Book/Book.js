@@ -16,7 +16,11 @@ import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay
 import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
 import { useStyles } from './BookStyles';
 
-
+const noUserOptions = [
+  'To Read',
+  'Read',
+  'Did Not Finish',
+];
 export const Book = () => {
   const classes = useStyles();
   let { id } = useParams();
@@ -26,7 +30,7 @@ export const Book = () => {
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
-
+  const [userId, setUserId] = useState(null);
   // if a new book is selected (from the carousel), scroll back to the top
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -60,33 +64,46 @@ export const Book = () => {
   }, [id, book]);
 
   //USER ID WAS HARD CODED INT: MINE WAS 8
-  // useEffect(() =>
-  // {
-  //   if(8 === null) return;
-  //   async function getUserBookLists() {
-  //     setAllUserBookLists(await fetchAllUserBookLists(8));
-  //     console.log( allUserBookLists);
-  //   }
-  //   getUserBookLists();
-  // },[8]
-  //   )
+  useEffect(() =>
+  {
+    if(userId === null)
+    {
+      return;
+    } 
+    async function getUserBookLists() {
+      setAllUserBookLists(await fetchAllUserBookLists(8));
+    }
+    getUserBookLists();
+  },[userId]
+    )
 
   const authors = book?.authors.map(author => author.name).join(', ');
 
-  //commented out part of the add to user list because it relies on user id
-  // const handleMenuItemClick = (event, listId, listName, index) => {  
-  //     console.log(id);
-  //     console.log(listId);
-  //     setSelectedIndex(index);
-  //     setAnchorEl(null);
-
-  //     let bookIds = [id];
-  //     postBooksToList(listName, bookIds,listId, listId);
+  const handleMenuItemClick = (event, listId, listName, index) => {
       
-  //   };
+      setSelectedIndex(index);
+      setAnchorEl(null);
+
+      let bookIds = [id];
+      postBooksToList(listName, bookIds,listId, listId);
+      
+    };
   
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClickNoUserItem = (event) =>{
+    setAnchorEl(event.currentTarget);
+  }
+
+  const handleMenuItemClickNoUser = (event, index) =>{
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return <>
@@ -123,9 +140,39 @@ export const Book = () => {
         </>
       }
       
-  {/*   <div>
+   <div>
             {
-              !allUserBookLists?null:
+              !allUserBookLists?
+              <>
+              <List component="nav" aria-label="Device settings">
+                  <ListItem
+                  button
+                  aria-haspopup="true"
+                  aria-controls="lock-menu"
+                  aria-label="when device is locked"
+                  onClick={handleClickNoUserItem}
+                  >
+                  <ListItemText primary={noUserOptions[selectedIndex]} secondary="Sign up or log in to use."/>
+                  </ListItem>
+                </List>
+                 <Menu
+                    id="lock-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}                    
+                  >
+                    {noUserOptions.map((option, index) => (
+                      <MenuItem
+                        key={option}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClickNoUser(event, index)}
+                      >
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+              </>:
               <>
                
                 <List component="nav" aria-label="Device settings">
@@ -146,6 +193,8 @@ export const Book = () => {
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
+                    onClose={handleClose}
+
                     
                 >
                     {allUserBookLists.map((list, index) => (
@@ -165,7 +214,6 @@ export const Book = () => {
               </>
             }
           </div>
-          */}
       
     </div>
     <div>
