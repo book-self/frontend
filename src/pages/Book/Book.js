@@ -60,29 +60,30 @@ export const Book = () => {
   }, [id, book]);
 
   //USER ID WAS HARD CODED INT: MINE WAS 8
-  useEffect(() =>
-  {
-    if(8 === null) return;
-    async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(8));
-      console.log( allUserBookLists);
-    }
-    getUserBookLists();
-  },[8]
-    )
+  // useEffect(() =>
+  // {
+  //   if(8 === null) return;
+  //   async function getUserBookLists() {
+  //     setAllUserBookLists(await fetchAllUserBookLists(8));
+  //     console.log( allUserBookLists);
+  //   }
+  //   getUserBookLists();
+  // },[8]
+  //   )
 
   const authors = book?.authors.map(author => author.name).join(', ');
 
-  const handleMenuItemClick = (event, listId, listName, index) => {
-      console.log(id);
-      console.log(listId);
-      setSelectedIndex(index);
-      setAnchorEl(null);
+  //commented out part of the add to user list because it relies on user id
+  // const handleMenuItemClick = (event, listId, listName, index) => {  
+  //     console.log(id);
+  //     console.log(listId);
+  //     setSelectedIndex(index);
+  //     setAnchorEl(null);
 
-      let bookIds = [id];
-      postBooksToList(listName, bookIds,listId, listId);
+  //     let bookIds = [id];
+  //     postBooksToList(listName, bookIds,listId, listId);
       
-    };
+  //   };
   
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,7 +123,7 @@ export const Book = () => {
         </>
       }
       
-        <div>
+  {/*   <div>
             {
               !allUserBookLists?null:
               <>
@@ -164,6 +165,7 @@ export const Book = () => {
               </>
             }
           </div>
+          */}
       
     </div>
     <div>
