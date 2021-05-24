@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
-import Shelf from '../../components/Shelf/Shelf';
-import { fetchBookLists } from '../../components/Shelf/ShelfFetch';
+// import { useEffect, useState } from 'react';
+// import { Container } from '@material-ui/core';
+// import Shelf from '../../components/Shelf/Shelf';
+// import { fetchBookLists } from '../../components/Shelf/ShelfFetch';
 
 export const Profile = () => {
 
-  // Login guys: where do we get user id from?
+  /**
+   * Component Shelf lists all the book lists of a user.
+   * Commented out here until login feature is completed and
+   * we know where to get user id from...
+   * Login guys: where do we get user id from?
   const userId = 8;
   const [bookLists, setBookLists] = useState([]);
 
@@ -18,8 +23,14 @@ export const Profile = () => {
   }, [])
 
   return (
-    <div>
+    <Container maxWidth="sm">
       <Shelf lists={ bookLists } />
-    </div>
+    </Container>
   );
+   */
+  return(
+    <div>
+      Profile
+    </div>
+  )
 }

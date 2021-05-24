@@ -1,40 +1,61 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import deepOrange from "@material-ui/core/colors/deepOrange";
+import indigo from "@material-ui/core/colors/indigo";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import LocalLibraryTwoToneIcon from '@material-ui/icons/LocalLibraryTwoTone';
+import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: indigo[50],
   },
 }));
 
 const Shelf = ({ lists }) => {
+  let history = useHistory();
+  const redirect = (listId) => {
+    history.push(`/profile/book-list?id=${listId}`);
+  };
   const classes = useStyles();
-  console.log(lists)
   return (
     <List className={classes.root}>
       {lists.map((list) => (
-        <ListItem button key={list.id} id={list.id}>
+        <ListItem
+          button
+          key={list.id}
+          id={list.id}
+          onClick={() => redirect(list.id)}
+        >
           <ListItemAvatar>
-            <Avatar>
-              <LocalLibraryTwoToneIcon />
+            <Avatar style={{ backgroundColor: indigo[500] }}>
+              <LibraryBooksTwoToneIcon
+                style={{ backgroundColor: indigo[500], color: indigo[50] }}
+              />
             </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={list.bookListName || list.listType}
-            secondary={list.books.length > 0 ? list.books.length + ' Books' : "No books in list"}
+            primaryTypographyProps={{
+              style: { color: indigo[400], fontWeight: "bolder" },
+            }}
+            secondary={
+              list.books.length > 0
+                ? list.books.length + " Books"
+                : "No books in list"
+            }
+            secondaryTypographyProps={{ style: { color: deepOrange[500] } }}
           />
         </ListItem>
       ))}
     </List>
   );
-}
+};
 
 export default Shelf;
