@@ -5,11 +5,12 @@ import Button from '@material-ui/core/Button';
 // import Shelf from '../../components/Shelf/Shelf';
 // import { fetchBookLists } from '../../components/Shelf/ShelfFetch';
 import { Link } from "react-router-dom";
-import {fetchUserBookLists, fetchUserDetails} from './ProfileFetch';
+import {fetchUserBookLists} from './ProfileFetch';
 export const Profile = () => {
 
   //const [userId = 8;
-  const [userId, setUserId] = useState(null);
+  //const [userId, setUserId] = useState(null);
+  const userId = useState(null);
   const [bookLists, setBookLists] = useState([]);
 
   useEffect(() =>
@@ -17,7 +18,6 @@ export const Profile = () => {
     if(userId === null) return;
     async function getUserBookLists() {
       setBookLists(await fetchUserBookLists(8));
-      console.log(bookLists)
     }
     getUserBookLists();
   },[userId]
