@@ -10,7 +10,7 @@ export const Profile = () => {
 
   //const [userId = 8;
   //const [userId, setUserId] = useState(null);
-  const userId = useState(null);
+  const userId = null;
   const [bookLists, setBookLists] = useState([]);
 
   useEffect(() =>

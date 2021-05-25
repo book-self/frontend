@@ -31,7 +31,7 @@ export const Book = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
   //const [userId, setUserId] = useState(null);
-  const userId = useState(null);
+  const userId = null;
   // if a new book is selected (from the carousel), scroll back to the top
   useEffect(() => {
     window.scrollTo(0, 0)
