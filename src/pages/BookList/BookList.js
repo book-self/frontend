@@ -1,5 +1,5 @@
 import { React, useState , useEffect} from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
 import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
 
@@ -7,7 +7,6 @@ import { useStyles } from './BookListStyles';
 
 import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 import SaveIcon from "@material-ui/icons/Save";
-import AddIcon from "@material-ui/icons/Add";
 
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -20,7 +19,6 @@ import {
   Typography,
   Fab,
   Input,
-  Container,
   InputAdornment,
   FormControl,
   FormControlLabel,
@@ -40,7 +38,6 @@ export const BookList = () =>{
   const [bookDetails, setBookDetails] = useState(null);
   const [booksInList, setBooksInList] = useState(null);
   const [allUserBookLists, setAllUserBookLists] = useState(null);
-  const [selecteBooks, setSelectedBooks] = useState([]);
   const [editedName, setEditedName] = useState("");
 
   let { id } = useParams();
@@ -53,7 +50,6 @@ export const BookList = () =>{
     async function getBookDetails() {
       
       setBookDetails(await fetchBookListDetails(id));
-      console.log(bookDetails);
     }
 
     getBookDetails();
@@ -90,7 +86,7 @@ useEffect(() =>
         else
         {
           let newBookIds = bookIds.filter(function(element){
-            return element != (event.target.value);
+            return element !== (event.target.value);
 
           })
           bookIds = newBookIds;
@@ -168,13 +164,13 @@ useEffect(() =>
                         if(userListDetails.id !== id){
                           return (
                               <div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Add to " + `${userListDetails.listType}`}/>  
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Add to ${userListDetails.listType}`}/>  
                               </div>
                               )
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={"Remove from " + `${userListDetails.listType}`}/>  
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Remove from "${userListDetails.listType}`}/>  
                                         
                               </div>)
 
