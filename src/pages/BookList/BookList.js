@@ -37,7 +37,7 @@ import {
 export const BookList = () =>{
   const classes = useStyles();
 
-  const [bookDetails, setBookDetails] = useState(null);
+  const [bookListDetails, setBookListDetails] = useState(null);
   const [booksInList, setBooksInList] = useState(null);
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [selecteBooks, setSelectedBooks] = useState([]);
@@ -52,14 +52,14 @@ export const BookList = () =>{
   useEffect(() => {
     async function getBookDetails() {
       
-      setBookDetails(await fetchBookListDetails(id));
-      console.log(bookDetails);
+      setBookListDetails(await fetchBookListDetails(id));
+      console.log(bookListDetails);
     }
 
     getBookDetails();
   }, [id]);
 
-const userId = bookDetails?.userId;
+const userId = bookListDetails?.userId;
   useEffect(() =>
   {
     async function getBooksInList() {
@@ -117,7 +117,7 @@ useEffect(() =>
       if(editedName == null || editedName === "")
       {
         
-        postBooksToList(bookDetails.bookListName, bookIds,addToBookListId, id);
+        postBooksToList(bookListDetails.bookListName, bookIds,addToBookListId, id);
       }
       else
       {
@@ -132,7 +132,7 @@ useEffect(() =>
           <div>
         
             {
-              !bookDetails ? null:
+              !bookListDetails ? null:
               <div>
             
                 <Paper className={classes.paper} elevation={0}>
@@ -149,7 +149,7 @@ useEffect(() =>
                   </Grid>
                   <Grid item xs zeroMinWidth>
                     <Typography variant="h4" component="h4" noWrap>
-                      {bookDetails.editedName || bookDetails.bookListName}
+                      {bookListDetails.editedName || bookListDetails.bookListName}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -204,7 +204,7 @@ useEffect(() =>
                         <FormControlLabel value="end" control={
                               <Checkbox onChange={handleValueChange} color="primary" value = {book.id}  data-item = {j} 
                               inputProps={{ 'aria-label': 'secondary checkbox' }} />}/>  
-                          <span><SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
+                          <span><SingleBookDisplay key = {j}  userId = {bookListDetails.userId} id = {book.id} inList = {bookListDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
                         </Card>
                         </Grid>
 
