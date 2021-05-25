@@ -16,11 +16,14 @@ import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay
 import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
 import { useStyles } from './BookStyles';
 
+
+
 const noUserOptions = [
   'To Read',
   'Read',
   'Did Not Finish',
 ];
+
 export const Book = () => {
   const classes = useStyles();
   let { id } = useParams();
@@ -32,6 +35,8 @@ export const Book = () => {
   const [selectedIndex, setSelectedIndex] = useState(1);
   //const [userId, setUserId] = useState(null);
   const userId = null;
+
+
   // if a new book is selected (from the carousel), scroll back to the top
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -64,19 +69,20 @@ export const Book = () => {
     getRelatedBooks();
   }, [id, book]);
 
-  //USER ID WAS HARD CODED INT: MINE WAS 8
-  useEffect(() =>
-  {
-    if(userId === null)
+
+  // USER ID WAS HARD CODED INT: MINE WAS 8
+  useEffect(() => {
+    if (userId === null)
     {
       return;
     } 
+
     async function getUserBookLists() {
       setAllUserBookLists(await fetchAllUserBookLists(userId));
     }
+
     getUserBookLists();
-  },[userId]
-    )
+  }, [userId])
 
   const authors = book?.authors.map(author => author.name).join(', ');
 
@@ -123,7 +129,9 @@ export const Book = () => {
             <Typography variant="h5" className={classes.bookAuthors}>{authors}</Typography>
             <Typography className={classes.bookBlurb}>{book.blurb}</Typography>
             <div className={classes.bookDataContainer}>
-              { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
+              <div className={classes.bookGenreList}>
+                { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
+              </div>
               <div className={classes.bookDataTable}>
                 <table>
                   <tr>
