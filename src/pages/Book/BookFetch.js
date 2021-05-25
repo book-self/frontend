@@ -12,7 +12,7 @@ export function fetchRelatedBooks(bookId, byAuthorId) {
 }
 
 export function postBooksToList(updatedListName, booksToAdd, idOfNewList, idOfOldList) {
-    const booksToRemove = [];
+    
     const requestOptions = {
         method: 'PUT',
         crossDomain:true,
