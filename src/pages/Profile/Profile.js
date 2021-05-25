@@ -18,6 +18,7 @@ export const Profile = () => {
     if(userId === null) return;
     async function getUserBookLists() {
       setBookLists(await fetchUserBookLists(userId));
+
     }
     getUserBookLists();
   },[userId]
