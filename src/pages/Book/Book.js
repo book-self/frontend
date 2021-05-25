@@ -16,6 +16,7 @@ export const Book = () => {
   const history = useHistory();
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
+  useState();
 
 
   // if a new book is selected (from the carousel), scroll back to the top
@@ -49,6 +50,10 @@ export const Book = () => {
 
     getRelatedBooks();
   }, [id, book]);
+
+
+
+
 
   const authors = book?.authors.map(author => author.name).join(', ');
 
@@ -107,9 +112,16 @@ export const Book = () => {
         }
       </div>
     }
-    <div id="ratings" style={{display: 'flex', width: '85vw', margin: '60px auto'}}>
-      <div style={{width: '25%'}}>
-        <div style={{width: '80%', borderRight: '3px solid grey', padding: '35px'}}>
+
+    <div style={{width: "80%", margin: '200px auto', textAlign: 'center'}}>
+      <Typography variant="h2" style={{fontWeight: 'bold'}} gutterBottom>Read this book?</Typography>
+      <Typography variant="h4">Leave your rating below</Typography>
+      <Rating style={{marginTop: '2.5rem'}} value={0} precision={1} size="large" />
+    </div>
+
+    <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>
+      <div style={{flex: '0 0 350px', borderRight: '2px solid grey', marginRight: '10%'}}>
+        <div style={{width: '325px', padding: '35px'}}>
           <div style={{backgroundColor: '#EAEAEA', padding: '1.25rem'}}>
             <Rating value={4.5} precision={0.1} size="large" readOnly /><span style={{position: 'relative', fontSize: '1.25rem', top: '-.45rem', left: '.5rem', fontWeight: 'bold'}}>(4.5)</span>
             <Typography style={{marginTop: '.5rem', fontSize: '1.15rem', textAlign: 'center'}}>133 ratings</Typography>
@@ -124,7 +136,7 @@ export const Book = () => {
           </div>
         </div>
       </div>
-      <div style={{width: '75%'}}>
+      <div style={{width: "100%"}}>
         World
       </div>
     </div>
