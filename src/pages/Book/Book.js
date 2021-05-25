@@ -72,7 +72,7 @@ export const Book = () => {
       return;
     } 
     async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(8));
+      setAllUserBookLists(await fetchAllUserBookLists(userId));
     }
     getUserBookLists();
   },[userId]
