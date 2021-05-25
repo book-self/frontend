@@ -68,7 +68,7 @@ useEffect(() =>
   {
     if(userId === null) return;
     async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(8));
+      setAllUserBookLists(await fetchAllUserBookLists(1));
       
     }
     getUserBookLists();
