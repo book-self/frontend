@@ -29,7 +29,7 @@ export const Router = () => {
       component: Profile
     },
     {
-      path: "/profile/book-list",
+      path: "/profile/book-list/:id",
       component: BookList
     },
     {
