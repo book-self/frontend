@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const BookList = ({ location }) => {
+export const BookList_other = ({ location }) => {
   
   const [bookList, setBookList] = useState({});
   const [books, setBooks] = useState([]);
