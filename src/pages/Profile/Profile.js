@@ -10,14 +10,15 @@ export const Profile = () => {
 
   //const [userId = 8;
   //const [userId, setUserId] = useState(null);
-  const userId = useState(null);
+  const userId = null;
   const [bookLists, setBookLists] = useState([]);
 
   useEffect(() =>
   {
     if(userId === null) return;
     async function getUserBookLists() {
-      setBookLists(await fetchUserBookLists(8));
+      setBookLists(await fetchUserBookLists(userId));
+
     }
     getUserBookLists();
   },[userId]
