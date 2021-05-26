@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Shelf = ({ lists }) => {
+export const Shelf = ({ lists }) => {
   let history = useHistory();
   const redirect = (listId) => {
-    history.push(`/profile/book-list?id=${listId}`);
+    history.push(`/shelf?id=${listId}`);
   };
   const classes = useStyles();
   return (
@@ -57,5 +57,3 @@ const Shelf = ({ lists }) => {
     </List>
   );
 };
-
-export default Shelf;
