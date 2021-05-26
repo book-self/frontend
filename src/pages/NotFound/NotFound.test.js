@@ -6,6 +6,6 @@ test('renders 404', () => {
     <NotFound/>
   );
 
-  const text = screen.getByText(/404/i);
+  const text = screen.getByText(/404 Not Found/i);
   expect(text).toBeInTheDocument();
 });
