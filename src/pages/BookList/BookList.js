@@ -32,7 +32,7 @@ import {
 } from "@material-ui/core/colors";
 
 
-export const BookLists = () =>{
+export const BookList = () =>{
   const classes = useStyles();
 
   const [bookDetails, setBookDetails] = useState(null);
@@ -48,6 +48,7 @@ export const BookLists = () =>{
     
   useEffect(() => {
     async function getBookDetails() {
+      
       setBookDetails(await fetchBookListDetails(id));
     }
 
@@ -163,13 +164,13 @@ useEffect(() =>
                         if(userListDetails.id !== id){
                           return (
                               <div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Add to " ${userListDetails.listType}`}/>  
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Add to ${userListDetails.listType}`}/>  
                               </div>
                               )
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Remove from " ${userListDetails.listType}`}/>  
+                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Remove from "${userListDetails.listType}`}/>  
                                         
                               </div>)
 
@@ -194,7 +195,7 @@ useEffect(() =>
                   
                     {booksInList.map((book, j) =>
                       
-                        <Grid item sm={6}>
+                        <Grid item sm={4}>
                         <Card variant="outlined">                          
                         <FormControlLabel value="end" control={
                               <Checkbox onChange={handleValueChange} color="primary" value = {book.id}  data-item = {j} 
@@ -207,7 +208,6 @@ useEffect(() =>
                       
                   
                 </Grid>
-                <button onClick = {handleSubmit}>Submit Edits</button>
               
               </form>
                 
