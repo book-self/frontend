@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, Provider } from 'react-redux';
 import { selectUser } from '../../store/User/UserSlice';
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import {fetchUserBookLists} from './ProfileFetch';
 
 export const Profile = () => {
 
-  const { username, id, email } = useSelector(selectUser);
+  const { username, id } = useSelector(selectUser);
 
   const [bookLists, setBookLists] = useState([]);
 
@@ -30,7 +30,7 @@ export const Profile = () => {
     )
 
   return(
-    <div>
+    <Provider>
       <h1>Welcome, { username }</h1>
       {
         !bookLists ? null :
@@ -50,6 +50,6 @@ export const Profile = () => {
           
         </div>
       }
-    </div>
+    </Provider>
   )
 }
