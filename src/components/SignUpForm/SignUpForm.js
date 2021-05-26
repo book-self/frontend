@@ -1,14 +1,18 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import React, { Fragment, useEffect } from 'react';
+import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { signUp } from '../../store/Token/TokenSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { signUp, selectUser, clearUser } from '../../store/User/UserSlice';
 
 export const SignUpForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { isFetching, isSuccess, isError, error } = useSelector(
+    selectUser
+  );
 
   const validationSchema = yup.object({
     email: yup
@@ -48,88 +52,119 @@ export const SignUpForm = () => {
       passwordConfirm: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values, actions) => {
-      dispatch(signUp(values));
+    onSubmit: (payload, actions) => {
+      dispatch(signUp(payload));
     },
   });
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearUser());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      if (error.status === 401) {
+        formik.touched.password = true;
+        formik.errors.password = "Invalid username or password"
+      } else if (error.status === 409) {
+        formik.touched.username = true;
+        formik.errors.username = "Email or username is already taken"
+        formik.touched.email = true;
+        formik.errors.email = "Email or username is already taken"
+      }
+
+      dispatch(clearUser());
+    }
+
+    if (isSuccess) {
+      dispatch(clearUser());
+      history.push('/profile');
+    }
+  }, [dispatch, history, formik, isError, isSuccess, error]);
+
   return (
-    <form noValidate onSubmit={formik.handleSubmit}>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="email"
-        label="Email Address"
-        type="email"
-        id="email"
-        autoComplete="email"
-        onChange={formik.handleChange}
-        value={formik.values.email}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        autoFocus
-      />
-
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="username"
-        label="Username"
-        type="text"
-        id="username"
-        autoComplete="username"
-        onChange={formik.handleChange}
-        value={formik.values.username}
-        error={formik.touched.username && Boolean(formik.errors.username)}
-        helperText={formik.touched.username && formik.errors.username}
-      />
-
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="password"
-        label="Password"
-        type="password"
-        id="password"
-        autoComplete="new-password"
-        onChange={formik.handleChange}
-        value={formik.values.password}
-        error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-      />
-
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="passwordConfirm"
-        label="Confirm Password"
-        type="password"
-        id="passwordConfirm"
-        autoComplete="new-password"
-        onChange={formik.handleChange}
-        value={formik.values.passwordConfirm}
-        error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
-        helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
-      />
-
-      <Box mt={2} mb={2}>
-        <Button
-          type="submit"
+    <Fragment>
+      <form noValidate onSubmit={formik.handleSubmit}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
           fullWidth
-          variant="contained"
-          color="primary"
-        >
-          Sign Up
-        </Button>
-      </Box>
-    </form>
+          name="email"
+          label="Email Address"
+          type="email"
+          id="email"
+          autoComplete="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          autoFocus
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="username"
+          label="Username"
+          type="text"
+          id="username"
+          autoComplete="off"
+          onChange={formik.handleChange}
+          value={formik.values.username}
+          error={formik.touched.username && Boolean(formik.errors.username)}
+          helperText={formik.touched.username && formik.errors.username}
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="new-password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="passwordConfirm"
+          label="Confirm Password"
+          type="password"
+          id="passwordConfirm"
+          autoComplete="new-password"
+          onChange={formik.handleChange}
+          value={formik.values.passwordConfirm}
+          error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
+          helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
+        />
+
+        <Box mt={2} mb={2}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={isFetching}
+          >
+            {isFetching ? (<CircularProgress color="inherit" size={20} style={{marginRight: '6px'}} />) : null}
+            Sign Up
+          </Button>
+        </Box>
+      </form>
+    </Fragment>
   );
 }

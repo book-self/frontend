@@ -1,41 +1,46 @@
 import { makeStyles } from '@material-ui/core';
 
-const appBarHeight = "90px";
-
-export const useStyles = makeStyles({
-  appBarContainer: {
-    height: appBarHeight
-  },
-  
+export const useStyles = makeStyles((theme) => ({
   toolBar: {
-    height: appBarHeight,
     justifyContent: 'space-between'
   },
-  
+
   toolBarLeftContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    padding: '5px 10px',
-    borderRadius: '5px',
-    border: '3px solid black'
+    // backgroundColor: 'white',
+    // padding: '5px 10px',
+    paddingBottom: '5px',
+    // borderRadius: '5px',
+    // border: '3px solid black'
   },
-  
+
   title: {
     fontVariant: "small-caps",
     textTransform: "lowercase",
     color: 'black',
-    fontSize: '1.75rem'
+    fontSize: '1.5rem'
   },
-  
+
   image: {
-    width: "50px",
-    margin: "0 12px 0 12px"
+    width: "25px",
+    margin: "0 6px 0 6px"
   },
 
   accountIcon: {
-    fontSize: '2.5rem',
+    fontSize: '2rem',
     color: 'white'
   },
-});
+
+  menu: {
+    marginLeft: theme.spacing(2),
+    flexGrow: 1
+  },
+
+  account: {
+    padding: '6px 16px',
+    fontWeight: 'bold',
+    cursor: 'default'
+  }
+}));
