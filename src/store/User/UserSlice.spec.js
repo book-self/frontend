@@ -10,7 +10,8 @@ describe('user reducer', () => {
     created: null,
     isFetching: false,
     isSuccess: false,
-    isError: false
+    isError: false,
+    error: null
   };
   it('should handle initial state', () => {
     expect(userReducer(undefined, { type: 'unknown' })).toEqual({
@@ -20,7 +21,8 @@ describe('user reducer', () => {
       created: null,
       isFetching: false,
       isSuccess: false,
-      isError: false
+      isError: false,
+      error: null
     });
   });
 
@@ -35,7 +37,11 @@ describe('user reducer', () => {
       id: 99,
       username: 'testing',
       email: 'test@test.com',
-      created: '12-31-2021'
+      created: '12-31-2021',
+      isFetching: false,
+      isSuccess: false,
+      isError: false,
+      error: null
     });
   });
 });
