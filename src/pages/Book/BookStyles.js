@@ -101,5 +101,5 @@ export const useStyles = makeStyles({
       alignItems: "center",
       justifyContent: "center",
       marginBottom: "100px"
-    }
+    },
 });

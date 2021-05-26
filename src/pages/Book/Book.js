@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { Chip, Typography } from '@material-ui/core';
+import { Chip, Typography, useRadioGroup } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,9 +10,9 @@ import Menu from '@material-ui/core/Menu';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
+import { UserRating } from './UserRating';
 
-import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch'
-
+import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch';
 import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
 import { useStyles } from './BookStyles';
 
@@ -28,15 +28,18 @@ export const Book = () => {
   const classes = useStyles();
   let { id } = useParams();
   const history = useHistory();
+
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
+
   const userId = null;
+  const authors = book?.authors.map(author => author.name).join(', ');
 
 
-  // if a new book is selected (from the carousel), scroll back to the top
+  // if a new book is selected, scroll back to the top
   useEffect(() => {
     window.scrollTo(0, 0)
     setRelatedBooks(null);
@@ -83,8 +86,6 @@ export const Book = () => {
     getUserBookLists();
   }, [userId])
 
-  const authors = book?.authors.map(author => author.name).join(', ');
-
   const handleMenuItemClick = (event, listId, listName, index) => {
       
       setSelectedIndex(index);
@@ -112,6 +113,7 @@ export const Book = () => {
     setAnchorEl(null);
   };
 
+
   return <>
     <div className={classes.bookContainer}>
       { !book ? null :
@@ -120,7 +122,7 @@ export const Book = () => {
             <div className={classes.bookImageAndRating}>
               <img width={300} height={450} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.title} />
               <div className={classes.rating} onClick={() => window.location = '#ratings' }>
-                <Rating value={Math.random() * 5} precision={0.1} readOnly />
+                <Rating value={book.averageRating} precision={0.1} readOnly />
               </div>
             </div>
           </div>
@@ -204,8 +206,6 @@ export const Book = () => {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
-
-                    
                 >
                     {allUserBookLists.map((list, index) => (
                       <MenuItem
@@ -247,12 +247,12 @@ export const Book = () => {
       </div>
     }
 
-    <div style={{width: "80%", margin: '200px auto', textAlign: 'center'}}>
-      <Typography variant="h2" style={{fontWeight: 'bold'}} gutterBottom>Read this book?</Typography>
-      <Typography variant="h4">Leave your rating below</Typography>
-      <Rating style={{marginTop: '2.5rem'}} value={0} precision={1} size="large" />
+
+    <div style={{width: "70%", margin: '200px auto'}}>
+      <UserRating bookId={id} />
     </div>
 
+{ /* TODO - NOT FINISHED 
     <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>
       <div style={{flex: '0 0 350px', borderRight: '2px solid grey', marginRight: '10%'}}>
         <div style={{width: '325px', padding: '35px'}}>
@@ -274,5 +274,6 @@ export const Book = () => {
         World
       </div>
     </div>
+*/ }
   </>
 } 
