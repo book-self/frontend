@@ -6,7 +6,6 @@ import { Shelf } from '../../components/Shelf/Shelf';
 import { fetchBookLists } from '../../components/Shelf/ShelfFetch';
 
 export const ShelfPage = ({ location }) => {
-
   const [bookLists, setBookLists] = useState([]);
   const { username, id } = useSelector(selectUser);
 
@@ -25,4 +24,4 @@ export const ShelfPage = ({ location }) => {
       <Shelf lists={ bookLists } />
     </Container>
   );
-}
+};

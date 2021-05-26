@@ -27,6 +27,15 @@ export const useStyles = makeStyles({
       alignItems: 'center',
       justifyContent: 'center'
     },
+
+    rating: {
+      marginTop: "3vh",
+      padding: '10px',
+
+      '&:hover': {
+        backgroundColor: '#EAEAEA'
+      }
+    },
   
     bookContainerRight: {
       boxSizing: 'border-box',
@@ -92,5 +101,5 @@ export const useStyles = makeStyles({
       alignItems: "center",
       justifyContent: "center",
       marginBottom: "100px"
-    }
+    },
 });
