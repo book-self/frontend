@@ -18,8 +18,7 @@ export const updateBookList = (bookList) => {
     const updateName = editedName && bookListName !== editedName ? { newListName: editedName} : {};
     const addBooks = booksToBeAdded.length > 0 ? { booksToBeAdded } : {};
     const removeBooks = booksToBeRemoved.length > 0 ? { booksToBeRemoved } : {};
-    const payload = { ...updateName, ...addBooks, ...removeBooks };
-
+    const payload = { ...updateName, ...addBooks, ...removeBooks, newBookListId: id };
     const endpoint = `${process.env.REACT_APP_API_URL}/v1/book-lists/${id}/update`;
     return axios.put(endpoint, payload);
 }
