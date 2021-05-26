@@ -1,4 +1,4 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 import { Home } from './pages/Home/Home';
 import { Profile } from './pages/Profile/Profile';
 import { QuerySearch } from './pages/Search/QuerySearch';
@@ -9,7 +9,6 @@ import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
 
-
 export const Router = () => {
   const routes = [
     {
@@ -18,19 +17,23 @@ export const Router = () => {
     },
     {
       path: "/signin",
-      component: SignIn
+      component: SignIn,
+      auth: false
     },
     {
       path: "/signup",
-      component: SignUp
+      component: SignUp,
+      auth: false
     },
     {
       path: "/profile",
-      component: Profile
+      component: Profile,
+      auth: true
     },
     {
       path: "/profile/book-list",
-      component: BookList
+      component: BookList,
+      auth: true
     },
     {
       path: "/search",
@@ -57,9 +60,32 @@ export const Router = () => {
           key={index}
           path={route.path}
           exact
-          render={props => (
-            <route.component {...props} routes={route.routes} />
-          )}
+          render={props =>
+            route.auth === undefined ? (
+              // any auth ok
+              <route.component {...props} routes={route.routes} />
+            ) : (
+              route.auth ? (
+                // auth required
+                localStorage.getItem('token') ? (
+                  <route.component {...props} routes={route.routes} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: '/signin', state: { from: props.location } }}
+                  />
+                )
+              ) : (
+                // no auth required
+                !localStorage.getItem('token') ? (
+                  <route.component {...props} routes={route.routes} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: '/profile', state: { from: props.location } }}
+                  />
+                )
+              )
+            )
+          }
         />
       ))}
     </Switch>
