@@ -10,16 +10,18 @@ export const ShelfPage = ({ location }) => {
   const { username, id } = useSelector(selectUser);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await fetchBookLists(id);
-      setBookLists(data);
-    })();
-  }, [id]);
+    (
+      async () => {
+        const { data } = await fetchBookLists(id);
+        setBookLists(data);
+      }
+    )()
+  }, [id])
 
   return (
     <Container maxWidth="sm">
-      <h1>Book Lists of {username}</h1>
-      <Shelf lists={bookLists} />
+      <h1>Book Lists of { username }</h1>
+      <Shelf lists={ bookLists } />
     </Container>
   );
 };
