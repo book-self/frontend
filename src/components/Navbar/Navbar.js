@@ -77,6 +77,7 @@ export const Navbar = () => {
             [
               <Button component={Link} key="home" to="/">Home</Button>,
               <Button component={Link} key="profile" to="/profile">Profile</Button>,
+              <Button component={Link} key="shelves" to="/shelves">Book Lists</Button>,
             ]
           ) : (
             <Button component={Link} to="/">Home</Button>
