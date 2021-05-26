@@ -55,11 +55,13 @@ export const Router = () => {
     },
     {
       path: "/shelf",
-      component: List
+      component: List,
+      auth: true
     },
     {
       path: "/shelves",
-      component: ShelfPage
+      component: ShelfPage,
+      auth: true
     },
     {
       path: "*",
