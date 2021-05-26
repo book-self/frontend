@@ -8,7 +8,6 @@ import {
 
 import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 import SaveIcon from "@material-ui/icons/Save";
-import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 
 import {
@@ -74,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const BookList = ({ location }) => {
+export const List = ({ location }) => {
   
   const [bookList, setBookList] = useState({});
   const [books, setBooks] = useState([]);
@@ -108,9 +107,12 @@ export const BookList = ({ location }) => {
 
   const handleRemoveBook = (id) => {
     setBooks(_.without(books, id))
+    const remove = [ ...bookList.remove, id ];
+    setBookList({ ...bookList, remove })
   }
 
   const handleSaveBookList = (event) => {
+    console.log(bookList)
     updateBookList(bookList);
   }
 
@@ -163,17 +165,6 @@ export const BookList = ({ location }) => {
               </InputAdornment>
             }
           />
-
-          <Fab
-            variant="extended"
-            style={{ backgroundColor: indigo[500], color: "white" }}
-          >
-            <AddIcon
-              className={classes.extendedIcon}
-              style={{ color: "white" }}
-            />
-            Add Books To List
-          </Fab>
           
           <Fab
             variant="extended"
