@@ -10,7 +10,7 @@ export const ShelfPage = ({ location }) => {
   useEffect(() => {
     (
       async () => {
-        const userId = 8;
+        const userId = 1;
         const { data } = await fetchBookLists(userId);
         setBookLists(data);
       }
