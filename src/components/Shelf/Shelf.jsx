@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import deepOrange from "@material-ui/core/colors/deepOrange";
 import indigo from "@material-ui/core/colors/indigo";
@@ -18,12 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Shelf = ({ lists }) => {
-
+export const Shelf = ({ lists }) => {
   let history = useHistory();
   const redirect = (listId) => {
-      history.push(`/profile/book-list?id=${listId}`)
-  }
+    history.push(`/shelf?id=${listId}`);
+  };
   const classes = useStyles();
   return (
     <List className={classes.root}>
@@ -35,24 +34,26 @@ const Shelf = ({ lists }) => {
           onClick={() => redirect(list.id)}
         >
           <ListItemAvatar>
-            <Avatar style={{backgroundColor: indigo[500]}}>
-              <LibraryBooksTwoToneIcon style={{backgroundColor: indigo[500], color: indigo[50]}} />
+            <Avatar style={{ backgroundColor: indigo[500] }}>
+              <LibraryBooksTwoToneIcon
+                style={{ backgroundColor: indigo[500], color: indigo[50] }}
+              />
             </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={list.bookListName || list.listType}
-            primaryTypographyProps={{style: {color: indigo[400], fontWeight: 'bolder'}}}
+            primaryTypographyProps={{
+              style: { color: indigo[400], fontWeight: "bolder" },
+            }}
             secondary={
               list.books.length > 0
                 ? list.books.length + " Books"
                 : "No books in list"
             }
-            secondaryTypographyProps={{style: {color: deepOrange[500]}}}
+            secondaryTypographyProps={{ style: { color: deepOrange[500] } }}
           />
         </ListItem>
       ))}
     </List>
   );
-}
-
-export default Shelf;
+};
