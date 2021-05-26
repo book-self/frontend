@@ -6,9 +6,8 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import clsx from  'clsx';
 
-import { fetchUserRating, postRating, patchRating, deleteRating } from './UserRatingFetch';
+import { fetchUserRating, postRating, patchRating } from './UserRatingFetch';
 import { useStyles } from './UserRatingStyles';
-import { FormatColorTextSharp } from '@material-ui/icons';
 
 
 export const UserRating = (props) => {
@@ -35,7 +34,7 @@ export const UserRating = (props) => {
   
       // TODO only if the user exists:
       getUserRating();
-    }, []);
+    }, [props.bookId]);
 
 
     const handleRatingChange = (_, value) => {
@@ -58,18 +57,6 @@ export const UserRating = (props) => {
     const handleReviewSubmit = () => {
         patchRating(props.bookId, { "comment": userReview }); // user pressed on the save icon
     };
-  
-
-    const handleRatingDelete = () => {
-        deleteRating(props.bookId);
-
-        // TODO remove it from the view as well
-        setUserRating(0);
-        setUserReview("Leave an optional review.");
-        setDisplayReview(false);
-        setIsReviewEditable(false);
-    };
-
 
     return (
         <div style={{textAlign: 'center', display: 'flex'}}>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
-import { Chip, Typography, useRadioGroup } from '@material-ui/core';
+import { Chip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
