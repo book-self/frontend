@@ -4,11 +4,10 @@ import { Profile } from './pages/Profile/Profile';
 import { QuerySearch } from './pages/Search/QuerySearch';
 import { GenreSearch } from './pages/Search/GenreSearch'
 import { Book } from './pages/Book/Book'
-import { Shelf } from './components/Shelf/Shelf'
 import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
-import { BookLists } from './components/bookList/bookListDisplay/BookList'
+import { BookList } from './pages/BookList/BookList'
 import { ShelfPage } from "./pages/Shelf/ShelfPage";
 import { List } from "./pages/BookList/List";
 
@@ -34,8 +33,8 @@ export const Router = () => {
       auth: true
     },
     {
-      path: "/profile/book-list/:id",
-      component: Shelf
+      path: "/profile/book-list/:listId",
+      component: BookList
     },
     {
       path: "/search",
@@ -46,12 +45,8 @@ export const Router = () => {
       component: GenreSearch
     },
     {
-      path: "/book/:id",
+      path: "/book/:bookId",
       component: Book
-    },
-    {
-      path:"/book-list/:id",
-      component: BookLists
     },
     {
       path: "/shelf",
