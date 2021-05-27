@@ -2,31 +2,41 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) =>({
     bookContainer: {
-      display: "flex",
-      alignItems: "flex-start",
-      width: '80vw',
-      margin: '6vh auto 7.5vh auto',
-      minHeight: '75vh'
-    },
-  
-    rootBookList:{
-        flexGrow: 1,
-
+        display :'block',
+        width: '30vw',
+        height: '30vw'
     },
     gridList: {
-    width: 800,
-    height: 400,
+        width: 800,
+        height: 500,
     },
+   
+    fabRoot: {
+    "& > *": {
+      margin: theme.spacing(3),
+    },
+    background: 'white',
+        position: '-webkit-sticky',
+        position: 'sticky',
+        top: 20,
+        bottom: 20, 
+        paddingTop: '40px',
+        paddingBottom: '40px',
+        zIndex: 5,
+  },
     
     paper: {
         padding: theme.spacing(2),
         margin: 'auto',
-        maxWidth: 500,
+        
     },
     paperListOptions:{
         padding: theme.spacing(2),
         margin: 'auto',
-        maxWidth: 800,
 
-    }
+    },
+    rootBookList:{
+        flexGrow: 1,
+
+    },
 }));
