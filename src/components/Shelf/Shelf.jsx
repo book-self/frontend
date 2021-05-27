@@ -21,9 +21,10 @@ const useStyles = makeStyles((theme) => ({
 export const Shelf = ({ lists }) => {
   let history = useHistory();
   const redirect = (listId) => {
-    history.push(`/shelf?id=${listId}`);
+    history.push(`/profile/book-list/${listId}`);
   };
   const classes = useStyles();
+  
   return (
     <List className={classes.root}>
       {lists.map((list) => (
