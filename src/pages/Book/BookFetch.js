@@ -26,3 +26,9 @@ export function postBooksToList(updatedListName, booksToAdd, idOfNewList, idOfOl
     return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/update`, requestOptions)
     .then(response =>response.json());
 }
+
+export function fetchAllUserBookLists(userId){
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/users/${userId}/book-lists`)
+    .then(response =>response.json());
+}
+
