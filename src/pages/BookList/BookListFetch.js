@@ -14,7 +14,7 @@ export function fetchAllUserBookLists(userId){
     .then(response =>response.json());
 }
 
-export function postBooksToList(updatedListName, booksToChangeList, idOfNewList, idOfOldList) {
+export function postBooksListNameChange(updatedListName, idOfOldList) {
     
     const requestOptions = {
         method: 'PUT',
@@ -22,9 +22,26 @@ export function postBooksToList(updatedListName, booksToChangeList, idOfNewList,
         mode: 'cors',
         headers: {
         'Content-Type':'application/json'},
-        body: JSON.stringify({ newListName: updatedListName, newBookListId: idOfNewList, booksToBeAdded: booksToChangeList, booksToBeRemoved: booksToChangeList})
+        body: JSON.stringify({ newListName: updatedListName})
     }
     
-    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/update`, requestOptions)
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/update-list-name`, requestOptions)
+    .then(response =>response.json());
+}
+
+
+
+export function postMoveBooksOffList(booksToAdd, idOfNewList, idOfOldList) {
+    
+    const requestOptions = {
+        method: 'PUT',
+        crossDomain:true,
+        mode: 'cors',
+        headers: {
+        'Content-Type':'application/json'},
+        body: JSON.stringify({ newBookListId: idOfNewList, booksToBeAdded: booksToAdd, booksToBeRemoved: booksToAdd})
+    }
+    console.log(requestOptions);
+    return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/move-books`, requestOptions)
     .then(response =>response.json());
 }

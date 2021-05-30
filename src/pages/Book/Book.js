@@ -87,13 +87,13 @@ export const Book = () => {
     getUserBookLists();
   }, [id])
 
-  const handleMenuItemClick = (event, listId, listName, index) => {
+  const handleMenuItemClick = (event, listId, index) => {
       
       setSelectedIndex(index);
       setAnchorEl(null);
 
       let bookIds = [bookId];
-      postBooksToList(listName, bookIds,listId, listId);
+      postBooksToList(bookIds,listId, listId);
       
     };
   
@@ -213,7 +213,7 @@ export const Book = () => {
                           key={list.id}
                           value = {list.id}
                           selected={index === selectedIndex}
-                          onClick={(event) => handleMenuItemClick(event, list.id, list.bookListName, index)}>
+                          onClick={(event) => handleMenuItemClick(event, list.id, index)}>
 
                           {list.bookListName || list.listType}
                       </MenuItem>

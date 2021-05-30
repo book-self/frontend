@@ -1,6 +1,6 @@
 import { React, useState , useEffect} from 'react';
 import { useParams } from "react-router-dom";
-import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
+import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postMoveBooksOffList, postBooksListNameChange } from './BookListFetch';
 import {SingleBookDisplay} from '../../components/BookList/singleBookDisplay/SingleBookDisplay'
 
 import { useStyles } from './BookListStyles';
@@ -103,26 +103,33 @@ useEffect(() =>
       addToBookListId = event.target.value;
     }
 
-    const handleSubmit = function(event){
+    const handleChangeNameSubmit = function(event){
+      event.preventDefault();
       
-      console.log("BookIDS:" + bookIds);
-      if(addToBookListId != null)
+      if(editedName == null || editedName === "")
       {
-        console.log("Add to" + addToBookListId);
+        console.log(listId);  
+        console.log(bookListDetails.bookListName)
+        postBooksListNameChange(bookListDetails.bookListName, listId);
       }
       else
+      {
+        console.log(listId);
+        console.log(editedName);
+        postBooksListNameChange(editedName, listId);
+      }
+      
+    }
+
+    const handleMoveBooksSubmit = function(event){
+      console.log("BookIDS:" + bookIds);
+      
+      if(addToBookListId == null)
       {
         addToBookListId = listId;
       }
-      if(editedName == null || editedName === "")
-      {
-        
-        postBooksToList(bookListDetails.bookListName, bookIds,addToBookListId, listId);
-      }
-      else
-      {
-        postBooksToList(editedName, bookIds,addToBookListId, listId);
-      }
+
+      postMoveBooksOffList(bookIds,addToBookListId, listId);
       
     }
 
@@ -208,18 +215,30 @@ useEffect(() =>
                       </InputAdornment>
                     }
                   />
-                  
                   <Fab
                     type = "submit"
                     variant="extended"
                     style={{ backgroundColor: indigo[500], color: "white" }}
-                    onClick = {handleSubmit}
+                    onClick = {handleChangeNameSubmit}
                   >
                     <SaveIcon
                       className={classes.extendedIcon}
                       style={{ color: "white" }}
                     />
-                    Save Changes
+                    Change Name
+                  </Fab>
+                  
+                  <Fab
+                    type = "submit"
+                    variant="extended"
+                    style={{ backgroundColor: indigo[500], color: "white" }}
+                    onClick = {handleMoveBooksSubmit}
+                  >
+                    <SaveIcon
+                      className={classes.extendedIcon}
+                      style={{ color: "white" }}
+                    />
+                    Move Books
                   </Fab>
                 </Paper>
                 <Grid container spacing={2} justify="flex-start" alignItems="flex-start" direction = "row">
