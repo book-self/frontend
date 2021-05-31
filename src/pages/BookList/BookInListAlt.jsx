@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
-import { makeStyles } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 
 import { fetchBookById } from './BookListHttpRequests';
 
 // Customize look of grid here
-const gridListWidth = 200;
-const gridListHeight = 300;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: gridListWidth,
-    height: gridListHeight,
-  },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)",
-  },
-}));
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//     flexWrap: "wrap",
+//     justifyContent: "space-around",
+//     overflow: "hidden",
+//     backgroundColor: theme.palette.background.paper,
+//   },
+//   gridList: {
+//     width: gridListWidth,
+//     height: gridListHeight,
+//   },
+//   icon: {
+//     color: "rgba(255, 255, 255, 0.54)",
+//   },
+// }));
 
 const BookInListAlt = ({ id, bookListId }) => {
 

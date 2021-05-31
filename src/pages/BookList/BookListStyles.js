@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) =>({
       margin: theme.spacing(3),
     },
     background: 'white',
-        position: '-webkit-sticky',
+        
         position: 'sticky',
         top: 20,
         bottom: 20, 

@@ -185,7 +185,7 @@ useEffect(() =>
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel checked={"true"} value="remove" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Remove from ${userListDetails.listType}`}/>  
+                              <FormControlLabel value="remove" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Remove from ${userListDetails.listType}`}/>  
                                         
                               </div>)
 
