@@ -75,10 +75,7 @@ useEffect(() =>
     if(userId === null) return;
     async function getUserBookLists() {
       setAllUserBookLists(await fetchAllUserBookLists(userId));
-      
 
-      
-      
     }
     getUserBookLists();
   },[userId]
@@ -103,9 +100,9 @@ useEffect(() =>
         
     }
 
-    const handleBookListChange = function(event){
+    const handleBookListChange = function(event, newBookListId){
       
-      addToBookListId = event.target.value;
+      addToBookListId = newBookListId;
     }
 
     const handleChangeNameSubmit = function(event){
@@ -172,20 +169,20 @@ useEffect(() =>
              <div>
                <Paper className={classes.paperListOptions} elevation = {0}>
                  <Grid container wrap="nowrap" spacing={2} alignItems="center" justify="center">
-                  <FormControl> 
-                    <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="remove">
+                  <FormControl component="fieldset"> 
+                    <RadioGroup defaultValue="remove" row aria-label="position" name="list-change-radio">
                       {allUserBookLists.map((userListDetails, j) => {
    
                         if(userListDetails.id !== listId){
                           return (
                               <div> 
-                              <FormControlLabel value="move" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Add to ${userListDetails.listType}`}/>  
+                              <FormControlLabel value={`${j}`} control={<Radio color="primary" value = {`Add_${j}`} onChange={(event) => handleBookListChange(event, userListDetails.id)}/>} label={`Add to ${userListDetails.listType}`}/>  
                               </div>
                               )
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel value="remove" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Remove from ${userListDetails.listType}`}/>  
+                              <FormControlLabel value="remove" control={<Radio color="primary" value = "remove" onChange={(event) => handleBookListChange(event, userListDetails.id)}/>} label={`Remove from ${userListDetails.listType}`}/>  
                                         
                               </div>)
 
