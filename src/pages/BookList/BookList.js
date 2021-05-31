@@ -54,6 +54,7 @@ export const BookList = () =>{
     async function getBookDetails() {
       
       setBookListDetails(await fetchBookListDetails(listId));
+    
     }
 
     getBookDetails();
@@ -64,6 +65,7 @@ const userId = id;
   {
     async function getBooksInList() {
       setBooksInList(await fetchBooksInList(listId));
+      
     }
     getBooksInList();
   },[listId]
@@ -73,6 +75,9 @@ useEffect(() =>
     if(userId === null) return;
     async function getUserBookLists() {
       setAllUserBookLists(await fetchAllUserBookLists(userId));
+      
+
+      
       
     }
     getUserBookLists();
@@ -114,8 +119,7 @@ useEffect(() =>
       }
       else
       {
-        console.log(listId);
-        console.log(editedName);
+
         postBooksListNameChange(editedName, listId);
       }
       
@@ -169,19 +173,19 @@ useEffect(() =>
                <Paper className={classes.paperListOptions} elevation = {0}>
                  <Grid container wrap="nowrap" spacing={2} alignItems="center" justify="center">
                   <FormControl> 
-                    <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="end">
+                    <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="remove">
                       {allUserBookLists.map((userListDetails, j) => {
    
                         if(userListDetails.id !== listId){
                           return (
                               <div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Add to ${userListDetails.listType}`}/>  
+                              <FormControlLabel value="move" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Add to ${userListDetails.listType}`}/>  
                               </div>
                               )
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Remove from ${userListDetails.listType}`}/>  
+                              <FormControlLabel checked={"true"} value="remove" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`Remove from ${userListDetails.listType}`}/>  
                                         
                               </div>)
 
