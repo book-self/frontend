@@ -34,7 +34,8 @@ export const Router = () => {
     },
     {
       path: "/profile/book-list/:listId",
-      component: BookList
+      component: BookList,
+      auth: true
     },
     {
       path: "/search",
