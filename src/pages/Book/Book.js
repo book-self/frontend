@@ -2,27 +2,19 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import { Chip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import { UserRating } from './UserRating';
+import UserLeaveRating from './UserLeaveRating/UserLeaveRating';
 
-import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch';
-import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
+import { AddToBookListMenu } from '../../components/AddToBookListMenu/AddToBookListMenu';
+
+import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
 
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../store/User/UserSlice";
 
-
-const noUserOptions = [
-  'To Read',
-  'Read',
-  'Did Not Finish',
-];
 
 export const Book = () => {
   const classes = useStyles();
@@ -31,12 +23,13 @@ export const Book = () => {
 
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
-  const [allUserBookLists, setAllUserBookLists] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
 
-  const userId = null;
+
   const authors = book?.authors.map(author => author.name).join(', ');
+
+  const { username, userId } = useSelector(selectUser);
+  console.log(username);
+  console.log(userId);
 
 
   // if a new book is selected, scroll back to the top
@@ -72,51 +65,9 @@ export const Book = () => {
   }, [id, book]);
 
 
-  // USER ID WAS HARD CODED INT: MINE WAS 8
-  useEffect(() => {
-    if (userId === null)
-    {
-      return;
-    } 
-
-    async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(userId));
-    }
-
-    getUserBookLists();
-  }, [userId])
-
-  const handleMenuItemClick = (event, listId, listName, index) => {
-      
-      setSelectedIndex(index);
-      setAnchorEl(null);
-
-      let bookIds = [id];
-      postBooksToList(listName, bookIds,listId, listId);
-      
-    };
-  
-  const handleClickListItem = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClickNoUserItem = (event) =>{
-    setAnchorEl(event.currentTarget);
-  }
-
-  const handleMenuItemClickNoUser = (event, index) =>{
-    setSelectedIndex(index);
-    setAnchorEl(null);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
   return <>
     <div className={classes.bookContainer}>
-      { !book ? null :
+      { book &&
         <>
           <div className={classes.bookContainerLeft}>
             <div className={classes.bookImageAndRating}>
@@ -151,86 +102,9 @@ export const Book = () => {
           </div>
         </>
       }
-      
-   <div>
-            {
-              !allUserBookLists?
-              <>
-              <List component="nav" aria-label="Device settings">
-                  <ListItem
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="when device is locked"
-                  onClick={handleClickNoUserItem}
-                  >
-                  <ListItemText primary={noUserOptions[selectedIndex]} secondary="Sign up or log in to use."/>
-                  </ListItem>
-                </List>
-                 <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}                    
-                  >
-                    {noUserOptions.map((option, index) => (
-                      <MenuItem
-                        key={option}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClickNoUser(event, index)}
-                      >
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-              </>:
-              <>
-               
-                <List component="nav" aria-label="Device settings">
-                  <ListItem
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="when device is locked"
-                  onClick={handleClickListItem}
-                  >
-                  <ListItemText primary={allUserBookLists[selectedIndex].id} />
-                  </ListItem>
-                </List>
-
-              
-                <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    {allUserBookLists.map((list, index) => (
-                      <MenuItem
-                          key={list.id}
-                          value = {list.id}
-                          disabled={index === selectedIndex}
-                          selected={index === selectedIndex}
-                          onClick={(event) => handleMenuItemClick(event, list.id, list.bookListName, index)}>
-
-                          {list.id}
-                      </MenuItem>
-                      ))}
-                </Menu>
-              
-            
-              </>
-            }
-          </div>
-      
     </div>
-    <div>
-      
-    </div>
-    { 
-      !relatedBooks ? null : 
+
+    { relatedBooks &&  
       <div className={classes.carouselContainer}>
         {
           book?.authors.map((author, i) =>
@@ -248,9 +122,12 @@ export const Book = () => {
     }
 
 
-    <div style={{width: "70%", margin: '200px auto'}}>
-      <UserRating bookId={id} />
-    </div>
+    {
+      <div style={{width: "70%", margin: '200px auto'}}>
+        <UserLeaveRating bookId={id} />
+      </div>
+    }
+    
 
 { /* TODO - NOT FINISHED 
     <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>

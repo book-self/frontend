@@ -6,8 +6,8 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import clsx from  'clsx';
 
-import { fetchUserRating, postRating, patchRating } from './UserRatingFetch';
-import { useStyles } from './UserRatingStyles';
+import { fetchUserRating, postRating, patchRating } from './UserLeaveRatingFetch';
+import { useStyles } from './UserLeaveRatingStyles';
 
 
 export const UserRating = (props) => {
