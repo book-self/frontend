@@ -94,17 +94,5 @@ export const ShelfTest = (props) => {
      </Container>
      </>
    )
-//     <React.Fragment>
-//       <Container className={classes.root}>
-//         <GridList className={classes.gridList}>
 
-//           {books.map((id) => (
-//             <BookInList key={id} id={id} handleRemove={handleRemoveBook} />
-//           ))}
-//         </GridList>
-
-
-//       </Container>
-//     </React.Fragment>
-//   );
 };
