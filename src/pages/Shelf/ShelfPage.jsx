@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/User/UserSlice";
 import { Container } from "@material-ui/core";
-import { Shelf } from "../../components/Shelf/Shelf";
+
+import {ShelfTest} from "../../components/Shelf/ShelfTest"
 import { fetchBookLists } from "../../components/Shelf/ShelfFetch";
 
 export const ShelfPage = ({ location }) => {
@@ -21,7 +22,8 @@ export const ShelfPage = ({ location }) => {
   return (
     <Container maxWidth="sm">
       <h1>Book Lists of { username }</h1>
-      <Shelf lists={ bookLists } />
+      
+      <ShelfTest lists = {bookLists}/>
     </Container>
   );
 };

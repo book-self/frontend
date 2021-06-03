@@ -12,8 +12,10 @@ import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
 import { UserRating } from './UserRating';
 
-import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch';
-import { fetchBook, fetchRelatedBooks, postBooksToList } from './BookFetch';
+import { selectUser } from "../../store/User/UserSlice";
+import { useSelector } from "react-redux";
+
+import { fetchBook, fetchRelatedBooks, postBooksToList, fetchAllUserBookLists } from './BookFetch';
 import { useStyles } from './BookStyles';
 
 
@@ -26,7 +28,7 @@ const noUserOptions = [
 
 export const Book = () => {
   const classes = useStyles();
-  let { id } = useParams();
+  let { bookId } = useParams();
   const history = useHistory();
 
   const [book, setBook] = useState(null);
@@ -34,8 +36,8 @@ export const Book = () => {
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
-
-  const userId = null;
+  const {id} = useSelector(selectUser);
+  
   const authors = book?.authors.map(author => author.name).join(', ');
 
 
@@ -48,11 +50,11 @@ export const Book = () => {
 
   useEffect(() => {
     async function getBook() {
-      setBook(await fetchBook(id));
+      setBook(await fetchBook(bookId));
     }
 
     getBook();
-  }, [id]);
+  }, [bookId]);
 
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export const Book = () => {
 
     let getRelatedBooks = async () => {
       for (const author of book.authors) {
-        const booksBySameAuthor = await fetchRelatedBooks(id, author.id);
+        const booksBySameAuthor = await fetchRelatedBooks(bookId, author.id);
 
         if (booksBySameAuthor.length > 0) {
           setRelatedBooks(books => ({ ...books, [author.name]: booksBySameAuthor}));
@@ -69,30 +71,29 @@ export const Book = () => {
     }
 
     getRelatedBooks();
-  }, [id, book]);
+  }, [bookId, book]);
 
 
-  // USER ID WAS HARD CODED INT: MINE WAS 8
   useEffect(() => {
-    if (userId === null)
+    console.log(id);
+    if (id === null)
     {
       return;
     } 
-
     async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(userId));
+      setAllUserBookLists(await fetchAllUserBookLists(id));
     }
 
     getUserBookLists();
-  }, [userId])
+  }, [id])
 
-  const handleMenuItemClick = (event, listId, listName, index) => {
+  const handleMenuItemClick = (event, listId, index) => {
       
       setSelectedIndex(index);
       setAnchorEl(null);
 
-      let bookIds = [id];
-      postBooksToList(listName, bookIds,listId, listId);
+      let bookIds = [bookId];
+      postBooksToList(bookIds,listId, listId);
       
     };
   
@@ -195,7 +196,7 @@ export const Book = () => {
                   aria-label="when device is locked"
                   onClick={handleClickListItem}
                   >
-                  <ListItemText primary={allUserBookLists[selectedIndex].id} />
+                  <ListItemText primary={allUserBookLists[selectedIndex].bookListName || allUserBookLists[selectedIndex].listType}/>
                   </ListItem>
                 </List>
 
@@ -211,11 +212,10 @@ export const Book = () => {
                       <MenuItem
                           key={list.id}
                           value = {list.id}
-                          disabled={index === selectedIndex}
                           selected={index === selectedIndex}
-                          onClick={(event) => handleMenuItemClick(event, list.id, list.bookListName, index)}>
+                          onClick={(event) => handleMenuItemClick(event, list.id, index)}>
 
-                          {list.id}
+                          {list.bookListName || list.listType}
                       </MenuItem>
                       ))}
                 </Menu>
@@ -249,7 +249,7 @@ export const Book = () => {
 
 
     <div style={{width: "70%", margin: '200px auto'}}>
-      <UserRating bookId={id} />
+      <UserRating bookId={bookId} />
     </div>
 
 { /* TODO - NOT FINISHED 
