@@ -9,7 +9,7 @@ import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
 import { BookList } from './pages/BookList/BookList'
 import { ShelfPage } from "./pages/Shelf/ShelfPage";
-import { List } from "./pages/BookList/List";
+
 
 export const Router = () => {
   const routes = [
@@ -48,11 +48,6 @@ export const Router = () => {
     {
       path: "/book/:bookId",
       component: Book
-    },
-    {
-      path: "/shelf",
-      component: List,
-      auth: true
     },
     {
       path: "/shelves",
