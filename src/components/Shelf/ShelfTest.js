@@ -13,7 +13,8 @@ import {
   Container,
 } from "@material-ui/core";
 
-import ListAlt from './BookInListAlt'
+//import ListAlt from './BookInListAlt'
+import ListAlt from './ListAlt'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,13 +79,19 @@ export const ShelfTest = (props) => {
            
              <GridList className={classes.gridList} cols={1}>
            {
-             bookLists.map((bookList)=>
-             <div>
+             bookLists.map((bookList)=>{
+               
+               return (
+                  <div>
              <Link href = { `/profile/book-list/${bookList.id}`}>
              <ListAlt location = {bookList.id} bookListTitle = {bookList.listType}/>
             </Link>
               
               </div>
+               )
+                 
+             }
+            
              )
            }
             </GridList>

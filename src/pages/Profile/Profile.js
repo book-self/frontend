@@ -5,7 +5,6 @@ import axios from 'axios';
 import { Typography } from '@material-ui/core';
 
 import { selectUser } from '../../store/User/UserSlice';
-import { Shelf } from '../../components/Shelf/Shelf';
 import { ShelfTest } from "../../components/Shelf/ShelfTest";
 
 
