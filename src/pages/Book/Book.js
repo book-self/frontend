@@ -2,29 +2,18 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import { Chip, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import { UserRating } from './UserRating';
+import { AddToBookListMenu } from '../../components/AddToBookListMenu/AddToBookListMenu';
+import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 
-import { selectUser } from "../../store/User/UserSlice";
-import { useSelector } from "react-redux";
-
-import { fetchBook, fetchRelatedBooks, postBooksToList, fetchAllUserBookLists } from './BookFetch';
+import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
 
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../store/User/UserSlice";
 
-
-const noUserOptions = [
-  'To Read',
-  'Read',
-  'Did Not Finish',
-];
 
 export const Book = () => {
   const classes = useStyles();
@@ -33,13 +22,10 @@ export const Book = () => {
 
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
-  const [allUserBookLists, setAllUserBookLists] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const {id} = useSelector(selectUser);
-  
   const authors = book?.authors.map(author => author.name).join(', ');
 
+  const { id } = useSelector(selectUser);
+  console.log(id);
 
   // if a new book is selected, scroll back to the top
   useEffect(() => {
@@ -48,6 +34,7 @@ export const Book = () => {
   }, [book])
 
 
+  // get the book
   useEffect(() => {
     async function getBook() {
       setBook(await fetchBook(bookId));
@@ -57,6 +44,7 @@ export const Book = () => {
   }, [bookId]);
 
 
+  // get books related by author
   useEffect(() => {
     if (book === null) return;
 
@@ -74,50 +62,9 @@ export const Book = () => {
   }, [bookId, book]);
 
 
-  useEffect(() => {
-    console.log(id);
-    if (id === null)
-    {
-      return;
-    } 
-    async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(id));
-    }
-
-    getUserBookLists();
-  }, [id])
-
-  const handleMenuItemClick = (event, listId, index) => {
-      
-      setSelectedIndex(index);
-      setAnchorEl(null);
-
-      let bookIds = [bookId];
-      postBooksToList(bookIds,listId, listId);
-      
-    };
-  
-  const handleClickListItem = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClickNoUserItem = (event) =>{
-    setAnchorEl(event.currentTarget);
-  }
-
-  const handleMenuItemClickNoUser = (event, index) =>{
-    setSelectedIndex(index);
-    setAnchorEl(null);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
   return <>
     <div className={classes.bookContainer}>
-      { !book ? null :
+      { book &&
         <>
           <div className={classes.bookContainerLeft}>
             <div className={classes.bookImageAndRating}>
@@ -150,87 +97,13 @@ export const Book = () => {
               </div>
             </div>  
           </div>
+
+          <AddToBookListMenu bookId={bookId} />
         </>
       }
-      
-   <div>
-            {
-              !allUserBookLists?
-              <>
-              <List component="nav" aria-label="Device settings">
-                  <ListItem
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="when device is locked"
-                  onClick={handleClickNoUserItem}
-                  >
-                  <ListItemText primary={noUserOptions[selectedIndex]} secondary="Sign up or log in to use."/>
-                  </ListItem>
-                </List>
-                 <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}                    
-                  >
-                    {noUserOptions.map((option, index) => (
-                      <MenuItem
-                        key={option}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClickNoUser(event, index)}
-                      >
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-              </>:
-              <>
-               
-                <List component="nav" aria-label="Device settings">
-                  <ListItem
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="when device is locked"
-                  onClick={handleClickListItem}
-                  >
-                  <ListItemText primary={allUserBookLists[selectedIndex].bookListName || allUserBookLists[selectedIndex].listType}/>
-                  </ListItem>
-                </List>
-
-              
-                <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    {allUserBookLists.map((list, index) => (
-                      <MenuItem
-                          key={list.id}
-                          value = {list.id}
-                          selected={index === selectedIndex}
-                          onClick={(event) => handleMenuItemClick(event, list.id, index)}>
-
-                          {list.bookListName || list.listType}
-                      </MenuItem>
-                      ))}
-                </Menu>
-              
-            
-              </>
-            }
-          </div>
-      
     </div>
-    <div>
-      
-    </div>
-    { 
-      !relatedBooks ? null : 
+
+    { relatedBooks &&  
       <div className={classes.carouselContainer}>
         {
           book?.authors.map((author, i) =>
@@ -247,10 +120,11 @@ export const Book = () => {
       </div>
     }
 
-
-    <div style={{width: "70%", margin: '200px auto'}}>
-      <UserRating bookId={bookId} />
-    </div>
+    {
+      <div style={{width: "70%", margin: '200px auto'}}>
+        <UserLeaveRating bookId={bookId} />
+      </div>
+    }
 
 { /* TODO - NOT FINISHED 
     <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>

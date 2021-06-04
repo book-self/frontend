@@ -1,55 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+import { Typography } from '@material-ui/core';
+
 import { selectUser } from '../../store/User/UserSlice';
-import Button from '@material-ui/core/Button';
-import { Link } from "react-router-dom";
-import {fetchUserBookLists} from './ProfileFetch';
+import { Shelf } from '../../components/Shelf/Shelf';
+import { ShelfTest } from "../../components/Shelf/ShelfTest";
+
+
+const fetchBookLists = (id) => {
+    const url = `${process.env.REACT_APP_API_URL}/v1/users/${id}/book-lists`
+    return axios.get(url);
+}
+
 
 export const Profile = () => {
-
   const { username, id } = useSelector(selectUser);
-
   const [bookLists, setBookLists] = useState([]);
 
-  const storedItem = localStorage.getItem('token');
-  console.log("Token: ", storedItem)
-  console.log(localStorage)
-  console.log(username)
 
-  const userId = null;
-
-  useEffect(() =>
-  {
-    if(userId === null) return;
-    async function getUserBookLists() {
-      setBookLists(await fetchUserBookLists(userId));
-
-    }
-    getUserBookLists();
-  },[id]
-    )
-
-  return(
-    <div>
-      <h1>Welcome, { username }</h1>
-      {
-        !bookLists ? null :
-        <div>
-          {bookLists.map((bookList, j) => {
-            return (
-              <div>
-            <Button component={ Link } to={"/profile/book-list/" + bookList.id} variant="contained" color="primary">
-              {bookList.listType}
-            </Button>
-          </div>
-            )
-           
-          }
-
-          )}
-          
-        </div>
+  useEffect(() => {
+    (
+      async () => {
+        const { data } = await fetchBookLists(id);
+        setBookLists(data);
       }
+    )()
+  }, [id]);
+
+
+  return (
+    <div style={{width: '80%', margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+      <Typography variant="h3" style={{fontWeight: '500', margin: '5rem 0'}}>Welcome <b>{ username }</b></Typography>
+      {/* <Shelf lists={bookLists} /> */}
+      <ShelfTest lists={bookLists} />
     </div>
   )
 }
