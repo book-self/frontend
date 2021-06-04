@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMediaQuery, useTheme, Slide, TextField, Typography, Card, Chip, IconButton } from '@material-ui/core';
-import { ArrowUpward, Search } from '@material-ui/icons';
+import { ArrowUpward } from '@material-ui/icons';
 import clsx from  'clsx';
-import TextLoop from 'react-text-loop';
+
+import { LargeHeader } from './LargeHeader';
+import { SmallHeader } from './SmallHeader';
 
 import BookCarousel from '../../components/Carousel/BookCarousel.js';
 import Book from "../../components/Carousel/Book.js";
@@ -57,7 +59,9 @@ export const Home = () => {
   const [displayScrollBtn, setDisplayScrollBtn] = useState(false);
   const history = useHistory();
 
-  const numBooksPerRow = decideNumBooksPerRow(useWidth());
+  const deviceWidth = useWidth();
+  console.log(deviceWidth);
+  const numBooksPerRow = decideNumBooksPerRow(deviceWidth);
   console.log(numBooksPerRow);
 
   // book card:
@@ -103,46 +107,16 @@ export const Home = () => {
 
   const processSearchQuery = (text) => { setSearchQuery(text.trim()) }
   const executeSearchQuery = () => { if (searchQuery.trim()) history.push(`/search?q=${searchQuery}`) }
+  const theme = useTheme();
 
 
   return <>
-    <header className={classes.headerContainer}>
-      <div className={clsx(classes.leftContainer, classes.contentContainer)}>
-        <Card className={clsx(classes.headerCard, classes.leftCard)}>
-          <Typography variant="h1" component="h1" className={classes.bookselfTitle}>
-            <span style={{fontWeight: "50"}}>Book</span> <span style={{fontWeight: "300"}}>Self</span>
-          </Typography>
-          <Typography variant="h5" component="h2" className={classes.bookselfDescription}>a self-curated library of your books.</Typography>
-          <ul className={classes.featuresList}>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Browse through our collection of thousands of books.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Add books of interest to your own personal lists.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Review and rate books you've read, save those you haven't.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Join book clubs and chat with like-minded readers!</Typography></li>
-          </ul>
-        </Card>
-      </div>
-
-      <div className={clsx(classes.rightContainer, classes.contentContainer)}>
-        <Card className={clsx(classes.headerCard, classes.rightCard)}>
-          <Typography className={classes.searchBarText}>
-              Search for a book by its {" "}
-              <TextLoop>
-                  <b>title</b>
-                  <b>author</b>
-                  <b>genre</b>
-                  <b>content</b>
-              </TextLoop>
-          </Typography>
-          <TextField 
-            className={classes.searchBar}
-            InputProps={{endAdornment: <IconButton style={{padding: '3.5px'}}><Search onClick={executeSearchQuery} /></IconButton>}}
-            variant="outlined"
-            onInput={event => { if (event.target.value.trim()) processSearchQuery(event.target.value) }}
-            onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
-          />
-        </Card>
-      </div>
-    </header>
+    { 
+      useMediaQuery(theme.breakpoints.up('md')) ? 
+        <LargeHeader processSearchQuery={processSearchQuery} executeSearchQuery={executeSearchQuery} /> 
+      : 
+        <SmallHeader processSearchQuery={processSearchQuery} executeSearchQuery={executeSearchQuery} />
+    }
 
     <div className={classes.categoriesContainer}>
       <Typography variant="h4">Categories you might be interested in</Typography>
