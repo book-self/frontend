@@ -1,22 +1,32 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
     bookContainer: {
       display: "flex",
-      alignItems: "flex-start",
       width: '90vw',
-      margin: '6vh auto 7.5vh auto',
-      minHeight: '75vh'
+      margin: '5vh auto 7.5vh auto',
+      minHeight: '75vh',
+      flexDirection: 'column',
+      alignItems: 'center',
+
+      [theme.breakpoints.up('lg')]: {
+        flexDirection: 'row',
+        alignItems: "flex-start",
+      }
     },
   
     bookContainerLeft: {
       width: '40%',
       textAlign: 'center',
-      height: '75vh',
+      height: '550px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'flex-start',
+
+      [theme.breakpoints.up('lg')]: {
+        height: '75vh',
+      }
     },
   
     bookImageAndRating: {
@@ -25,7 +35,10 @@ export const useStyles = makeStyles({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+
+      [theme.breakpoints.up('lg')]: {
+        justifyContent: 'center',
+      }
     },
 
     rating: {
@@ -39,33 +52,52 @@ export const useStyles = makeStyles({
   
     bookContainerRight: {
       boxSizing: 'border-box',
-      width: '60%',
+      width: '100%',
       height: '100%',
       display: 'flex',
-      alignItems: "flex-start",
+      alignItems: 'center',
       justifyContent: "flex-start",
       flexDirection: 'column',
-      padding: '25px',
-      paddingLeft: '100px',
-      borderLeft: '3px solid grey',
+      paddingTop: '25px',
+
+      [theme.breakpoints.up('lg')]: {
+        alignItems: "flex-start",
+        borderLeft: '3px solid grey',
+        width: '60%',
+        paddingLeft: '5%',
+      }
     },
   
     bookTitle: {
       fontVariant: 'small-caps',
       textTransform: 'lowercase',
       fontWeight: 'bold',
-      width: '35vw',
-      lineHeight: '.9'
+      width: '90%',
+      maxWidth: '600px',
+      lineHeight: '.9',
+      marginBottom: '1rem',
+      textAlign: 'center',
+
+      [theme.breakpoints.up('lg')]: {
+        textAlign: 'left',
+      }
     },
   
     bookAuthors: {
-      margin: "1rem 0"
+      margin: "1rem 0",
+      maxWidth: '75vw',
+      textAlign: 'center',
+
+      [theme.breakpoints.up('lg')]: {
+        textAlign: 'left',
+      }
     },
   
     bookBlurb: {
       padding: '2rem',
       paddingLeft: '4rem',
-      width: '37.5vw',
+      width: '100%',
+      maxWidth: '650px',
       textAlign: 'justify',
       lineHeight: '1.5rem'
     },
@@ -75,19 +107,28 @@ export const useStyles = makeStyles({
       width: '90%',
       position: 'relative',
       display: 'flex',
-      justifyContent: 'space-between',
-      flexFlow: 'wrap'
+      justifyContent: 'space-around',
+      flexFlow: 'wrap',
+
+      [theme.breakpoints.up('lg')]: {
+        justifyContent: 'space-between',
+      }
     },
   
     bookGenreList: {
       width: '350px',
-      marginBottom: '1rem'
+      marginBottom: '1rem',
+      textAlign: 'center',
+
+      [theme.breakpoints.up('lg')]: {
+        textAlign: 'left',
+      }
     },
 
     bookDataTable: {
-      marginTop: '2rem',
+      margin: '3rem 0',
       textAlign: 'right',
-      width: "350px"
+      width: "325px",
     },
   
     bookDataLabel: {
@@ -102,4 +143,4 @@ export const useStyles = makeStyles({
       justifyContent: "center",
       marginBottom: "100px"
     },
-});
+}));

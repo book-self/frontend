@@ -14,63 +14,16 @@ import { useStyles } from './HomeStyles';
 import { fetchBooks, fetchCategories } from './HomeFetch';
 
 
-/*
-  xs, extra-small: 0px
-  sm, small: 600px
-  md, medium: 960px
-  lg, large: 1280px
-  xl, extra-large: 1920px
-
-  from https://material-ui.com/components/use-media-query/#migrating-from-withwidth
-*/
-function useWidth() {
-  const theme = useTheme();
-  const keys = [...theme.breakpoints.keys].reverse();
-  return (
-    keys.reduce((output, key) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const matches = useMediaQuery(theme.breakpoints.up(key));
-      return !output && matches ? key : output;
-    }, null) || 'xs'
-  );
-}
-
-
-const decideNumBooksPerRow = (breakpoint) => {
-  switch (breakpoint) {
-    case 'xs':
-    case 'sm':
-      return 1
-    case 'md':
-      return 2
-    case 'lg':
-      return 3;
-    case 'xl':
-      return 4;
-  }
-}
-
-
 export const Home = () => {
+  const theme = useTheme();
   const classes = useStyles();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState({});
   const [displayScrollBtn, setDisplayScrollBtn] = useState(false);
+
   const history = useHistory();
-
-  const deviceWidth = useWidth();
-  console.log(deviceWidth);
-  const numBooksPerRow = decideNumBooksPerRow(deviceWidth);
-  console.log(numBooksPerRow);
-
-  // book card:
-    // minWidth ~250px
-    // maxWidth ~450px
-  // xs, sm: 1 book
-  // md: 2 books
-  // lg: 3 books? 4?
-  // xl: 4 books? 5? 6?
 
 
   // fetching of categories to make into carousels (TODO will eventually recommend categories based on the logged-in user)
@@ -107,7 +60,6 @@ export const Home = () => {
 
   const processSearchQuery = (text) => { setSearchQuery(text.trim()) }
   const executeSearchQuery = () => { if (searchQuery.trim()) history.push(`/search?q=${searchQuery}`) }
-  const theme = useTheme();
 
 
   return <>
@@ -144,8 +96,7 @@ export const Home = () => {
             <BookCarousel
               key={i}
               title={category}
-              books={books[category]?.map((book, j) => <Book key={j} {...book} numBooksPerRow={numBooksPerRow} />)}
-              perRow={numBooksPerRow}
+              books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
             />
           </div>
         )

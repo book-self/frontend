@@ -84,7 +84,7 @@ export const Book = () => {
                 { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
               </div>
               <div className={classes.bookDataTable}>
-                <table>
+                <table style={{width: '100%'}}>
                   <tr>
                     <td><Typography variant="h6" className={classes.bookDataLabel} style={{marginRight: '25px'}}>Publication date: </Typography></td>
                     <td><Typography variant="h6">{book.published}</Typography></td>
@@ -121,7 +121,7 @@ export const Book = () => {
     }
 
     {
-      <div style={{width: "70%", margin: '200px auto'}}>
+      <div style={{margin: '200px auto'}}>
         <UserLeaveRating bookId={bookId} />
       </div>
     }

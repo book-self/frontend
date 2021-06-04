@@ -7,8 +7,6 @@ import { useStyles } from './HomeStyles';
 export const SmallHeader = (props) => {
     const classes = useStyles();
     
-    // className={clsx(classes.headerCard, classes.leftCard)}
-
     return (
       <header>
         <Card style={{textAlign: 'center', width: '75vw', margin: 'auto'}}>
