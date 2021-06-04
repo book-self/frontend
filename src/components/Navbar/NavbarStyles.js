@@ -13,7 +13,8 @@ export const useStyles = makeStyles((theme) => ({
     padding: '5px 10px',
     paddingBottom: '5px',
     borderRadius: '5px',
-    border: '3px solid black'
+    border: '3px solid black',
+    marginRight: '15px'
   },
 
   title: {
@@ -40,7 +41,7 @@ export const useStyles = makeStyles((theme) => ({
 
   menu: {
     marginLeft: theme.spacing(2),
-    flexGrow: 1
+    flexGrow: 1,
   },
 
   account: {

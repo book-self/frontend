@@ -34,7 +34,7 @@ export const Profile = () => {
     <div style={{width: '80%', margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
       <Typography variant="h3" style={{fontWeight: '500', margin: '5rem 0'}}>Welcome <b>{ username }</b></Typography>
       {/* <Shelf lists={bookLists} /> */}
-      {/* <ShelfTest lists={bookLists} /> */}
+      <ShelfTest lists={bookLists} />
     </div>
   )
 }

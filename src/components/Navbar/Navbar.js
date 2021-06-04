@@ -84,7 +84,7 @@ export const Navbar = () => {
 
         <Box className={classes.menu}>
           { localStorage.getItem('token') && navBarUserRoutes.map(routeInfo =>
-              <Button component={Link} key={routeInfo['route']} to={routeInfo['route']} className={clsx({ [classes.navBarCurrentRoute]: routeInfo['route'] === curPath })}>
+              <Button component={Link} style={{fontSize: '.95rem'}} key={routeInfo['route']} to={routeInfo['route']} className={clsx({ [classes.navBarCurrentRoute]: routeInfo['route'] === curPath })}>
                 { routeInfo['name'] }
               </Button>
             )

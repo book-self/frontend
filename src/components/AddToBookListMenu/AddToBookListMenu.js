@@ -55,12 +55,12 @@ export const AddToBookListMenu = (props) => {
                 <Checkbox
                   color="primary"
                   checked={bookList.checked}
-                  onChange={() => handleChange(index)}
+                  onChange={(event) => handleChange(index)}
                   title={bookList.checked ? 'It is already in this list' : null}
                 />
               }
               label={bookList.bookListName ?? bookList.listType}
-          />
+          />  
         )
       }
     </FormControl>

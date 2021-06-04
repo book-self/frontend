@@ -15,24 +15,24 @@ export const useStyles = makeStyles({
       '&:hover': {
         cursor: 'pointer',
         backgroundColor: '#EAEAEA'
-      }
+      },
     },
   
     bookImageCell: {
       verticalAlign: 'top',
       padding: '25px',
-      borderRight: '2px solid #EAEAEA'
+      borderRight: '2px solid #EAEAEA',
+      flexDirection: 'column'
     },
   
     bookDataCell: {
       verticalAlign: 'top',
       position: 'relative',
-      padding: '35px 35px 35px 25px'
+      padding: '35px 35px 35px 25px',
+      width: '35vw'
     },
   
     bookBlurb: {
-      height: "125px",
-      overflow: "hidden",
       padding: "10px 10px 10px 10px",
       lineHeight: '1.5rem'
     }
