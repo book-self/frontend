@@ -31,7 +31,8 @@ const useStyles = makeStyles({
     },
 
     bookCard: {
-        width: "20vw",
+        minWidth: '250px',
+        maxWidth: '450px',
         textAlign: "center",
         margin: "25px",
         minHeight: '350px'
@@ -59,7 +60,7 @@ export default function Book(props) {
                 </div>
             }
         >
-            <Card className={classes.bookCard}>
+            <Card className={classes.bookCard} style={{width: `calc(100% / ${props.numBooksPerRow})`}}>
                 <Link to={`/book/${props.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
                     <CardActionArea style={{paddingTop: "25px"}}>
                         <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${props.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={props.title} />

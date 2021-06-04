@@ -31,7 +31,7 @@ export default function BookCarousel(props) {
   
     return <>
         {
-            bookRows.length === 0 ? null :
+            bookRows?.length > 0 &&
             <>
                 <div className={classes.urlFragmentTarget} id={encodeURI(props.title)}></div>
                 <div className={classes.carouselWrapper}>
