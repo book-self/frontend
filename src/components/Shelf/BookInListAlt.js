@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import GridListTile from "@material-ui/core/GridListTile";
 
-import { fetchBookById } from './BookListHttpRequests';
+import { fetchBookById } from '../../pages/BookList/BookListHttpRequests';
 
 // Customize look of grid here
 

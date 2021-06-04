@@ -14,8 +14,10 @@ import {
 } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { signOut, selectUser, clearUser } from '../../store/User/UserSlice';
+
+import clsx from 'clsx';
 
 import { useStyles } from './NavbarStyles';
 
@@ -59,6 +61,14 @@ export const Navbar = () => {
     setMenuStatus(null);
   };
 
+  const curPath = useLocation()?.pathname;
+  const navBarUserRoutes = [
+    {
+      name: "Profile",
+      route: "/profile"
+    }
+  ];
+
   return (
     <AppBar position="fixed">
       <Toolbar className={classes.toolBar}>
@@ -73,15 +83,12 @@ export const Navbar = () => {
         </Link>
 
         <Box className={classes.menu}>
-          {localStorage.getItem('token') ? (
-            [
-              <Button component={Link} key="home" to="/">Home</Button>,
-              <Button component={Link} key="profile" to="/profile">Profile</Button>,
-              <Button component={Link} key="shelves" to="/shelves">Book Lists</Button>,
-            ]
-          ) : (
-            <Button component={Link} to="/">Home</Button>
-          )}
+          { localStorage.getItem('token') && navBarUserRoutes.map(routeInfo =>
+              <Button component={Link} style={{fontSize: '.95rem'}} key={routeInfo['route']} to={routeInfo['route']} className={clsx({ [classes.navBarCurrentRoute]: routeInfo['route'] === curPath })}>
+                { routeInfo['name'] }
+              </Button>
+            )
+          }
         </Box>
 
         <Box>

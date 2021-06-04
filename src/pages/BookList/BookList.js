@@ -1,7 +1,7 @@
 import { React, useState , useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postMoveBooksOffList, postBooksListNameChange } from './BookListFetch';
-import {SingleBookDisplay} from '../../components/BookList/singleBookDisplay/SingleBookDisplay'
+import {SingleBookDisplay} from '../../components/bookList/singleBookDisplay/SingleBookDisplay'
 
 import { useStyles } from './BookListStyles';
 
@@ -35,7 +35,7 @@ import {
 } from "@material-ui/core/colors";
 
 
-export const BookList = () =>{
+export const BookList = () => {
   const classes = useStyles();
 
   const [bookListDetails, setBookListDetails] = useState(null);

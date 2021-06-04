@@ -25,8 +25,8 @@ export const SignInForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: ''
+      username: `${process.env.REACT_APP_TEST_USERNAME}`,
+      password: `${process.env.REACT_APP_TEST_PASSWORD}`
     },
     validationSchema: validationSchema,
     onSubmit: (payload, actions) => {

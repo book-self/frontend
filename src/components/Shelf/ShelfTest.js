@@ -13,7 +13,7 @@ import {
   Container,
 } from "@material-ui/core";
 
-import ListAlt from '../../pages/BookList/ListAlt'
+import ListAlt from './BookInListAlt'
 
 const useStyles = makeStyles((theme) => ({
   root: {

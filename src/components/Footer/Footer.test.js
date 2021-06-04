@@ -6,6 +6,6 @@ test('renders footer', () => {
     <Footer/>
   );
 
-  const text = screen.getByText(/© BookSelf/i);
+  const text = screen.getByText(/Book Self/i);
   expect(text).toBeInTheDocument();
 });

@@ -50,11 +50,6 @@ export const Router = () => {
       component: Book
     },
     {
-      path: "/shelves",
-      component: ShelfPage,
-      auth: true
-    },
-    {
       path: "*",
       component: NotFound
     }
