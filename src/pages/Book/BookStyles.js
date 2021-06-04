@@ -85,7 +85,8 @@ export const useStyles = makeStyles((theme) => ({
   
     bookAuthors: {
       margin: "1rem 0",
-      maxWidth: '75vw',
+      width: '100%',
+      maxWidth: '750px',
       textAlign: 'center',
 
       [theme.breakpoints.up('lg')]: {
