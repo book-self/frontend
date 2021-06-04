@@ -1,23 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Rating } from '@material-ui/lab';
-import { IconButton, TextField, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+  IconButton, TextField, Typography
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 
-import clsx from  'clsx';
-
-import { fetchUserRating, postRating, patchRating } from './UserLeaveRatingFetch';
+import { fetchUserRating, postRating, patchRating, deleteRating } from './UserLeaveRatingFetch';
 import { useStyles } from './UserLeaveRatingStyles';
 
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../../store/User/UserSlice";
+import { Prompt } from 'react-router';
 
-export const UserRating = (props) => {
+
+export const UserLeaveRating = (props) => {
     const classes = useStyles();
 
-    const [userRating, setUserRating] = useState(0);
-    const [userReview, setUserReview] = useState("Leave an optional review.");
+    const { id } = useSelector(selectUser);
 
-    const [displayReview, setDisplayReview] = useState(false);
+    const [userRating, setUserRating] = useState(0);
+    const [userReview, setUserReview] = useState(null);
+
+    const [isAlreadyRated, setIsAlreadyRated] = useState(false);
     const [isReviewEditable, setIsReviewEditable] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
 
     useEffect(() => {
@@ -25,77 +33,120 @@ export const UserRating = (props) => {
         const json = await fetchUserRating(props.bookId);
   
         if (json) { // if they have already left a rating
-          
           setUserRating(json["rating"]);
-          setUserReview(json["comment"] ?? "Leave an optional review."); // review could possibly be empty as it's optional
-          setDisplayReview(true);
+          setUserReview(json["comment"]); // review could possibly be empty as it's optional
+          setIsAlreadyRated(true);
         }
       }
   
-      // TODO only if the user exists:
       getUserRating();
     }, [props.bookId]);
 
 
     const handleRatingChange = (_, value) => {
-        if (!displayReview) // must be their very first rating of this book, not very semantic... to be improved
-            postRating(props.bookId, { "rating": value });
+        if (!isAlreadyRated)
+          postRating(props.bookId, { "rating": value });
         else
-            patchRating(props.bookId, { "rating": value });
+          patchRating(props.bookId, { "rating": value });
 
         setUserRating(value);
-        setDisplayReview(true);
+        setIsAlreadyRated(true);
     };
-  
 
-    const handleReviewChange = event => {
-        setUserReview(event.target.value);
-        setDisplayReview(true);
-    };
-  
 
     const handleReviewSubmit = () => {
-        patchRating(props.bookId, { "comment": userReview }); // user pressed on the save icon
+        let review = userReview?.trim();
+        if (review === '') review = null;
+
+        setUserReview(review);
+        patchRating(props.bookId, { "comment": review }); // user pressed on the save icon
     };
 
-    return (
-        <div style={{textAlign: 'center', display: 'flex'}}>
+
+    const handleRatingDelete = () => {
+      deleteRating(props.bookId)
+        .then(statusCode => {
+          if (statusCode === 200) {
+            // reset all state to defaults:
+            setUserRating(0);
+            setUserReview(null);
+            setIsAlreadyRated(false);
+            setIsReviewEditable(false);
+            setIsDeleteDialogOpen(false);
+          }
+        });
+    }
+
+
+    return ( id &&
+      <>
+        <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'}}>
             <div style={{width: "50%"}}>
-                { displayReview ?
-                    <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>Your rating</Typography>
-                :
-                <>
+                { isAlreadyRated ? <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>Your rating</Typography> :
+                  <>
                     <Typography variant="h2" style={{fontWeight: 'bold'}} gutterBottom>Read this book?</Typography>
                     <Typography variant="h4" style={{marginBottom: '1rem'}}>Leave your rating</Typography>
-                </>
+                  </>
                 }
-                <Rating style={{marginTop: '2rem'}} value={userRating} precision={1} size="large" onChange={handleRatingChange} />
+                <Rating style={{marginTop: '1rem'}} value={userRating} precision={1} size="large" onChange={handleRatingChange} />
             </div>
 
-            <div className={ clsx(classes.review, { 'display: none': !displayReview, 'display: flex': displayReview }) }>
+          { isAlreadyRated && <>
+            <div className={classes.review}>
                 <TextField
-                    label="Share your opinion"
+                    label={userReview ? null : "Leave an optional review"}
                     multiline
                     style={{width: "85%"}}
                     rows={10}
                     variant="outlined"
-                    onChange={handleReviewChange}
-                    value={userReview}
+                    onChange={(event) => setUserReview(event.target.value)}
+                    value={userReview ?? ''}
                     InputProps={{
                         className: classes.textField,
                     }}
                     disabled={!isReviewEditable}
                 />
                 { !isReviewEditable ?
-                    <IconButton style={{position: 'relative', top: '-30px', left: '15px'}} onClick={() => { setIsReviewEditable(true); }}>
+                    <IconButton className={classes.iconButton} onClick={() => { setIsReviewEditable(true); }}>
                         <EditIcon />
                     </IconButton>
                 :
-                    <IconButton style={{position: 'relative', top: '-30px', left: '15px'}} onClick={() => { handleReviewSubmit(); setIsReviewEditable(false); }}>
+                    <IconButton className={classes.iconButton} onClick={() => { handleReviewSubmit(); setIsReviewEditable(false); }}>
                         <SaveIcon />
                     </IconButton>
                 } 
             </div>
+
+            <IconButton onClick={() => setIsDeleteDialogOpen(true)}>
+              <DeleteForever style={{fontSize: "2.5rem"}} />
+            </IconButton>
+
+            <Dialog open={isDeleteDialogOpen} onClose={() => setIsDeleteDialogOpen(false)}>
+              <DialogTitle>{'Delete your rating & review?'}</DialogTitle>
+
+              <DialogContent>
+                <DialogContentText>
+                  This action can't be undone. But you can always leave another rating if you change your mind later. 
+                </DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+                <Button onClick={() => setIsDeleteDialogOpen(false)} color="secondary">
+                  Disagree
+                </Button>
+                <Button onClick={handleRatingDelete} color="primary" autoFocus>
+                  Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </>
+          }
         </div>
+
+        <Prompt
+          when={isReviewEditable}
+          message="You haven't saved your review! Do you still want to leave?"
+        />
+      </>
     )
 }

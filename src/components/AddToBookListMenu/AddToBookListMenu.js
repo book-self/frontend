@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import { List, ListItem, ListItemText, Menu, MenuItem } from '@material-ui/core';
 
-import { fetchAllUserBookLists } from '../../components/bookList/bookListDisplay/BookListFetch';
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../store/User/UserSlice";
+
+import { fetchAllUserBookLists } from '../../pages/BookList/BookListFetch';
 import { postBooksToList } from './AddToBookListMenuFetch';
 
 
-const noUserOptions = [
-  'To Read',
-  'Read',
-  'Did Not Finish',
-];
-
-
-export const AddToBookListMenu = () => {
+export const AddToBookListMenu = (props) => {
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const { username, userId } = useSelector(selectUser);
+  console.log(username);
+  console.log(userId);
 
 
   useEffect(() => {
@@ -33,28 +33,21 @@ export const AddToBookListMenu = () => {
       setSelectedIndex(index);
       setAnchorEl(null);
 
-      let bookIds = [id];
+      let bookIds = [props.bookId];
       postBooksToList(listName, bookIds, listId, listId);
-      
   };
-  
+
 
   return <div>
     {
-      allUserBookLists &&
-      <>
+      allUserBookLists && <>
           <List component="nav">
             <ListItem button onClick={(event) => setAnchorEl(event.currentTarget)}>
               <ListItemText primary={allUserBookLists[selectedIndex].id} />
             </ListItem>
           </List>
 
-          <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
-          >
+          <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} >
               { allUserBookLists.map((list, index) => (
                   <MenuItem
                           key={list.id}

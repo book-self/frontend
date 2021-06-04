@@ -9,11 +9,11 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'white',
-    // padding: '5px 10px',
+    backgroundColor: 'white',
+    padding: '5px 10px',
     paddingBottom: '5px',
-    // borderRadius: '5px',
-    // border: '3px solid black'
+    borderRadius: '5px',
+    border: '3px solid black'
   },
 
   title: {
@@ -21,6 +21,11 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: "lowercase",
     color: 'black',
     fontSize: '1.5rem'
+  },
+
+  navBarCurrentRoute: {
+    fontWeight: 'bold',
+    textDecoration: 'underline'
   },
 
   image: {

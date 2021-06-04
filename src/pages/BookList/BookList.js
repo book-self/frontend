@@ -1,9 +1,12 @@
 import { React, useState , useEffect} from 'react';
 import { useParams } from "react-router-dom";
-import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postBooksToList } from './BookListFetch';
-import {SingleBookDisplay} from './singleBookDisplay/SingleBookDisplay'
+import { fetchBookListDetails,fetchBooksInList, fetchAllUserBookLists, postMoveBooksOffList, postBooksListNameChange } from './BookListFetch';
+import {SingleBookDisplay} from '../../components/bookList/singleBookDisplay/SingleBookDisplay'
 
 import { useStyles } from './BookListStyles';
+
+import { selectUser } from "../../store/User/UserSlice";
+import { useSelector } from "react-redux";
 
 import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 import SaveIcon from "@material-ui/icons/Save";
@@ -32,15 +35,16 @@ import {
 } from "@material-ui/core/colors";
 
 
-export const BookList = () =>{
+export const BookList = () => {
   const classes = useStyles();
 
-  const [bookDetails, setBookDetails] = useState(null);
+  const [bookListDetails, setBookListDetails] = useState(null);
   const [booksInList, setBooksInList] = useState(null);
   const [allUserBookLists, setAllUserBookLists] = useState(null);
   const [editedName, setEditedName] = useState("");
+  const {id} = useSelector(selectUser);
 
-  let { id } = useParams();
+  let { listId } = useParams();
   
   const handleEditListName = (event) => {
     setEditedName(event.target.value);
@@ -49,27 +53,29 @@ export const BookList = () =>{
   useEffect(() => {
     async function getBookDetails() {
       
-      setBookDetails(await fetchBookListDetails(id));
+      setBookListDetails(await fetchBookListDetails(listId));
+    
     }
 
     getBookDetails();
-  }, [id]);
+  }, [listId]);
 
-const userId = bookDetails?.userId;
+const userId = id;
   useEffect(() =>
   {
     async function getBooksInList() {
-      setBooksInList(await fetchBooksInList(id));
+      setBooksInList(await fetchBooksInList(listId));
+      
     }
     getBooksInList();
-  },[id]
+  },[listId]
 )
 useEffect(() =>
   {
     if(userId === null) return;
     async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(8));
-      
+      setAllUserBookLists(await fetchAllUserBookLists(userId));
+
     }
     getUserBookLists();
   },[userId]
@@ -94,31 +100,37 @@ useEffect(() =>
         
     }
 
-    const handleBookListChange = function(event){
+    const handleBookListChange = function(event, newBookListId){
       
-      addToBookListId = event.target.value;
+      addToBookListId = newBookListId;
     }
 
-    const handleSubmit = function(event){
+    const handleChangeNameSubmit = function(event){
+      event.preventDefault();
       
-      console.log("BookIDS:" + bookIds);
-      if(addToBookListId != null)
-      {
-        console.log("Add to" + addToBookListId);
-      }
-      else
-      {
-        addToBookListId = id;
-      }
       if(editedName == null || editedName === "")
       {
-        
-        postBooksToList(bookDetails.bookListName, bookIds,addToBookListId, id);
+        console.log(listId);  
+        console.log(bookListDetails.bookListName)
+        postBooksListNameChange(bookListDetails.bookListName, listId);
       }
       else
       {
-        postBooksToList(editedName, bookIds,addToBookListId, id);
+
+        postBooksListNameChange(editedName, listId);
       }
+      
+    }
+
+    const handleMoveBooksSubmit = function(event){
+      console.log("BookIDS:" + bookIds);
+      
+      if(addToBookListId == null)
+      {
+        addToBookListId = listId;
+      }
+
+      postMoveBooksOffList(bookIds,addToBookListId, listId);
       
     }
 
@@ -128,12 +140,12 @@ useEffect(() =>
           <div>
         
             {
-              !bookDetails ? null:
+              !bookListDetails ? null:
               <div>
             
                 <Paper className={classes.paper} elevation={0}>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item>
+                <Grid container wrap="nowrap" spacing={2} alignItems="center" justify="center">
+                
                     <Avatar className={classes.indigo}>
                       <LibraryBooksTwoToneIcon
                         style={{
@@ -142,14 +154,13 @@ useEffect(() =>
                         }}
                       />
                     </Avatar>
-                  </Grid>
-                  <Grid item xs zeroMinWidth>
                     <Typography variant="h4" component="h4" noWrap>
-                      {bookDetails.editedName || bookDetails.bookListName}
+                      {bookListDetails.editedName || bookListDetails.bookListName}
                     </Typography>
-                  </Grid>
+                
                 </Grid>
               </Paper>
+              
               </div>
             }
             {
@@ -158,19 +169,20 @@ useEffect(() =>
              <div>
                <Paper className={classes.paperListOptions} elevation = {0}>
                  <Grid container wrap="nowrap" spacing={2} alignItems="center" justify="center">
-                  <FormControl> 
-                    <RadioGroup row aria-label="position" name="list-change-radio" defaultValue="end">
+                  <FormControl component="fieldset"> 
+                    <RadioGroup defaultValue="remove" row aria-label="position" name="list-change-radio">
                       {allUserBookLists.map((userListDetails, j) => {
-                        if(userListDetails.id !== id){
+   
+                        if(userListDetails.id !== listId){
                           return (
                               <div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Add to ${userListDetails.listType}`}/>  
+                              <FormControlLabel value={`${j}`} control={<Radio color="primary" value = {`Add_${j}`} onChange={(event) => handleBookListChange(event, userListDetails.id)}/>} label={`Add to ${userListDetails.listType}`}/>  
                               </div>
                               )
                             }
                             else{
                               return(<div> 
-                              <FormControlLabel value="end" control={<Radio color="primary" value = {userListDetails.id} onChange={handleBookListChange}/>} label={`"Remove from "${userListDetails.listType}`}/>  
+                              <FormControlLabel value="remove" control={<Radio color="primary" value = "remove" onChange={(event) => handleBookListChange(event, userListDetails.id)}/>} label={`Remove from ${userListDetails.listType}`}/>  
                                         
                               </div>)
 
@@ -189,59 +201,74 @@ useEffect(() =>
             {
               !booksInList?null:
               <div className={classes.rootBookList}>
+                
                 <form>
+                  <Paper className={classes.fabRoot}  elevation={0}>
+                  <Input
+                    id="standard-basic"
+                    placeholder="edit list name"
+                    value={editedName}
+                    onChange={handleEditListName}
+                    
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <EditIcon style={{ color: indigo[500] }} />
+                      </InputAdornment>
+                    }
+                  />
+                  <Fab
+                    type = "submit"
+                    variant="extended"
+                    style={{ backgroundColor: indigo[500], color: "white" }}
+                    onClick = {handleChangeNameSubmit}
+                  >
+                    <SaveIcon
+                      className={classes.extendedIcon}
+                      style={{ color: "white" }}
+                    />
+                    Change Name
+                  </Fab>
+                  
+                  <Fab
+                    type = "submit"
+                    variant="extended"
+                    style={{ backgroundColor: indigo[500], color: "white" }}
+                    onClick = {handleMoveBooksSubmit}
+                  >
+                    <SaveIcon
+                      className={classes.extendedIcon}
+                      style={{ color: "white" }}
+                    />
+                    Move Books
+                  </Fab>
+                </Paper>
                 <Grid container spacing={2} justify="flex-start" alignItems="flex-start" direction = "row">
                 
                   
                     {booksInList.map((book, j) =>
                       
                         <Grid item sm={4}>
-                        <Card variant="outlined">                          
+                        <Card className = {classes.bookContainer}variant="outlined">
+                                                    
                         <FormControlLabel value="end" control={
                               <Checkbox onChange={handleValueChange} color="primary" value = {book.id}  data-item = {j} 
                               inputProps={{ 'aria-label': 'secondary checkbox' }} />}/>  
-                          <span><SingleBookDisplay key = {j}  userId = {bookDetails.userId} id = {book.id} inList = {bookDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
+                          <span><SingleBookDisplay key = {j}  userId = {bookListDetails.userId} id = {book.id} inList = {bookListDetails.listType} genres = {book.genres} title = {book.title} authors = {book.authors} pages = {book.pages} blurb = {book.blurb}/></span>
                         </Card>
                         </Grid>
-
+                        
                       )}
                       
                   
                 </Grid>
               
               </form>
+            
                 
               </div>
             }
             
             </div>
-
-          <Paper>
-          <Input
-            id="standard-basic"
-            placeholder="edit list name"
-            value={editedName}
-            onChange={handleEditListName}
-            
-            endAdornment={
-              <InputAdornment position="end">
-                <EditIcon style={{ color: indigo[500] }} />
-              </InputAdornment>
-            }
-          />
-          
-          <Fab
-            variant="extended"
-            style={{ backgroundColor: indigo[500], color: "white" }}
-            onClick = {handleSubmit}
-          >
-            <SaveIcon
-              className={classes.extendedIcon}
-              style={{ color: "white" }}
-            />
-            Save Changes
-          </Fab>
-        </Paper>
 
           
         </div>

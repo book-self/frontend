@@ -5,9 +5,8 @@ import { Rating } from '@material-ui/lab';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import UserLeaveRating from './UserLeaveRating/UserLeaveRating';
-
-import { AddToBookListMenu } from '../../components/AddToBookListMenu/AddToBookListMenu';
+import AddToBookListMenu from '../../components/AddToBookListMenu/AddToBookListMenu';
+import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
@@ -18,19 +17,15 @@ import { selectUser } from "../../store/User/UserSlice";
 
 export const Book = () => {
   const classes = useStyles();
-  let { id } = useParams();
+  let { bookId } = useParams();
   const history = useHistory();
 
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
-
-
   const authors = book?.authors.map(author => author.name).join(', ');
 
-  const { username, userId } = useSelector(selectUser);
-  console.log(username);
-  console.log(userId);
-
+  const { id } = useSelector(selectUser);
+  console.log(id);
 
   // if a new book is selected, scroll back to the top
   useEffect(() => {
@@ -39,21 +34,23 @@ export const Book = () => {
   }, [book])
 
 
+  // get the book
   useEffect(() => {
     async function getBook() {
-      setBook(await fetchBook(id));
+      setBook(await fetchBook(bookId));
     }
 
     getBook();
-  }, [id]);
+  }, [bookId]);
 
 
+  // get books related by author
   useEffect(() => {
     if (book === null) return;
 
     let getRelatedBooks = async () => {
       for (const author of book.authors) {
-        const booksBySameAuthor = await fetchRelatedBooks(id, author.id);
+        const booksBySameAuthor = await fetchRelatedBooks(bookId, author.id);
 
         if (booksBySameAuthor.length > 0) {
           setRelatedBooks(books => ({ ...books, [author.name]: booksBySameAuthor}));
@@ -62,7 +59,7 @@ export const Book = () => {
     }
 
     getRelatedBooks();
-  }, [id, book]);
+  }, [bookId, book]);
 
 
   return <>
@@ -121,13 +118,11 @@ export const Book = () => {
       </div>
     }
 
-
     {
       <div style={{width: "70%", margin: '200px auto'}}>
-        <UserLeaveRating bookId={id} />
+        <UserLeaveRating bookId={bookId} />
       </div>
     }
-    
 
 { /* TODO - NOT FINISHED 
     <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>

@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <Box m={3}>
       <Typography variant="body2" color="textSecondary" align="center">
-        {'© BookSelf '+(new Date().getFullYear())}
+        {'© Book Self '+(new Date().getFullYear())}
       </Typography>
     </Box>
   );
