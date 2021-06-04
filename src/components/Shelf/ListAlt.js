@@ -48,13 +48,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ListAlt = ({ location, bookListTitle }) => {
+export const ListAlt = ({ bookListId, bookListTitle }) => {
   
   
   const [books, setBooks] = useState([]);
 
   const classes = useStyles();
-  const bookListId = location;
 
   useEffect(() => {
     (async () => {

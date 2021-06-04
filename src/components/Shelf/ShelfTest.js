@@ -84,7 +84,7 @@ export const ShelfTest = (props) => {
                return (
                   <div>
              <Link href = { `/profile/book-list/${bookList.id}`}>
-             <ListAlt location = {bookList.id} bookListTitle = {bookList.listType}/>
+             <ListAlt bookListId = {bookList.id} bookListTitle = {bookList.listType}/>
             </Link>
               
               </div>
