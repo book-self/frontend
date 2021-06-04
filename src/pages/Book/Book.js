@@ -5,7 +5,7 @@ import { Rating } from '@material-ui/lab';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import AddToBookListMenu from '../../components/AddToBookListMenu/AddToBookListMenu';
+import { AddToBookListMenu } from '../../components/AddToBookListMenu/AddToBookListMenu';
 import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
@@ -97,6 +97,8 @@ export const Book = () => {
               </div>
             </div>  
           </div>
+
+          <AddToBookListMenu bookId={bookId} />
         </>
       }
     </div>

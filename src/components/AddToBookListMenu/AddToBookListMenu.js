@@ -1,67 +1,70 @@
 import { useState, useEffect } from 'react';
-import { List, ListItem, ListItemText, Menu, MenuItem } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, Typography } from '@material-ui/core';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../store/User/UserSlice";
 
 import { fetchAllUserBookLists } from '../../pages/BookList/BookListFetch';
-import { postBooksToList } from './AddToBookListMenuFetch';
+import axios from 'axios';
 
 
 export const AddToBookListMenu = (props) => {
-  const [allUserBookLists, setAllUserBookLists] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
-
-  const { username, userId } = useSelector(selectUser);
-  console.log(username);
-  console.log(userId);
+  const [bookLists, setBookLists] = useState(null);
+  const { id } = useSelector(selectUser);
 
 
   useEffect(() => {
-    if (userId === null) return;
+    if (id === null) return;
 
-    async function getUserBookLists() {
-      setAllUserBookLists(await fetchAllUserBookLists(userId));
+    async function getBookLists() {
+      const lists = (await fetchAllUserBookLists(id)).map(list => {
+        return { ...list, checked: list.books.includes(props.bookId)};
+      });
+
+      setBookLists(lists);
     }
 
-    getUserBookLists();
-  }, [userId]);
+    getBookLists();
+  }, [id]);
 
 
-  const handleMenuItemClick = (listId, listName, index) => {
-      setSelectedIndex(index);
-      setAnchorEl(null);
+  const handleChange = (index) => {
+    setBookLists(bookLists => {
+      let copy = bookLists.slice();
+      copy[index].checked = !copy[index].checked
 
-      let bookIds = [props.bookId];
-      postBooksToList(listName, bookIds, listId, listId);
+      if (copy[index].checked) // POST into list
+        axios.post(`${process.env.REACT_APP_API_URL}/v1/book-lists/${copy[index].id}/books/${props.bookId}`)
+      else // DELETE from list
+        axios.delete(`${process.env.REACT_APP_API_URL}/v1/book-lists/${copy[index].id}/books/${props.bookId}`)
+
+      return copy;
+    })
   };
 
 
-  return <div>
-    {
-      allUserBookLists && <>
-          <List component="nav">
-            <ListItem button onClick={(event) => setAnchorEl(event.currentTarget)}>
-              <ListItemText primary={allUserBookLists[selectedIndex].id} />
-            </ListItem>
-          </List>
-
-          <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} >
-              { allUserBookLists.map((list, index) => (
-                  <MenuItem
-                          key={list.id}
-                          value = {list.id}
-                          disabled={index === selectedIndex}
-                          selected={index === selectedIndex}
-                          onClick={(_) => handleMenuItemClick(list.id, list.bookListName, index)}>
-
-                      {list.id}
-                  </MenuItem>
-                ))
+  return <>
+  { id && bookLists && bookLists.length > 0 &&
+  <div style={{position: 'relative', width: '300px'}}>
+    <Typography variant="h4" style={{fontWeight: 'bold', marginBottom: '1rem', fontVariant: 'small-caps', textAlign: 'center'}}>save for later</Typography>
+    <FormControl style={{marginLeft: '1.25rem'}}>
+      { bookLists.map((bookList, index) =>
+           <FormControlLabel
+              key={index}
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={bookList.checked}
+                  onChange={() => handleChange(index)}
+                  title={bookList.checked ? 'It is already in this list' : null}
+                />
               }
-          </Menu>
-      </>
-    }
+              label={bookList.bookListName ?? bookList.listType}
+          />
+        )
+      }
+    </FormControl>
   </div>
+  }
+  </>
 }

@@ -14,7 +14,6 @@ export const fetchUserRating = (bookId) => {
 
 // e.g., { "rating": 5, "comment": "Great!" } where you *need* to supply a rating; the comment is optional
 export const postRating = (bookId, requestBody) => {
-  console.log('Hello World');
     return axios.post(`${process.env.REACT_APP_API_URL}/v1/books/${bookId}/rating`, requestBody)
       .then(response => response.status !== 201 ? null : response.data)
       
