@@ -8,7 +8,6 @@ import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
 import { BookList } from './pages/BookList/BookList'
-import { ShelfPage } from "./pages/Shelf/ShelfPage";
 
 
 export const Router = () => {
