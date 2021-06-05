@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import {
+  useMediaQuery,
+  useTheme,
   AppBar,
   Box,
   Button,
@@ -12,7 +14,7 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle, Home } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { signOut, selectUser, clearUser } from '../../store/User/UserSlice';
@@ -69,17 +71,22 @@ export const Navbar = () => {
     }
   ];
 
+  const theme = useTheme();
+  const isSmallerDevice = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <AppBar position="fixed">
-      <Toolbar className={classes.toolBar}>
+      <Toolbar className={classes.toolBar}> 
         <Link to={'/'} style={{textDecoration: 'none'}}>
-          <ButtonBase>
-            <div className={classes.toolBarLeftContainer}>
-                <Typography className={classes.title}>Book</Typography>
-                <img src={process.env.PUBLIC_URL + '/open-book.png'} alt={"Book Self Logo"} className={classes.image} />
-                <Typography className={classes.title}><b>Self</b></Typography>
-            </div>
-          </ButtonBase>
+          { isSmallerDevice ? <IconButton style={{backgroundColor: 'white'}}><Home style={{fontSize: '1.15rem', color: 'black'}} /></IconButton> :
+            <ButtonBase>
+              <span className={classes.toolBarLeftContainer}>
+                  <Typography className={classes.title}>Book</Typography>
+                  <img src={process.env.PUBLIC_URL + '/open-book.png'} alt={"Book Self Logo"} className={classes.image} />
+                  <Typography className={classes.title}><b>Self</b></Typography>
+              </span>
+            </ButtonBase>
+          }
         </Link>
 
         <Box className={classes.menu}>

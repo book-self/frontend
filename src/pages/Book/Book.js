@@ -14,6 +14,8 @@ import { useStyles } from './BookStyles';
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../store/User/UserSlice";
 
+import { BookRatings } from './BookRatings/BookRatings';
+
 
 export const Book = () => {
   const classes = useStyles();
@@ -25,7 +27,6 @@ export const Book = () => {
   const authors = book?.authors.map(author => author.name).join(', ');
 
   const { id } = useSelector(selectUser);
-  console.log(id);
 
   // if a new book is selected, scroll back to the top
   useEffect(() => {
@@ -84,7 +85,7 @@ export const Book = () => {
                 { book.genres.map(genre => <Chip style={{margin: "5px"}} label={genre} onClick={() => history.push(`/search/${encodeURI(genre)}`)} clickable />) }
               </div>
               <div className={classes.bookDataTable}>
-                <table>
+                <table style={{width: '100%'}}>
                   <tr>
                     <td><Typography variant="h6" className={classes.bookDataLabel} style={{marginRight: '25px'}}>Publication date: </Typography></td>
                     <td><Typography variant="h6">{book.published}</Typography></td>
@@ -120,34 +121,11 @@ export const Book = () => {
       </div>
     }
 
-    {
-      <div style={{width: "70%", margin: '200px auto'}}>
-        <UserLeaveRating bookId={bookId} />
-      </div>
-    }
-
-{ /* TODO - NOT FINISHED 
-    <div id="ratings" style={{display: 'flex', width: '85vw', margin: '200px auto 100px auto'}}>
-      <div style={{flex: '0 0 350px', borderRight: '2px solid grey', marginRight: '10%'}}>
-        <div style={{width: '325px', padding: '35px'}}>
-          <div style={{backgroundColor: '#EAEAEA', padding: '1.25rem'}}>
-            <Rating value={4.5} precision={0.1} size="large" readOnly /><span style={{position: 'relative', fontSize: '1.25rem', top: '-.45rem', left: '.5rem', fontWeight: 'bold'}}>(4.5)</span>
-            <Typography style={{marginTop: '.5rem', fontSize: '1.15rem', textAlign: 'center'}}>133 ratings</Typography>
-          </div>
-
-          <div style={{marginLeft: '2rem'}}>
-            <Rating value={5} readOnly style={{marginTop: '2.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(25%)</span>
-            <Rating value={4} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(10%)</span>
-            <Rating value={3} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(15%)</span>
-            <Rating value={2} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(20%)</span>
-            <Rating value={1} readOnly style={{marginTop: '1.5rem'}} /><span style={{position: 'relative', fontSize: '1rem', top: '-.40rem', left: '.5rem'}}>(30%)</span>
-          </div>
-        </div>
-      </div>
-      <div style={{width: "100%"}}>
-        World
-      </div>
+    <div style={{margin: '200px auto'}}>
+      <UserLeaveRating bookId={bookId} />
     </div>
-*/ }
+
+    <div id="ratings" style={{position: 'relative', top: '-100px'}}></div>
+    <BookRatings book={book} />
   </>
 } 
