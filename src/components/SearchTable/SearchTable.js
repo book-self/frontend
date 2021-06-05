@@ -58,6 +58,30 @@ export const SearchTable = (props) => {
   }, [props.books, id]);
 
 
+  const { id } = useSelector(selectUser);
+  const [userRatings, setUserRatings] = useState([]);
+
+  useEffect(() => {
+    setUserRatings([]);
+  }, []);
+
+  useEffect(() => {
+    if (!id) return;
+
+    async function getUserRatings() {
+      props.books?.map(async (book) => {
+        console.log(book);
+
+        fetchUserRating(book.id)
+          .then(json => setUserRatings(userRatings => { return { ...userRatings, [book.id]: json["rating"] } }))
+          .catch(() => setUserRatings(userRatings => { return { ...userRatings, [book.id]: null } }))
+      })
+    }
+
+    getUserRatings();
+
+  }, [props.books, id]);
+
   return (
     <main className={classes.mainContainer}>
         <div>

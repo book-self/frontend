@@ -62,7 +62,6 @@ export const Book = () => {
     getRelatedBooks();
   }, [bookId, book]);
 
-  console.log(book);
 
   return <>
     <div className={classes.bookContainer}>
