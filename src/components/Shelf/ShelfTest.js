@@ -82,14 +82,13 @@ export const ShelfTest = (props) => {
            {
              bookLists.map((bookList)=>{
                
-               return (
                   <div>
              <Link href = { `/profile/book-list/${bookList.id}`}>
              <ListAlt bookListId = {bookList.id} bookListTitle = {bookList.listType}/>
             </Link>
               
               </div>
-               )
+
                  
              }
             
