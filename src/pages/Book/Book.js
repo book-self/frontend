@@ -26,8 +26,6 @@ export const Book = () => {
   const [relatedBooks, setRelatedBooks] = useState(null);
   const authors = book?.authors.map(author => author.name).join(', ');
 
-  const { id } = useSelector(selectUser);
-
   // if a new book is selected, scroll back to the top
   useEffect(() => {
     window.scrollTo(0, 0)
