@@ -96,11 +96,14 @@ export const useStyles = makeStyles((theme) => ({
   
     bookBlurb: {
       padding: '2rem',
-      paddingLeft: '4rem',
       width: '100%',
       maxWidth: '650px',
       textAlign: 'justify',
-      lineHeight: '1.5rem'
+      lineHeight: '1.5rem',
+
+      [theme.breakpoints.up('lg')]: {
+        paddingLeft: '4rem',
+      }
     },
   
     bookDataContainer: {

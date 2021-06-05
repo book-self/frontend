@@ -90,10 +90,11 @@ export const useStyles = makeStyles({
   },
 
   categoriesContainer: {
-    marginTop: "55px",
     display: "flex",
-    alignItems: "center",
-    flexDirection: "column"
+    alignItems: "flex-start",
+    justifyContent: 'center',
+    flexWrap: 'wrap'
+    // flexDirection: "column"
   },
 
   categoriesList: {

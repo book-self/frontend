@@ -38,7 +38,7 @@ export const LargeHeader = (props) => {
           </Typography>
           <TextField 
             className={classes.searchBar}
-            InputProps={{endAdornment: <IconButton style={{padding: '3.5px'}}><Search onClick={props.executeSearchQuery} /></IconButton>}}
+            InputProps={{endAdornment: <IconButton onClick={props.executeSearchQuery} style={{padding: '3.5px'}}><Search /></IconButton>}}
             variant="outlined"
             onInput={event => { if (event.target.value.trim()) props.processSearchQuery(event.target.value) }}
             onKeyUp={event => { if (event.key === 'Enter') props.executeSearchQuery() }}

@@ -36,8 +36,8 @@ export const QuerySearch = () => {
         <SearchTable
           books={books.map(book => (_.pick(book, ['book'])['book']))}
           heading={
-            <Typography variant="h4" style={{marginBottom: "5rem"}}>
-              We've found {books.length} result{books.length !== 1 ? 's' : ''} for <span style={{textTransform: 'lowercase', fontVariant: 'small-caps', fontWeight: 'bold'}}>{query}</span>.
+            <Typography variant="h4" style={{marginBottom: "5rem", lineHeight: '1.5'}}>
+              Displaying the {books.length} most relevant search result{books.length !== 1 ? 's' : ''} for <span style={{textTransform: 'lowercase', fontVariant: 'small-caps', fontWeight: 'bold'}}>{query}</span>.
             </Typography>
           }
         />

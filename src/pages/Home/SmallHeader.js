@@ -8,8 +8,8 @@ export const SmallHeader = (props) => {
     const classes = useStyles();
     
     return (
-      <header>
-        <Card style={{textAlign: 'center', width: '75vw', margin: 'auto'}}>
+      <header style={{marginTop: '2rem'}}>
+        <Card style={{textAlign: 'center', width: '75vw', minWidth: '300px', margin: 'auto', padding: '2rem'}}>
           <Typography variant="h1" component="h1" className={classes.bookselfTitle} style={{textAlign: 'center', lineHeight: '5rem', marginBottom: '2rem', padding: '0 15px'}}>
             <span style={{fontWeight: "50"}}>Book</span> <span style={{fontWeight: "300"}}>Self</span>
           </Typography>
@@ -18,11 +18,11 @@ export const SmallHeader = (props) => {
           <TextField
             label="Find your next book"
             className={classes.searchBar}
-            InputProps={{endAdornment: <IconButton style={{padding: '3.5px'}}><Search onClick={props.executeSearchQuery} /></IconButton>}}
+            InputProps={{endAdornment: <IconButton onClick={props.executeSearchQuery} style={{padding: '3.5px'}}><Search /></IconButton>}}
             variant="outlined"
             onInput={event => { if (event.target.value.trim()) props.processSearchQuery(event.target.value) }}
             onKeyUp={event => { if (event.key === 'Enter') props.executeSearchQuery() }}
-            style={{marginBottom: '2rem', maxWidth: '90%'}}
+            style={{margin: '2rem 0', maxWidth: '90%'}}
           />
         </Card> 
       </header>

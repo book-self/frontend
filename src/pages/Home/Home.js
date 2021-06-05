@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMediaQuery, useTheme, Slide, TextField, Typography, Card, Chip, IconButton } from '@material-ui/core';
-import { ArrowUpward } from '@material-ui/icons';
+import { useMediaQuery, useTheme, Slide, Typography, Chip, IconButton } from '@material-ui/core';
+import { ArrowUpward, AssignmentReturnedSharp, FilterDramaSharp } from '@material-ui/icons';
 import clsx from  'clsx';
 
 import { LargeHeader } from './LargeHeader';
@@ -11,7 +11,53 @@ import BookCarousel from '../../components/Carousel/BookCarousel.js';
 import Book from "../../components/Carousel/Book.js";
 
 import { useStyles } from './HomeStyles';
-import { fetchBooks, fetchCategories } from './HomeFetch';
+import { 
+  fetchMostPopularCategories,
+  fetchAssortedGenreOfferings,
+  fetchBooks
+} from './HomeFetch';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../store/User/UserSlice";
+
+
+function useCategorizations(userId) {
+  const [categorizations, setCategorizations] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const mostPopularCategories = await fetchMostPopularCategories();
+      setCategorizations([mostPopularCategories]);
+    })();
+  }, []);
+
+
+  useEffect(() => {
+    (async () => {
+      // if (!userId) {
+        const genreOfferings = await fetchAssortedGenreOfferings();
+        setCategorizations(categorizations => {
+          const categoriesSoFar = categorizations.flatMap(categorization => categorization.categories);
+
+          // make sure it's not already a category
+          genreOfferings.categories = genreOfferings.categories.filter(genre => !categoriesSoFar.includes(genre));
+          return categorizations.concat([genreOfferings]);
+        });
+     // }
+    })();
+  }, []); // [userId]);
+
+
+  // useEffect(() => {
+  //   if (userId)
+  //     setCategorizations(categorizations =>
+  //       categorizations.concat([await fetchUserRecommendations()])
+  //     );
+  // }, [userId]);
+
+
+  return categorizations;
+}
 
 
 export const Home = () => {
@@ -19,35 +65,27 @@ export const Home = () => {
   const classes = useStyles();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState({});
   const [displayScrollBtn, setDisplayScrollBtn] = useState(false);
 
   const history = useHistory();
-
-
-  // fetching of categories to make into carousels (TODO will eventually recommend categories based on the logged-in user)
-  useEffect(() => {
-    async function getCategories() {
-      const fetchedCategories = await fetchCategories();
-      setCategories(fetchedCategories);
-    }
-
-    getCategories();
-  }, []);
+  const { id } = useSelector(selectUser);
+  const categorizations = useCategorizations(id);
 
 
   // fetching of books to put into the carousels
   useEffect(() => {
     async function getBooks() {
-      for (const category of categories) {
-        const booksInCategory = await fetchBooks(category);
-        setBooks((booksSoFar) => ({ ...booksSoFar, [category]: booksInCategory}));
+      for (const categorization of categorizations) {
+        for (const category of categorization.categories) {
+          const booksInCategory = await fetchBooks(category);
+          setBooks((booksSoFar) => ({ ...booksSoFar, [category]: booksInCategory}));
+        }
       }
     }
 
     getBooks();
-  }, [categories]);
+  }, [categorizations]);
 
 
   // hide the 'scroll to top' button until the user is far enough down the page for it to be useful
@@ -71,35 +109,41 @@ export const Home = () => {
     }
 
     <div className={classes.categoriesContainer}>
-      <Typography variant="h4">Categories you might be interested in</Typography>
-      <ul className={classes.categoriesList}>
-        { 
-          !categories ? null :
-          categories.map((category, i) =>
-            <li key={i} className={classes.categoriesListItem}>
-              <Chip
-                label={category}
-                component="a"
-                href={`#${encodeURI(category)}`}
-                clickable
-              />
-            </li>
-          )
-        }
-      </ul>
+      { categorizations?.map((categorization, index) => <div key={index} style={{margin: '50px 30px 0 30px', minWidth: '400px'}}>
+
+        <Typography variant="h4" style={{textAlign: 'center'}}>{categorization.name}</Typography>
+        <ul className={classes.categoriesList}>
+          { 
+            categorization?.categories.map((category, i) =>
+              <li key={i} className={classes.categoriesListItem}>
+                <Chip
+                  label={category}
+                  component="a"
+                  href={`#${encodeURI(category)}`}
+                  clickable
+                />
+              </li>
+            )
+          }
+        </ul>
+
+      </div>)
+      }
     </div>
     
     <div className={classes.carouselContainer}>
       {
-        categories?.map((category, i) =>
-          <div>
-            <BookCarousel
-              key={i}
-              title={category}
-              books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
-            />
-          </div>
-        )
+          categorizations.flatMap((categorization, i) => 
+            categorization.categories.map((category, j) =>
+              <div key={categorization.name + category}>
+                <BookCarousel
+                  key={categorization.name + category}
+                  title={category}
+                  books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
+                />
+              </div>
+            )
+          )
       }
     </div>
 
