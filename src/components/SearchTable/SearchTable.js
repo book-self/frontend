@@ -78,30 +78,6 @@ export const SearchTable = (props) => {
 
   }, [props.books, id]);
 
-  const { id } = useSelector(selectUser);
-  const [userRatings, setUserRatings] = useState([]);
-
-  useEffect(() => {
-    setUserRatings([]);
-  }, []);
-
-  useEffect(() => {
-    if (!id) return;
-
-    async function getUserRatings() {
-      props.books?.map(async (book) => {
-        console.log(book);
-
-        fetchUserRating(book.id)
-          .then(json => setUserRatings(userRatings => { return { ...userRatings, [book.id]: json["rating"] } }))
-          .catch(() => setUserRatings(userRatings => { return { ...userRatings, [book.id]: null } }))
-      })
-    }
-
-    getUserRatings();
-
-  }, [props.books, id]);
-
   return (
     <main className={classes.mainContainer}>
         <div>
@@ -123,7 +99,6 @@ export const SearchTable = (props) => {
                       onClick={() => history.push(`/book/${book.id}`)}
                     >
                       <TableCell className={classes.bookImageCell} >
-
                         <BookImage bookId={book.id} bookTitle={book.title} />
 
                         <div style={{display: 'flex', alignItems: 'center'}}>
@@ -151,7 +126,6 @@ export const SearchTable = (props) => {
 
                         <p className={classes.bookBlurb}>{book.blurb}</p>
                       </TableCell>
-
 
                       { id && isLargerDevice &&
                         <TableCell className={classes.addToBookListCell} style={{width: "300px"}}>
