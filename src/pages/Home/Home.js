@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMediaQuery, useTheme, Slide, Typography, Chip, IconButton } from '@material-ui/core';
-import { ArrowUpward, AssignmentReturnedSharp, FilterDramaSharp } from '@material-ui/icons';
+import { ArrowUpward } from '@material-ui/icons';
 import clsx from  'clsx';
 
 import { LargeHeader } from './LargeHeader';
