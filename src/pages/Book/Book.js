@@ -11,9 +11,6 @@ import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
 
-import { useSelector } from 'react-redux';
-import { selectUser } from "../../store/User/UserSlice";
-
 import { BookRatings } from './BookRatings/BookRatings';
 
 
