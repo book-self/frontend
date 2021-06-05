@@ -14,7 +14,8 @@ import {
   GridListTileBar,
 } from "@material-ui/core";
 
-import { fetchBookList } from '../../pages/BookList/BookListHttpRequests';
+//import { fetchBookList } from '../../pages/BookList/BookListHttpRequests';
+import {fetchBookList} from './ShelfFetch';
 
 import BookInListAlt from './BookInListAlt';
 
