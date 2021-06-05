@@ -57,10 +57,6 @@ export const SearchTable = (props) => {
 
   }, [props.books, id]);
 
-
-  const { id } = useSelector(selectUser);
-  const [userRatings, setUserRatings] = useState([]);
-
   useEffect(() => {
     setUserRatings([]);
   }, []);
