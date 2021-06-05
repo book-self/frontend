@@ -90,17 +90,18 @@ export const useStyles = makeStyles({
   },
 
   categoriesContainer: {
-    marginTop: "55px",
     display: "flex",
-    alignItems: "center",
-    flexDirection: "column"
+    alignItems: "flex-start",
+    justifyContent: 'center',
+    flexWrap: 'wrap'
+    // flexDirection: "column"
   },
 
   categoriesList: {
     marginLeft: 0,
-    padding: 0,
+    padding: '10px 0 0 0',
     listStyleType: "none",
-    width: "485px",
+    maxWidth: "485px",
     textAlign: 'center'
   },
 

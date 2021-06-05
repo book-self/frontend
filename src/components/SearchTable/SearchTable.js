@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { Table, TableBody,
+import { useMediaQuery, useTheme, Table, TableBody,
   TableCell, TableContainer, TableRow, Typography, Paper
 } from '@material-ui/core';
 
@@ -14,10 +14,69 @@ import { useSelector } from 'react-redux';
 import { selectUser } from "../../store/User/UserSlice";
 import { useEffect, useState } from "react";
 
+import BookCard from '../Carousel/BookCard';
+import BookImage from '../Carousel/BookImage';
+
 
 export const SearchTable = (props) => {
-  const history = useHistory();
   const classes = useStyles();
+  const theme = useTheme();
+
+  const history = useHistory();
+
+  const { id } = useSelector(selectUser);
+  const [userRatings, setUserRatings] = useState({});
+
+  const isLargerDevice = useMediaQuery(theme.breakpoints.up('lg'));
+  const isSmallerDevice = useMediaQuery(theme.breakpoints.down('sm'));
+
+
+  useEffect(() => {
+    setUserRatings({});
+  }, []);
+
+
+  useEffect(() => {
+    if (!id) return;
+
+    async function getUserRatings() {
+      props.books?.forEach(book => {
+        fetchUserRating(book.id)
+          .then(json => setUserRatings(userRatings => ({
+            ...userRatings,
+            [book.id]: json["rating"]
+          })))
+          .catch(() => setUserRatings(userRatings => ({
+            ...userRatings,
+            [book.id]: null
+          })));
+      })
+    }
+
+    getUserRatings();
+
+  }, [props.books, id]);
+
+  useEffect(() => {
+    setUserRatings([]);
+  }, []);
+
+  useEffect(() => {
+    if (!id) return;
+
+    async function getUserRatings() {
+      props.books?.map(async (book) => {
+        console.log(book);
+
+        fetchUserRating(book.id)
+          .then(json => setUserRatings(userRatings => { return { ...userRatings, [book.id]: json["rating"] } }))
+          .catch(() => setUserRatings(userRatings => { return { ...userRatings, [book.id]: null } }))
+      })
+    }
+
+    getUserRatings();
+
+  }, [props.books, id]);
 
   const { id } = useSelector(selectUser);
   const [userRatings, setUserRatings] = useState([]);
@@ -51,14 +110,21 @@ export const SearchTable = (props) => {
             <Table>
               <TableBody>
                 {
-                  props.books.map((book, i) => (
+                  props.books.map((book, i) => { return isSmallerDevice ? 
+                    <TableRow key={i}>
+                      <TableCell style={{backgroundColor: '#EAEAEA', display: 'flex', justifyContent: 'center'}}>
+                        <BookCard bookTitle={book.title} bookId={book.id} />
+                      </TableCell>
+                    </TableRow> 
+                  :
                     <TableRow
                       className={classes.tableRow}
                       key={i}
                       onClick={() => history.push(`/book/${book.id}`)}
                     >
                       <TableCell className={classes.bookImageCell} >
-                        <img width={175} height={250} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.title} />
+
+                        <BookImage bookId={book.id} bookTitle={book.title} />
 
                         <div style={{display: 'flex', alignItems: 'center'}}>
                           <Typography style={{margin: "1rem 15px"}}><b>Avg:</b></Typography>
@@ -86,14 +152,16 @@ export const SearchTable = (props) => {
                         <p className={classes.bookBlurb}>{book.blurb}</p>
                       </TableCell>
 
-                      { id &&
-                        <TableCell style={{borderLeft: '2px solid #EAEAEA', cursor: 'default', backgroundColor: 'white'}} onClick={(event) => event.stopPropagation()}>
-                          <AddToBookListMenu bookId={book.id} />
+
+                      { id && isLargerDevice &&
+                        <TableCell className={classes.addToBookListCell} style={{width: "300px"}}>
+                          <div onClick={(event) => event.stopPropagation()} style={{backgroundColor: 'white', cursor: 'default'}}>
+                            <AddToBookListMenu bookId={book.id} />
+                          </div>
                         </TableCell>
                       }
                     </TableRow>
-                  ))
-                }
+                })}
               </TableBody>
             </Table>
           </TableContainer>

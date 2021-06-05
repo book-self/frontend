@@ -12,9 +12,20 @@ export const useStyles = makeStyles({
   
     tableRow: {
       width: '100%',
+
       '&:hover': {
         cursor: 'pointer',
         backgroundColor: '#EAEAEA'
+      },
+
+
+      '&:hover td:last-of-type': {
+        borderLeft: '2px solid white',
+      },
+
+      '&:hover td:first-of-type': {
+        borderRight: '2px solid white',
+        borderLeft: 'none'
       },
     },
   
@@ -22,18 +33,23 @@ export const useStyles = makeStyles({
       verticalAlign: 'top',
       padding: '25px',
       borderRight: '2px solid #EAEAEA',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
   
     bookDataCell: {
       verticalAlign: 'top',
       position: 'relative',
       padding: '35px 35px 35px 25px',
-      width: '35vw'
+      maxWidth: '700px',
     },
   
     bookBlurb: {
-      padding: "10px 10px 10px 10px",
-      lineHeight: '1.5rem'
+      padding: "15px",
+      lineHeight: '1.5rem',
+      fontSize: '1.05rem'
+    },
+
+    addToBookListCell: {
+      borderLeft: '2px solid #EAEAEA',
     }
 });
