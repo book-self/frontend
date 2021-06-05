@@ -31,7 +31,7 @@ export const AddToBookListMenu = (props) => {
     }
 
     getBookLists();
-  }, [id]);
+  }, [id, props.bookId]);
 
 
   const handleChange = (value) => {
