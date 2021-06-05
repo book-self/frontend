@@ -1,4 +1,4 @@
-import { Card, Select, Typography, MenuItem, Paper, Table, TableBody, TableRow, TableContainer, TableCell } from '@material-ui/core';
+import { Select, Typography, MenuItem, Paper, Table, TableBody, TableRow, TableContainer, TableCell } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { useEffect, useState } from 'react';
 import axios from 'axios';

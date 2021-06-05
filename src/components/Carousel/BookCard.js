@@ -8,9 +8,6 @@ import React from 'react';
 
 // throwback: Material-UI tooltip needs to forward a reference, but a functional component can't do this
 class BookCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const { classes, bookId, bookTitle, ...other } = this.props; 

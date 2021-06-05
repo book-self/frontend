@@ -11,9 +11,6 @@ import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
 
-import { useSelector } from 'react-redux';
-import { selectUser } from "../../store/User/UserSlice";
-
 import { BookRatings } from './BookRatings/BookRatings';
 
 
@@ -25,8 +22,6 @@ export const Book = () => {
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
   const authors = book?.authors.map(author => author.name).join(', ');
-
-  const { id } = useSelector(selectUser);
 
   // if a new book is selected, scroll back to the top
   useEffect(() => {

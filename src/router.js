@@ -9,7 +9,6 @@ import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
 import { BookList } from './pages/BookList/BookList'
 
-
 export const Router = () => {
   const routes = [
     {
