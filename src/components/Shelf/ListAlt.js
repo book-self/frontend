@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export const ListAlt = ({ bookListId, bookListTitle }) => {
+
   
   
   const [books, setBooks] = useState([]);
@@ -59,8 +61,7 @@ export const ListAlt = ({ bookListId, bookListTitle }) => {
     (async () => {
       const { data } = await fetchBookList(bookListId);
       setBooks(data.books || [])
-  
-      
+
     })();
   }, [bookListId]);
 

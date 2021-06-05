@@ -1,48 +1,91 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Slide, TextField, Typography, Card, Chip, IconButton } from '@material-ui/core';
-import { ArrowUpward, Search } from '@material-ui/icons';
+import { useMediaQuery, useTheme, Slide, Typography, Chip, IconButton } from '@material-ui/core';
+import { ArrowUpward } from '@material-ui/icons';
 import clsx from  'clsx';
-import TextLoop from 'react-text-loop';
+
+import { LargeHeader } from './LargeHeader';
+import { SmallHeader } from './SmallHeader';
 
 import BookCarousel from '../../components/Carousel/BookCarousel.js';
 import Book from "../../components/Carousel/Book.js";
 
 import { useStyles } from './HomeStyles';
-import { fetchBooks, fetchCategories } from './HomeFetch';
+import { 
+  fetchMostPopularCategories,
+  fetchAssortedGenreOfferings,
+  fetchBooks
+} from './HomeFetch';
+
+import { useSelector } from 'react-redux';
+import { selectUser } from "../../store/User/UserSlice";
+
+
+function useCategorizations(userId) {
+  const [categorizations, setCategorizations] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const mostPopularCategories = await fetchMostPopularCategories();
+      setCategorizations([mostPopularCategories]);
+    })();
+  }, []);
+
+
+  useEffect(() => {
+    (async () => {
+      // if (!userId) {
+        const genreOfferings = await fetchAssortedGenreOfferings();
+        setCategorizations(categorizations => {
+          const categoriesSoFar = categorizations.flatMap(categorization => categorization.categories);
+
+          // make sure it's not already a category
+          genreOfferings.categories = genreOfferings.categories.filter(genre => !categoriesSoFar.includes(genre));
+          return categorizations.concat([genreOfferings]);
+        });
+     // }
+    })();
+  }, []); // [userId]);
+
+
+  // useEffect(() => {
+  //   if (userId)
+  //     setCategorizations(categorizations =>
+  //       categorizations.concat([await fetchUserRecommendations()])
+  //     );
+  // }, [userId]);
+
+
+  return categorizations;
+}
 
 
 export const Home = () => {
+  const theme = useTheme();
   const classes = useStyles();
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState({});
   const [displayScrollBtn, setDisplayScrollBtn] = useState(false);
+
   const history = useHistory();
-
-
-  // fetching of categories to make into carousels (TODO will eventually recommend categories based on the logged-in user)
-  useEffect(() => {
-    async function getCategories() {
-      const fetchedCategories = await fetchCategories();
-      setCategories(fetchedCategories);
-    }
-
-    getCategories();
-  }, []);
+  const { id } = useSelector(selectUser);
+  const categorizations = useCategorizations(id);
 
 
   // fetching of books to put into the carousels
   useEffect(() => {
     async function getBooks() {
-      for (const category of categories) {
-        const booksInCategory = await fetchBooks(category);
-        setBooks((booksSoFar) => ({ ...booksSoFar, [category]: booksInCategory}));
+      for (const categorization of categorizations) {
+        for (const category of categorization.categories) {
+          const booksInCategory = await fetchBooks(category);
+          setBooks((booksSoFar) => ({ ...booksSoFar, [category]: booksInCategory}));
+        }
       }
     }
 
     getBooks();
-  }, [categories]);
+  }, [categorizations]);
 
 
   // hide the 'scroll to top' button until the user is far enough down the page for it to be useful
@@ -58,75 +101,49 @@ export const Home = () => {
 
 
   return <>
-    <header className={classes.headerContainer}>
-      <div className={clsx(classes.leftContainer, classes.contentContainer)}>
-        <Card className={clsx(classes.headerCard, classes.leftCard)}>
-          <Typography variant="h1" component="h1" className={classes.bookselfTitle}>
-            <span style={{fontWeight: "50"}}>Book</span> <span style={{fontWeight: "300"}}>Self</span>
-          </Typography>
-          <Typography variant="h5" component="h2" className={classes.bookselfDescription}>a self-curated library of your books.</Typography>
-          <ul className={classes.featuresList}>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Browse through our collection of thousands of books.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Add books of interest to your own personal lists.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Review and rate books you've read, save those you haven't.</Typography></li>
-            <li><Typography component="h3" className={classes.featuresBulletpoints}>Join book clubs and chat with like-minded readers!</Typography></li>
-          </ul>
-        </Card>
-      </div>
-
-      <div className={clsx(classes.rightContainer, classes.contentContainer)}>
-        <Card className={clsx(classes.headerCard, classes.rightCard)}>
-          <Typography className={classes.searchBarText}>
-              Search for a book by its {" "}
-              <TextLoop>
-                  <b>title</b>
-                  <b>author</b>
-                  <b>genre</b>
-                  <b>content</b>
-              </TextLoop>
-          </Typography>
-          <TextField 
-            className={classes.searchBar}
-            InputProps={{endAdornment: <IconButton style={{padding: '3.5px'}}><Search onClick={executeSearchQuery} /></IconButton>}}
-            variant="outlined"
-            onInput={event => { if (event.target.value.trim()) processSearchQuery(event.target.value) }}
-            onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
-          />
-        </Card>
-      </div>
-    </header>
+    { 
+      useMediaQuery(theme.breakpoints.up('md')) ? 
+        <LargeHeader processSearchQuery={processSearchQuery} executeSearchQuery={executeSearchQuery} /> 
+      : 
+        <SmallHeader processSearchQuery={processSearchQuery} executeSearchQuery={executeSearchQuery} />
+    }
 
     <div className={classes.categoriesContainer}>
-      <Typography variant="h4">Categories you might be interested in</Typography>
-      <ul className={classes.categoriesList}>
-        { 
-          !categories ? null :
-          categories.map((category, i) =>
-            <li key={i} className={classes.categoriesListItem}>
-              <Chip
-                label={category}
-                component="a"
-                href={`#${encodeURI(category)}`}
-                clickable
-              />
-            </li>
-          )
-        }
-      </ul>
+      { categorizations?.map((categorization, index) => <div key={index} style={{margin: '50px 30px 0 30px', minWidth: '400px'}}>
+
+        <Typography variant="h4" style={{textAlign: 'center'}}>{categorization.name}</Typography>
+        <ul className={classes.categoriesList}>
+          { 
+            categorization?.categories.map((category, i) =>
+              <li key={i} className={classes.categoriesListItem}>
+                <Chip
+                  label={category}
+                  component="a"
+                  href={`#${encodeURI(category)}`}
+                  clickable
+                />
+              </li>
+            )
+          }
+        </ul>
+
+      </div>)
+      }
     </div>
     
     <div className={classes.carouselContainer}>
       {
-        categories?.map((category, i) =>
-          <div>
-            <BookCarousel
-              key={i}
-              title={category}
-              books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
-              perRow={3}
-            />
-          </div>
-        )
+          categorizations.flatMap((categorization, i) => 
+            categorization.categories.map((category, j) =>
+              <div key={categorization.name + category}>
+                <BookCarousel
+                  key={categorization.name + category}
+                  title={category}
+                  books={books[category]?.map((book, j) => <Book key={j} {...book} />)}
+                />
+              </div>
+            )
+          )
       }
     </div>
 

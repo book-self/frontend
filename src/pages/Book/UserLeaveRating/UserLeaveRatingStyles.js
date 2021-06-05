@@ -2,7 +2,9 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
     review: {
-        width: "50%",
+
+        width: '100%',
+        maxWidth: '750px',
         margin: '3rem 0',
         position: 'relative'
     },

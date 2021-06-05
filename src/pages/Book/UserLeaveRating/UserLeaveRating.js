@@ -81,7 +81,8 @@ export const UserLeaveRating = (props) => {
     return ( id &&
       <>
         <div style={{textAlign: 'center', display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-            <div style={{width: "50%"}}>
+
+            <div>
                 { isAlreadyRated ? <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>Your rating</Typography> :
                   <>
                     <Typography variant="h2" style={{fontWeight: 'bold'}} gutterBottom>Read this book?</Typography>
