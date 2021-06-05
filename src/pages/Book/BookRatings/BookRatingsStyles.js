@@ -72,7 +72,7 @@ export const useStyles = makeStyles((theme) => ({
         width: 'initial',
         margin: 'initial'
       }
-    },
+    }, 
 
     ratingAndPercentage: {
       marginTop: '.5rem',
