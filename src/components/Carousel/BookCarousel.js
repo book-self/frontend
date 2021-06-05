@@ -66,6 +66,8 @@ const decideNumBooksPerRow = (breakpoint) => {
       return 3;
     case 'xl':
       return 4;
+    default:
+      return 1;
   }
 }
 
