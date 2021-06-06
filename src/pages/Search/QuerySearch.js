@@ -1,36 +1,41 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { CircularProgress, Typography } from '@material-ui/core';
 import _ from 'lodash';
 
 import { SearchTable } from '../../components/SearchTable/SearchTable';
 
-
 function useQuery() { return new URLSearchParams(useLocation().search); }
+
 function fetchQueryResults(query) {
   return fetch(`${process.env.REACT_APP_API_URL}/v1/books/search?q=${encodeURI(query)}`)
     .then(response => response.json())
     .then(json => json);
 }
 
-
 export const QuerySearch = () => {
-  const [query] = useState(useQuery().get("q"));
+  const history = useHistory();
+  const [query, setQuery] = useState(useQuery().get("q"));
   const [books, setBooks] = useState(null);
-
 
   useEffect(() => {
     async function getBooks() {
       setBooks(await fetchQueryResults(query));
-      
     }
 
     getBooks();
   }, [query]);
 
+  const update = history.listen((location, action) => {
+    if (location.search.q !== query) {
+      const params = new URLSearchParams(location.search);
+      setQuery(params.get("q"));
+    }
+  });
+
   return (<>
     {
-      !books ? 
+      !books ?
         <CircularProgress style={{position: 'absolute', top: '50vh', left: '50vw'}} />
         :
         <SearchTable
