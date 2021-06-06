@@ -38,6 +38,11 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white
   },
 
+  icon: {
+    fontSize: '1.25rem',
+    marginRight: theme.spacing(1)
+  },
+
   menu: {
     marginLeft: theme.spacing(4),
     flexGrow: 1

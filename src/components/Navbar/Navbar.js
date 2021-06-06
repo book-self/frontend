@@ -118,8 +118,9 @@ export const Navbar = () => {
           >
             {localStorage.getItem('token') ? (
               [
-                <Typography key="account" className={classes.account}>{username}</Typography>,
+                <Typography key="username" className={classes.account}>{username}</Typography>,
                 <Divider key="divider" />,
+                <MenuItem component={Link} key="account" to={'/account'}>Account</MenuItem>,
                 <MenuItem key="signout" onClick={() => { logOut(); closeMenu(); }}>Sign Out</MenuItem>
               ]
             ) : (

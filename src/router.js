@@ -8,6 +8,7 @@ import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
 import { NotFound } from './pages/NotFound/NotFound'
 import { BookList } from './pages/BookList/BookList'
+import { Account } from './pages/Account/Account';
 
 export const Router = () => {
   const routes = [
@@ -46,6 +47,11 @@ export const Router = () => {
     {
       path: "/book/:bookId",
       component: Book
+    },
+    {
+      path: "/account",
+      component: Account,
+      auth: true
     },
     {
       path: "*",

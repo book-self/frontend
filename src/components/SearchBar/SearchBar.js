@@ -21,6 +21,10 @@ export const SearchBar = () => {
     }
   };
 
+  history.listen((location, action) => {
+    setSearchQuery('');
+  });
+
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -33,6 +37,7 @@ export const SearchBar = () => {
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
+        value={searchQuery}
         onInput={event => { if (event.target.value.trim()) processSearchQuery(event.target.value) }}
         onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
       />

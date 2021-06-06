@@ -26,7 +26,7 @@ export const QuerySearch = () => {
     getBooks();
   }, [query]);
 
-  const update = history.listen((location, action) => {
+  history.listen((location, action) => {
     if (location.search.q !== query) {
       const params = new URLSearchParams(location.search);
       setQuery(params.get("q"));
