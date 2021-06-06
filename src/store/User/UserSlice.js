@@ -83,6 +83,38 @@ export const signOut = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (id, rejectWithValue) => {
+    try {
+      const res = await axios.delete(process.env.REACT_APP_API_URL+'/v1/users/'+id, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }
+      });
+      if (res.status === 200) {
+        const res = await axios.post(process.env.REACT_APP_API_URL+'/v1/auth/signout', {}, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        });
+        if (res.status === 204) {
+          localStorage.removeItem('token');
+          return res.data
+        } else {
+          return rejectWithValue(res.data);
+        }
+      } else {
+        return rejectWithValue(res.data);
+      }
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
 
@@ -168,6 +200,25 @@ export const userSlice = createSlice({
         return state;
       })
       .addCase(signOut.rejected, (state, { payload }) => {
+        state.isFetching = false;
+        state.isError = true;
+        state.error = payload;
+      })
+
+      .addCase(deleteUser.pending, (state, { payload }) => {
+        state.isFetching = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+        state.id = null;
+        state.email = null;
+        state.username = null;
+        state.created = null;
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.error = null;
+        return state;
+      })
+      .addCase(deleteUser.rejected, (state, { payload }) => {
         state.isFetching = false;
         state.isError = true;
         state.error = payload;

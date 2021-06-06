@@ -1,13 +1,38 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Box, Button, Container, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
-import { selectUser } from '../../store/User/UserSlice';
+import { selectUser, clearUser, deleteUser } from '../../store/User/UserSlice';
 
 import { useStyles } from './AccountStyles';
 
 export const Account = () => {
   const classes = useStyles();
-  const { id, email, username } = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { isSuccess, isError, id, email, username } = useSelector(selectUser);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearUser());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(clearUser());
+    }
+
+    if (isSuccess) {
+      dispatch(clearUser());
+      history.push('/');
+    }
+  }, [dispatch, history, isError, isSuccess]);
+
+  const deleteAccount = (event) => {
+    dispatch(deleteUser(id));
+  };
 
   return (
     <Container maxWidth="md" className={classes.container}>
@@ -57,7 +82,7 @@ export const Account = () => {
                 Settings
               </Typography>
 
-              <Button variant="outlined" color="secondary" className={classes.button}>
+              <Button variant="outlined" color="secondary" className={classes.button} onClick={() => { deleteAccount(); }}>
                 Delete Account
               </Button>
             </Box>
