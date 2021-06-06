@@ -18,6 +18,7 @@ export const useStyles = makeStyles({
         backgroundColor: '#EAEAEA'
       },
 
+
       '&:hover td:last-of-type': {
         borderLeft: '2px solid white',
       },

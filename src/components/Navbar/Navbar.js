@@ -73,9 +73,9 @@ export const Navbar = () => {
     }
   ];
 
+
   const theme = useTheme();
   const isSmallerDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <AppBar position="fixed">
       <Toolbar className={classes.toolBar}>
