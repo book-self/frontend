@@ -38,7 +38,7 @@ export const SearchBar = () => {
           input: classes.inputInput,
         }}
         value={searchQuery}
-        onInput={event => { if (event.target.value.trim()) processSearchQuery(event.target.value) }}
+        onInput={event => { processSearchQuery(event.target.value) }}
         onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
       />
     </div>
