@@ -19,32 +19,33 @@ function fetchQueryResults(query, page) {
 export const PageableQuerySearch = () => {
   const [query] = useState(useQuery().get("query"));
   const [page] = useState(useQuery().get("page"));
-  const [books, setBooks] = useState(null);
+  const [resultPage, setResultPage] = useState({});
 
   useEffect(() => {
     async function getBooks() {
-      setBooks(await fetchQueryResults(query, page));
+      setResultPage(await fetchQueryResults(query, page));
     }
 
     getBooks();
   }, [query, page]);
 
+  const { searchResults, currentPage, totalPages, totalResultCount } = resultPage;
+
   return (
     <>
-      {!books ? (
+      {!searchResults ? (
         <CircularProgress
           style={{ position: "absolute", top: "50vh", left: "50vw" }}
         />
       ) : (
         <SearchTable
-          books={books.map((book) => _.pick(book, ["book"])["book"])}
+          books={searchResults.map((book) => _.pick(book, ["book"])["book"])}
           heading={
             <Typography
               variant="h4"
               style={{ marginBottom: "5rem", lineHeight: "1.5" }}
             >
-              Displaying the {books.length} most relevant search result
-              {books.length !== 1 ? "s" : ""} for{" "}
+              Displaying Page {currentPage} / {totalPages} of {totalResultCount} results for{" "}
               <span
                 style={{
                   textTransform: "lowercase",
