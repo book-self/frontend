@@ -24,10 +24,10 @@ export const SignInForm = () => {
   });
 
   const formik = useFormik({
-    initialValues: yup.object({
-      username: yup.string(process.env.REACT_APP_TEST_USERNAME),
-      password: yup.string(process.env.REACT_APP_TEST_PASSWORD)
-    }),
+    initialValues: {
+      username: '',
+      password: ''
+    },
     validationSchema: validationSchema,
     onSubmit: (payload, actions) => {
       dispatch(signIn(payload));
