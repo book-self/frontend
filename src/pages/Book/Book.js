@@ -11,6 +11,7 @@ import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
 import { useStyles } from './BookStyles';
 
+
 import { BookRatings } from './BookRatings/BookRatings';
 
 
@@ -115,6 +116,7 @@ export const Book = () => {
         }
       </div>
     }
+
 
     <div style={{margin: '200px auto'}}>
       <UserLeaveRating bookId={bookId} />

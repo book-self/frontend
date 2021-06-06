@@ -14,7 +14,7 @@ import {
   GridListTileBar,
 } from "@material-ui/core";
 
-import { fetchBookList } from '../../pages/BookList/BookListHttpRequests';
+import {fetchBookList} from './ShelfFetch';
 
 import BookInListAlt from './BookInListAlt';
 
@@ -48,20 +48,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ListAlt = ({ location, bookListTitle }) => {
+
+export const ListAlt = ({ bookListId, bookListTitle }) => {
+
   
   
   const [books, setBooks] = useState([]);
 
   const classes = useStyles();
-  const bookListId = location;
 
   useEffect(() => {
     (async () => {
       const { data } = await fetchBookList(bookListId);
       setBooks(data.books || [])
-  
-      
+
     })();
   }, [bookListId]);
 
