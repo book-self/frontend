@@ -1,7 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Box, Button, Container, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Paper,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { selectUser, clearUser, deleteUser } from '../../store/User/UserSlice';
 
@@ -12,6 +25,16 @@ export const Account = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isSuccess, isError, id, email, username } = useSelector(selectUser);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     return () => {
@@ -82,13 +105,35 @@ export const Account = () => {
                 Settings
               </Typography>
 
-              <Button variant="outlined" color="secondary" className={classes.button} onClick={() => { deleteAccount(); }}>
+              <Button variant="outlined" color="secondary" className={classes.button}  onClick={handleClickOpen}>
                 Delete Account
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Paper>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Account</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to permanently delete your account? This cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => { deleteAccount(); handleClose(); }} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }
