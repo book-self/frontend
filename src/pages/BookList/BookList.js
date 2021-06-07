@@ -110,8 +110,6 @@ useEffect(() =>
       
       if(editedName == null || editedName === "")
       {
-        console.log(listId);  
-        console.log(bookListDetails.bookListName)
         postBooksListNameChange(bookListDetails.bookListName, listId);
       }
       else
@@ -123,7 +121,6 @@ useEffect(() =>
     }
 
     const handleMoveBooksSubmit = function(event){
-      console.log("BookIDS:" + bookIds);
       
       if(addToBookListId == null)
       {

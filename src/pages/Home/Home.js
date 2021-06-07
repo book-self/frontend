@@ -86,7 +86,7 @@ export const Home = () => {
 
 
   const processSearchQuery = (text) => { setSearchQuery(text.trim()) }
-  const executeSearchQuery = () => { if (searchQuery.trim()) history.push(`/search?q=${searchQuery}`) }
+  const executeSearchQuery = () => { if (searchQuery.trim()) history.push(`/search?query=${searchQuery}`) }
 
 
   return <>

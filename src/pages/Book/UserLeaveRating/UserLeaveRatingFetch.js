@@ -28,5 +28,5 @@ export const patchRating = (bookId, requestBody) => {
 
 export const deleteRating = (bookId) => {
     return axios.delete(`${process.env.REACT_APP_API_URL}/v1/books/${bookId}/rating`)
-      .then(response => { console.log(response.status); return response.status; });
+      .then(response => { return response.status; });
 };

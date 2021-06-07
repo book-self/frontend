@@ -36,7 +36,6 @@ export const AddToBookListMenu = (props) => {
 
 
   const handleChange = (value) => {
-    console.log(value);
     if (value === inList) return;
 
     const oldListId = inList;
