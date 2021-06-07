@@ -6,6 +6,8 @@ import { GenreSearch } from './pages/Search/GenreSearch'
 import { Book } from './pages/Book/Book'
 import { SignIn } from './pages/SignIn/SignIn'
 import { SignUp } from './pages/SignUp/SignUp'
+import { ForgotPassword } from './pages/Password/ForgotPassword';
+import { ResetPassword } from './pages/Password/ResetPassword';
 import { NotFound } from './pages/NotFound/NotFound'
 import { BookList } from './pages/BookList/BookList'
 import { Account } from './pages/Account/Account';
@@ -25,6 +27,16 @@ export const Router = () => {
     {
       path: "/signup",
       component: SignUp,
+      auth: false
+    },
+    {
+      path: "/forgot-password",
+      component: ForgotPassword,
+      auth: false
+    },
+    {
+      path: "/reset-password/:token",
+      component: ResetPassword,
       auth: false
     },
     {

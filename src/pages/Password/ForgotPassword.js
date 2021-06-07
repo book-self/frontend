@@ -1,26 +1,25 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Container, Grid, Link, Paper, Typography } from '@material-ui/core';
-import { SignInForm } from '../../components/SignInForm/SignInForm'
-import { useStyles } from './SignInStyles';
+import { ForgotPasswordForm } from '../../components/ForgotPasswordForm/ForgotPasswordForm'
+import { useStyles } from './ForgotPasswordStyles';
 
-export const SignIn = () => {
+export const ForgotPassword = () => {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.container} direction="column" justify="center" alignItems="center">
-      <Grid item>
-        <Container maxWidth="sm" className={classes.formContainer}>
+      <Grid item className={classes.formContainer}>
           <Paper className={classes.form} elevation={0}>
             <Typography className={classes.title} component="h5" variant="h5" align="center">
-              Sign In
+              Forgot Password
             </Typography>
 
-            <SignInForm />
+            <ForgotPasswordForm />
 
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to="/forgot-password" variant="body2">
-                  Forgot password?
+                <Link component={RouterLink} to="/signin" variant="body2">
+                  Sign In
                 </Link>
               </Grid>
 
@@ -31,7 +30,6 @@ export const SignIn = () => {
               </Grid>
             </Grid>
           </Paper>
-        </Container>
       </Grid>
     </Grid>
   );

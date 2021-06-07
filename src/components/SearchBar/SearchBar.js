@@ -12,12 +12,12 @@ export const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const processSearchQuery = (text) => {
-    setSearchQuery(text.trim());
+    setSearchQuery(text);
   };
 
   const executeSearchQuery = () => {
     if (searchQuery.trim()) {
-      history.replace(`/search?q=${searchQuery}`);
+      history.replace(`/search?q=${searchQuery.trim()}`);
     }
   };
 
@@ -39,7 +39,7 @@ export const SearchBar = () => {
         }}
         value={searchQuery}
         onInput={event => { processSearchQuery(event.target.value) }}
-        onKeyUp={event => { if (event.key === 'Enter') executeSearchQuery() }}
+        onKeyUp={event => { if (event.key === 'Enter') { executeSearchQuery() } }}
       />
     </div>
   );
