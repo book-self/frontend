@@ -75,7 +75,6 @@ export const ListAlt = ({ bookListId, bookListTitle }) => {
             
             if (i < 8)
             {
-                console.log(i)
                 return (
                     <div>
             
