@@ -2,7 +2,7 @@ import { Switch, Redirect, Route } from "react-router-dom";
 import { Home } from './pages/Home/Home';
 import { Profile } from './pages/Profile/Profile';
 import { QuerySearch } from './pages/Search/QuerySearch';
-import { PageableQuerySearch } from './pages/Search/PageableQuerySearch';
+import { PaginatedQuerySearch } from './pages/Search/PaginatedQuerySearch';
 import { GenreSearch } from './pages/Search/GenreSearch'
 import { Book } from './pages/Book/Book'
 import { SignIn } from './pages/SignIn/SignIn'
@@ -42,8 +42,8 @@ export const Router = () => {
       component: QuerySearch
     },
     {
-      path: "/search-pageable",
-      component: PageableQuerySearch
+      path: "/search-paginated",
+      component: PaginatedQuerySearch
     },
     {
       path: "/search/:genre",
