@@ -34,7 +34,6 @@ function useCategorizations(userId) {
 
   useEffect(() => {
     (async () => {
-      // if (!userId) {
         const genreOfferings = await fetchAssortedGenreOfferings();
         setCategorizations(categorizations => {
           const categoriesSoFar = categorizations.flatMap(categorization => categorization.categories);
@@ -43,18 +42,8 @@ function useCategorizations(userId) {
           genreOfferings.categories = genreOfferings.categories.filter(genre => !categoriesSoFar.includes(genre));
           return categorizations.concat([genreOfferings]);
         });
-     // }
     })();
-  }, []); // [userId]);
-
-
-  // useEffect(() => {
-  //   if (userId)
-  //     setCategorizations(categorizations =>
-  //       categorizations.concat([await fetchUserRecommendations()])
-  //     );
-  // }, [userId]);
-
+  }, []);
 
   return categorizations;
 }

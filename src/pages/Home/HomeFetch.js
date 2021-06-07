@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// export function fetchMostPopularCategories
-// export function fetchAssortedGenreOfferings
-
 export function fetchMostPopularCategories() {
   return axios.get(`${process.env.REACT_APP_API_URL}/v1/genres?popular=yes`)
     .then(response => ({
@@ -26,14 +23,3 @@ export function fetchBooks(byCategory) {
       .then(response => response.data)
 }
 
-
-// TODO:
-// export function fetchUserRecommendations
-
-
-// OLD:
-// export function fetchCategories() {
-//   return fetch(`${process.env.REACT_APP_API_URL}/v1/genres/any`)
-//     .then(response => response.json())
-//     .then(json => json);
-// }
