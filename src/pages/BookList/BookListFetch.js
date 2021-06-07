@@ -41,7 +41,6 @@ export function postMoveBooksOffList(booksToAdd, idOfNewList, idOfOldList) {
         'Content-Type':'application/json'},
         body: JSON.stringify({ newBookListId: idOfNewList, booksToBeAdded: booksToAdd, booksToBeRemoved: booksToAdd})
     }
-    console.log(requestOptions);
     return fetch(`${process.env.REACT_APP_API_URL}/v1/book-lists/${idOfOldList}/move-books`, requestOptions)
     .then(response =>response.json());
 }

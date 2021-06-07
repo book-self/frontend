@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
   useMediaQuery,
   useTheme,
@@ -16,7 +16,6 @@ import {
 } from '@material-ui/core';
 import { AccountCircle, Home } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import { signOut, selectUser, clearUser } from '../../store/User/UserSlice';
 
 import clsx from 'clsx';
@@ -100,9 +99,11 @@ export const Navbar = () => {
           }
         </Box>
 
-        <Box className={classes.search}>
-          <SearchBar />
-        </Box>
+        {curPath !== '/' && 
+          <Box className={classes.search}>
+            <SearchBar />
+          </Box>
+        }
 
         <Box>
           <IconButton color="inherit" aria-label="account" aria-haspopup="true" onClick={openMenu}>

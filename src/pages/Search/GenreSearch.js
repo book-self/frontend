@@ -6,7 +6,7 @@ import { SearchTable } from '../../components/SearchTable/SearchTable';
 
 
 function fetchGenreResults(genre) {
-  return fetch(`${process.env.REACT_APP_API_URL}/v1/books/by-genre?genre=${encodeURI(genre)}`)
+  return fetch(`${process.env.REACT_APP_API_URL}/v1/books?genre=${encodeURI(genre)}`)
     .then(response => response.json())
     .then(json => json);
 }

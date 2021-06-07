@@ -17,7 +17,8 @@ export const SearchBar = () => {
 
   const executeSearchQuery = () => {
     if (searchQuery.trim()) {
-      history.replace(`/search?q=${searchQuery.trim()}`);
+      history.replace(`/search?query=${searchQuery.trim()}`);
+      history.go(0);
     }
   };
 

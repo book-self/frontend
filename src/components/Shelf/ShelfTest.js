@@ -63,7 +63,6 @@ export const ShelfTest = (props) => {
   
 
   const classes = useStyles();
-  console.log(props.lists);
   const bookLists = props.lists;
 
    return ( 
