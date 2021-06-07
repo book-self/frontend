@@ -43,9 +43,11 @@ export const SignInForm = () => {
   useEffect(() => {
     if (isError) {
       if (error.status === 401) {
-        formik.touched.password = true;
-        formik.errors.password = "Invalid username or password"
+        formik.setErrors({
+          password: "Invalid username or password"
+        });
       }
+
       dispatch(clearUser());
     }
 
