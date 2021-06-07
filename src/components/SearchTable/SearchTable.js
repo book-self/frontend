@@ -5,6 +5,8 @@ import { useMediaQuery, useTheme, Table, TableBody,
 
 import { Rating } from '@material-ui/lab';
 
+import _ from "lodash";
+
 import { publishYear, abbreviateAuthors } from '../../utilities/Utilities';
 import { useStyles } from './SearchTableStyles';
 import { AddToBookListMenu } from "../AddToBookListMenu/AddToBookListMenu";
@@ -66,8 +68,6 @@ export const SearchTable = (props) => {
 
     async function getUserRatings() {
       props.books?.map(async (book) => {
-        console.log(book);
-
         fetchUserRating(book.id)
           .then(json => setUserRatings(userRatings => { return { ...userRatings, [book.id]: json["rating"] } }))
           .catch(() => setUserRatings(userRatings => { return { ...userRatings, [book.id]: null } }))
@@ -124,11 +124,11 @@ export const SearchTable = (props) => {
                           {`${abbreviateAuthors(book.authors.map(author => author.name))}`}
                         </Typography>
 
-                        <p className={classes.bookBlurb}>{book.blurb}</p>
+                        <p className={classes.bookBlurb}>{_.truncate(book.blurb, {length: 200})}</p>
                       </TableCell>
 
                       { id && isLargerDevice &&
-                        <TableCell className={classes.addToBookListCell} style={{width: "300px"}}>
+                        <TableCell className={classes.addToBookListCell} style={{width: "300px", verticalAlign: 'top'}}>
                           <div onClick={(event) => event.stopPropagation()} style={{backgroundColor: 'white', cursor: 'default'}}>
                             <AddToBookListMenu bookId={book.id} />
                           </div>
