@@ -66,13 +66,14 @@ export const SignUpForm = () => {
   useEffect(() => {
     if (isError) {
       if (error.status === 401) {
-        formik.touched.password = true;
-        formik.errors.password = "Invalid username or password"
+        formik.setErrors({
+          password: "Invalid username or password"
+        });
       } else if (error.status === 409) {
-        formik.touched.username = true;
-        formik.errors.username = "Email or username is already taken"
-        formik.touched.email = true;
-        formik.errors.email = "Email or username is already taken"
+        formik.setErrors({
+          username: "Email or username is already taken",
+          email: "Email or username is already taken"
+        });
       }
 
       dispatch(clearUser());

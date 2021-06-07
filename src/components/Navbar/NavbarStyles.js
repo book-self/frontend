@@ -35,16 +35,30 @@ export const useStyles = makeStyles((theme) => ({
 
   accountIcon: {
     fontSize: '2rem',
-    color: 'white'
+    color: theme.palette.common.white
+  },
+
+  icon: {
+    fontSize: '1.25rem',
+    marginRight: theme.spacing(1)
   },
 
   menu: {
     marginLeft: theme.spacing(4),
-    flexGrow: 1,
+    flexGrow: 1
+  },
+
+  button: {
+    color: theme.palette.common.white
+  },
+
+  search: {
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4)
   },
 
   account: {
-    padding: '6px 16px',
+    padding: theme.spacing(1,2),
     fontWeight: 'bold',
     cursor: 'default'
   }

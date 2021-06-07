@@ -23,6 +23,8 @@ import clsx from 'clsx';
 
 import { useStyles } from './NavbarStyles';
 
+import { SearchBar } from '../SearchBar/SearchBar';
+
 export const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -76,7 +78,7 @@ export const Navbar = () => {
   const isSmallerDevice = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <AppBar position="fixed">
-      <Toolbar className={classes.toolBar}> 
+      <Toolbar className={classes.toolBar}>
         <Link to={'/'} style={{textDecoration: 'none'}}>
           { isSmallerDevice ? <IconButton style={{backgroundColor: 'white'}}><Home style={{fontSize: '1.15rem', color: 'black'}} /></IconButton> :
             <ButtonBase>
@@ -91,11 +93,15 @@ export const Navbar = () => {
 
         <Box className={classes.menu}>
           { localStorage.getItem('token') && navBarUserRoutes.map(routeInfo =>
-              <Button component={Link} style={{fontSize: '.95rem'}} key={routeInfo['route']} to={routeInfo['route']} className={clsx({ [classes.navBarCurrentRoute]: routeInfo['route'] === curPath })}>
+              <Button component={Link} style={{fontSize: '.95rem'}} key={routeInfo['route']} to={routeInfo['route']} className={clsx({ [classes.navBarCurrentRoute]: routeInfo['route'] === curPath, [classes.button]: true })}>
                 { routeInfo['name'] }
               </Button>
             )
           }
+        </Box>
+
+        <Box className={classes.search}>
+          <SearchBar />
         </Box>
 
         <Box>
@@ -112,8 +118,9 @@ export const Navbar = () => {
           >
             {localStorage.getItem('token') ? (
               [
-                <Typography key="account" className={classes.account}>{username}</Typography>,
+                <Typography key="username" className={classes.account}>{username}</Typography>,
                 <Divider key="divider" />,
+                <MenuItem component={Link} key="account" to={'/account'}>Account</MenuItem>,
                 <MenuItem key="signout" onClick={() => { logOut(); closeMenu(); }}>Sign Out</MenuItem>
               ]
             ) : (
