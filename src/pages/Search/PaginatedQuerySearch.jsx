@@ -73,7 +73,7 @@ export const PaginatedQuerySearch = () => {
       <Grid container alignItems="center" justify="center">
         <PaginationLink
           currentPage={currentPage}
-          path="/search-paginated"
+          path="/search"
           search={query}
           totalPages={totalPages}
         />

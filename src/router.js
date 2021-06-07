@@ -51,11 +51,11 @@ export const Router = () => {
       auth: true
     },
     {
-      path: "/search",
+      path: "/search-legacy",
       component: QuerySearch
     },
     {
-      path: "/search-paginated",
+      path: "/search",
       component: PaginatedQuerySearch
     },
     {

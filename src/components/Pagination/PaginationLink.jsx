@@ -18,6 +18,7 @@ export const PaginationLink = ({ currentPage, path, search, totalPages }) => {
             <Grid justify="center">
               <Pagination
                 size="large"
+                variant="outlined"
                 page={page}
                 count={totalPages}
                 renderItem={(item) => (
