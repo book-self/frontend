@@ -1,5 +1,5 @@
-import { Link as RouterLink, useParams } from "react-router-dom";
-import { Container, Grid, Link, Paper, Typography } from '@material-ui/core';
+import { useParams } from "react-router-dom";
+import { Grid, Paper, Typography } from '@material-ui/core';
 import { ResetPasswordForm } from '../../components/ResetPasswordForm/ResetPasswordForm'
 import { useStyles } from './ResetPasswordStyles';
 

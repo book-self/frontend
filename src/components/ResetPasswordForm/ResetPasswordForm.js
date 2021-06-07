@@ -1,12 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from "react-router-dom";
 import { resetPassword, selectUser, clearUser } from '../../store/User/UserSlice';
 
 export const ResetPasswordForm = ({ token }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [success, setSuccessStatus] = useState(false);
 
   const { isFetching, isSuccess, isError, error } = useSelector(
     selectUser
@@ -54,8 +59,15 @@ export const ResetPasswordForm = ({ token }) => {
   useEffect(() => {
     if (isError) {
       if (error.status === 403) {
-        formik.touched.password = true;
-        formik.errors.password = "The reset link has expired"
+        formik.setErrors({
+          password: "The reset token has expired"
+        });
+      }
+
+      if (error.status === 404) {
+        formik.setErrors({
+          password: "The reset token does not exist"
+        });
       }
 
       dispatch(clearUser());
@@ -63,59 +75,83 @@ export const ResetPasswordForm = ({ token }) => {
 
     if (isSuccess) {
       dispatch(clearUser());
+      setSuccessStatus(true);
+      history.push('/reset-password/'+token);
     }
-  }, [dispatch, formik, isError, isSuccess, error]);
+  }, [dispatch, history, formik, isError, isSuccess, error, token]);
 
   return (
     <Fragment>
-      <form noValidate onSubmit={formik.handleSubmit}>
-        <input type="hidden" name="token" value={formik.values.token} />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="new-password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="passwordConfirm"
-          label="Confirm Password"
-          type="password"
-          id="passwordConfirm"
-          autoComplete="new-password"
-          onChange={formik.handleChange}
-          value={formik.values.passwordConfirm}
-          error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
-          helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
-        />
+    {
+      success ? ([
+        <Alert severity="success" key={'alert'} style={{ marginBottom: '1rem' }}>
+          <AlertTitle>Success</AlertTitle>
+          You password has been reset! <Link to={'/signin'}><strong>Sign In</strong></Link>
+        </Alert>,
 
         <Box mt={2} mb={2}>
           <Button
-            type="submit"
+            component={Link}
+            to={'/signin'}
+            key={'signin'}
             fullWidth
             variant="contained"
             color="primary"
-            disabled={isFetching}
           >
-            {isFetching ? (<CircularProgress color="inherit" size={20} style={{marginRight: '6px'}} />) : null}
-            Reset Password
+            Sign In
           </Button>
         </Box>
-      </form>
+      ]) : (
+        <form noValidate onSubmit={formik.handleSubmit}>
+          <input type="hidden" name="token" value={formik.values.token} />
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="new-password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+          />
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="passwordConfirm"
+            label="Confirm Password"
+            type="password"
+            id="passwordConfirm"
+            autoComplete="new-password"
+            onChange={formik.handleChange}
+            value={formik.values.passwordConfirm}
+            error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
+            helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
+          />
+
+          <Box mt={2} mb={2}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              disabled={isFetching}
+            >
+              {isFetching ? (<CircularProgress color="inherit" size={20} style={{marginRight: '6px'}} />) : null}
+              Reset Password
+            </Button>
+          </Box>
+        </form>
+      )
+    }
     </Fragment>
   );
 }

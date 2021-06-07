@@ -25,8 +25,8 @@ export const SignInForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: ''
+      username: `${process.env.REACT_APP_TEST_USERNAME}`,
+      password: `${process.env.REACT_APP_TEST_PASSWORD}`
     },
     validationSchema: validationSchema,
     onSubmit: (payload, actions) => {
@@ -43,9 +43,11 @@ export const SignInForm = () => {
   useEffect(() => {
     if (isError) {
       if (error.status === 401) {
-        formik.touched.password = true;
-        formik.errors.password = "Invalid username or password"
+        formik.setErrors({
+          password: "Invalid username or password"
+        });
       }
+
       dispatch(clearUser());
     }
 

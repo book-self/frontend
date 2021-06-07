@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Container, Grid, Link, Paper, Typography } from '@material-ui/core';
+import { Grid, Link, Paper, Typography } from '@material-ui/core';
 import { ForgotPasswordForm } from '../../components/ForgotPasswordForm/ForgotPasswordForm'
 import { useStyles } from './ForgotPasswordStyles';
 
