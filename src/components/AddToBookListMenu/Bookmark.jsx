@@ -115,7 +115,8 @@ export const Bookmark = (props) => {
                 textAlign: "center",
               }}
             >
-              save for later
+              {id && "save for later"}
+              {!id && "sign in to save"}
             </Typography>
           </div>
         </AccordionSummary>
