@@ -5,7 +5,6 @@ import { Rating } from '@material-ui/lab';
 
 import BookCarousel from '../../components/Carousel/BookCarousel';
 import BookInCarousel from '../../components/Carousel/Book';
-import { AddToBookListMenu } from '../../components/AddToBookListMenu/AddToBookListMenu';
 import { UserLeaveRating } from './UserLeaveRating/UserLeaveRating';
 
 import { fetchBook, fetchRelatedBooks } from './BookFetch';
@@ -13,6 +12,7 @@ import { useStyles } from './BookStyles';
 
 
 import { BookRatings } from './BookRatings/BookRatings';
+import { Bookmark } from '../../components/AddToBookListMenu/Bookmark';
 
 
 export const Book = () => {
@@ -62,7 +62,7 @@ export const Book = () => {
   return <>
     <div className={classes.bookContainer}>
       { book &&
-        <>
+        <>        
           <div className={classes.bookContainerLeft}>
             <div className={classes.bookImageAndRating}>
               <img width={300} height={450} src={`https://bookself-thumbnails.s3.us-east-2.amazonaws.com/${book.id}.jpg`} onError={(error) => error.target.src=`${process.env.PUBLIC_URL}/no-cover.jpg`} alt={book.title} />
@@ -73,7 +73,7 @@ export const Book = () => {
           </div>
 
           <div className={classes.bookContainerRight}>
-            <Typography variant="h2" className={classes.bookTitle}>{book.title}</Typography>
+            <Typography variant="h4" className={classes.bookTitle}>{book.title}</Typography>
             <Typography variant="h5" className={classes.bookAuthors}>{authors}</Typography>
             <Typography className={classes.bookBlurb}>{book.blurb}</Typography>
             <div className={classes.bookDataContainer}>
@@ -95,7 +95,7 @@ export const Book = () => {
             </div>  
           </div>
 
-          <AddToBookListMenu bookId={bookId} />
+          <Bookmark bookId={bookId} width="33%" />
         </>
       }
     </div>

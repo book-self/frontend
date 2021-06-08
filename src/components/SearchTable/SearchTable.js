@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { useMediaQuery, useTheme, Table, TableBody,
-  TableCell, TableContainer, TableRow, Typography, Paper
+  TableCell, TableContainer, TableRow, Typography, Paper, Grid
 } from '@material-ui/core';
 
 import { Rating } from '@material-ui/lab';
@@ -10,6 +10,7 @@ import _ from "lodash";
 import { publishYear, abbreviateAuthors } from '../../utilities/Utilities';
 import { useStyles } from './SearchTableStyles';
 import { AddToBookListMenu } from "../AddToBookListMenu/AddToBookListMenu";
+import { Bookmark } from "../AddToBookListMenu/Bookmark";
 import { fetchUserRating } from '../../pages/Book/UserLeaveRating/UserLeaveRatingFetch';
 
 import { useSelector } from 'react-redux';
@@ -80,7 +81,7 @@ export const SearchTable = (props) => {
 
   return (
     <main className={classes.mainContainer}>
-        <div>
+        <Grid container justify="center">
           {props.heading}
           <TableContainer style={{margin: 'auto'}} component={Paper}>
             <Table>
@@ -130,7 +131,7 @@ export const SearchTable = (props) => {
                       { id && isLargerDevice &&
                         <TableCell className={classes.addToBookListCell} style={{width: "300px", verticalAlign: 'top'}}>
                           <div onClick={(event) => event.stopPropagation()} style={{backgroundColor: 'white', cursor: 'default'}}>
-                            <AddToBookListMenu bookId={book.id} />
+                            <Bookmark bookId={book.id} width="100%" />
                           </div>
                         </TableCell>
                       }
@@ -139,7 +140,7 @@ export const SearchTable = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+        </Grid>
     </main>
   );
 }
