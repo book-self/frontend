@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { Radio, RadioGroup, FormControl, FormControlLabel, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { indigo } from '@material-ui/core/colors';
 
 import { useSelector } from 'react-redux';
 import { selectUser } from "../../store/User/UserSlice";
@@ -50,7 +51,13 @@ export const AddToBookListMenu = (props) => {
   return <>
 
   { id &&
-    <div style={{position: 'relative', width: '300px'}}>
+    <div style={{
+      position: 'relative', 
+      width: '300px', 
+      backgroundColor: indigo[50],
+      border: "#ffffff solid 2px",
+      borderRadius: 2
+      }}>
       <Typography variant="h4" style={{fontWeight: 'bold', marginBottom: '1rem', fontVariant: 'small-caps', textAlign: 'center'}}>save for later</Typography>
       
       { !bookLists ? <Skeleton variant="rect" width={250} height={125} style={{margin: 'auto'}} /> :
@@ -75,7 +82,6 @@ export const AddToBookListMenu = (props) => {
           </RadioGroup>
         </FormControl>
       }
-
     </div>
   }
   </>
