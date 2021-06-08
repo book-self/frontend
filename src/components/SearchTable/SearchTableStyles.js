@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { indigo } from '@material-ui/core/colors';
 
 export const useStyles = makeStyles({
     mainContainer: {
@@ -12,19 +13,19 @@ export const useStyles = makeStyles({
   
     tableRow: {
       width: '100%',
-
+      border: 0,
       '&:hover': {
         cursor: 'pointer',
-        backgroundColor: '#EAEAEA'
+        backgroundColor: indigo[50]
       },
 
 
       '&:hover td:last-of-type': {
-        borderLeft: '2px solid white',
+        borderLeft: '0px solid white',
       },
 
       '&:hover td:first-of-type': {
-        borderRight: '2px solid white',
+        borderRight: '0px solid white',
         borderLeft: 'none'
       },
     },
@@ -32,7 +33,7 @@ export const useStyles = makeStyles({
     bookImageCell: {
       verticalAlign: 'top',
       padding: '25px',
-      borderRight: '2px solid #EAEAEA',
+      borderRight: '0px solid #EAEAEA',
       flexDirection: 'column',
     },
   
@@ -50,6 +51,6 @@ export const useStyles = makeStyles({
     },
 
     addToBookListCell: {
-      borderLeft: '2px solid #EAEAEA',
+      borderLeft: '0px solid #EAEAEA',
     }
 });
